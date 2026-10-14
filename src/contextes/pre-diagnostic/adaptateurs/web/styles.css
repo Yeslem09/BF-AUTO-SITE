@@ -1,0 +1,364 @@
+/*
+ * Styles propres au contexte pré-diagnostic. Classes préfixées « pre-diagnostic- ».
+ * Tout le reste vient des composants du socle (docs/design/composants.md) :
+ * plaque, liste-choix, bouton-choix, choix-tuile, alerte, carte, figure-technique.
+ * La conduite à tenir est toujours écrite : la couleur de l'alerte n'est qu'un appui.
+ */
+
+/* Une colonne de lecture unique pour tout le parcours. */
+.pre-diagnostic > * {
+  max-width: 48rem;
+}
+
+/* Les choix doivent paraître sans défiler sur téléphone : peu de marge au-dessus du fil d'Ariane. */
+.section.pre-diagnostic {
+  padding-top: var(--espace-5);
+}
+
+/* La fiche (arrêt et résultat) s'élargit pour loger les figures à côté des pistes. */
+.pre-diagnostic-fiche > * {
+  max-width: 56rem;
+}
+
+/*
+ * Zone de résultat : jamais l'orange de marque, hors boutons d'action
+ * (kano-couleurs.md, parade à C-E2). Les rôles qui le portent repassent à
+ * l'encre : surtitres, liens, focus, repères des figures. Les boutons gardent
+ * leurs propres rôles (--bouton-*).
+ */
+.pre-diagnostic-fiche {
+  --texte-repere: var(--texte-doux);
+  --accent: var(--bordure-forte);
+  --accent-texte: var(--texte-titre);
+  --lien: var(--texte-titre);
+  --focus: var(--bordure-forte);
+}
+
+/* Question : une par page, dans la plaque */
+
+/* Sous le fil d'Ariane ou un avertissement, la plaque respire un peu plus que la pile. */
+.pre-diagnostic > * + .pre-diagnostic-plaque {
+  margin-top: var(--espace-5);
+}
+
+/* Grille plutôt qu'espacement entre voisins : les champs cachés du formulaire ne comptent pas. */
+.pre-diagnostic-etape {
+  display: grid;
+  gap: var(--espace-5);
+}
+
+.pre-diagnostic-groupe {
+  display: grid;
+  gap: var(--espace-3);
+  min-width: 0;
+}
+
+.pre-diagnostic-legende {
+  display: grid;
+  gap: var(--espace-2);
+  margin-bottom: var(--espace-2);
+}
+
+.pre-diagnostic-question {
+  font-size: var(--taille-h2);
+}
+
+.pre-diagnostic-erreur {
+  padding: var(--espace-3);
+  border: var(--bordure-fine) solid var(--erreur);
+  border-radius: var(--rayon-1);
+  background: var(--erreur-fond);
+}
+
+/* Pleine largeur, comme les tuiles qu'il envoie (J1, passe 2 du jury). */
+.pre-diagnostic-continuer {
+  width: 100%;
+}
+
+/* « Aucun de ces signes », en tête, et « Je ne sais pas », à la fin, se
+   détachent des signes de danger. */
+.pre-diagnostic-choix-aucun {
+  margin-bottom: var(--espace-3);
+}
+
+.pre-diagnostic-choix-neutre {
+  margin-top: var(--espace-3);
+}
+
+/* Mot composé d'un titre (« entendez-vous ») : jamais coupé à son trait d'union. */
+.pre-diagnostic-mot-lie {
+  white-space: nowrap;
+}
+
+/* « Je ne sais pas » en tuile : cadre en tirets, comme .bouton-choix--incertain. */
+.pre-diagnostic-tuile--incertain {
+  border-style: dashed;
+}
+
+/* Choix donné plus tôt, retrouvé après un retour arrière : bord doublé, comme une tuile cochée. */
+.pre-diagnostic-choix--precedent {
+  border-color: var(--bordure-forte);
+  outline: var(--bordure-fine) solid var(--bordure-forte);
+  outline-offset: -2px;
+  background: var(--fond-survol);
+}
+
+/* Navigation dans le parcours */
+
+.pre-diagnostic-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--espace-5);
+  font-size: var(--taille-petite);
+}
+
+.pre-diagnostic-navigation a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+}
+
+/* Conduite à tenir : l'alerte du socle, en titre de page */
+
+.pre-diagnostic-conduite .alerte__titre {
+  font-size: var(--taille-h2);
+}
+
+.pre-diagnostic-signales {
+  padding-left: var(--espace-5);
+  list-style: disc;
+}
+
+.pre-diagnostic-signales > li + li {
+  margin-top: var(--espace-1);
+}
+
+/* Écran d'arrêt : trois consignes, numérotées dans l'ordre où les suivre */
+
+.pre-diagnostic-consignes > * + *,
+.pre-diagnostic-pistes > * + *,
+.pre-diagnostic-suite > * + *,
+.pre-diagnostic-reponses > * + * {
+  margin-top: var(--espace-4);
+}
+
+.pre-diagnostic-consignes__liste {
+  display: grid;
+  gap: var(--espace-3);
+  counter-reset: consigne;
+}
+
+.pre-diagnostic-consigne {
+  position: relative;
+  padding-left: calc(var(--espace-5) + var(--cible-tactile));
+  counter-increment: consigne;
+}
+
+.pre-diagnostic-consigne::before {
+  position: absolute;
+  top: var(--espace-5);
+  left: var(--espace-5);
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: var(--bordure-fine) solid var(--bordure-forte);
+  border-radius: var(--rayon-pastille);
+  color: var(--texte-titre);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-demi);
+  content: counter(consigne);
+}
+
+.pre-diagnostic-consigne > * + * {
+  margin-top: var(--espace-3);
+}
+
+.pre-diagnostic-consigne__urgence {
+  font-weight: var(--graisse-demi);
+}
+
+/* Le lien du 112 doit se toucher du premier coup : cible de 44 px, comme les boutons. */
+.pre-diagnostic-consigne__urgence a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+  font-size: var(--taille-plus);
+}
+
+/* Pistes : sans rang ni pourcentage ; la figure de la famille à côté de la phrase */
+
+.pre-diagnostic-pistes__liste {
+  display: grid;
+  gap: var(--espace-3);
+}
+
+.pre-diagnostic-piste {
+  display: grid;
+  gap: var(--espace-4);
+}
+
+.pre-diagnostic-piste__texte > * + * {
+  margin-top: var(--espace-2);
+}
+
+.pre-diagnostic-piste__phrase {
+  color: var(--texte-titre);
+  font-size: var(--taille-plus);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-serre);
+}
+
+.pre-diagnostic-piste__verification {
+  color: var(--texte-doux);
+}
+
+.pre-diagnostic-piste__verification strong {
+  color: var(--texte-titre);
+}
+
+@media (min-width: 48rem) {
+  .pre-diagnostic-piste--illustree {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+    align-items: start;
+  }
+}
+
+.pre-diagnostic-ferme {
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.pre-diagnostic-mention {
+  padding-top: var(--espace-4);
+  border-top: var(--bordure-fine) solid var(--bordure);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+/* Le bouton d'impression n'existe qu'avec JavaScript : `hidden` doit battre `.bouton`. */
+.pre-diagnostic-imprimer[hidden] {
+  display: none;
+}
+
+/* Livret de relecture */
+
+.pre-diagnostic-livret ul {
+  padding-left: var(--espace-5);
+}
+
+.pre-diagnostic-livret__branche {
+  padding-top: var(--espace-5);
+  border-top: var(--bordure-fine) solid var(--bordure-forte);
+}
+
+.pre-diagnostic-livret__branche > * + * {
+  margin-top: var(--espace-3);
+}
+
+.pre-diagnostic-livret__resultat {
+  padding: var(--espace-4);
+  border: var(--bordure-fine) solid var(--bordure);
+  border-radius: var(--rayon-1);
+  background: var(--fond-surface);
+  break-inside: avoid;
+}
+
+.pre-diagnostic-livret__resultat > * + * {
+  margin-top: var(--espace-2);
+}
+
+.pre-diagnostic-livret__conduite {
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+}
+
+.pre-diagnostic-livret__cases {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-2);
+}
+
+.pre-diagnostic-livret__case {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: var(--bordure-fine) solid var(--texte);
+}
+
+.pre-diagnostic-livret__ligne {
+  display: inline-block;
+  flex: 1 1 10rem;
+  min-width: 10rem;
+  border-bottom: var(--bordure-fine) solid var(--texte);
+}
+
+/*
+ * Impression : une fiche à montrer au garagiste. Elle garde réponses,
+ * conduite, pistes et figures, téléphone et adresse ; pas le menu, ni les
+ * actions à l'écran. Les alertes impriment leur aplat ou leur cadre : sans
+ * elles, le titre blanc de « Ne roulez pas » disparaîtrait sur le papier.
+ */
+
+@media print {
+  body:has(.pre-diagnostic-fiche, .pre-diagnostic-livret) {
+    background: var(--fond-surface);
+  }
+
+  body:has(.pre-diagnostic-fiche, .pre-diagnostic-livret)
+    :is(.navigation, .menu, .barre-fixe, .evitement, .bandeau-mode, .accroche, .entete__statut),
+  body:has(.pre-diagnostic-fiche, .pre-diagnostic-livret) .pied :is(nav, .pied__bloc:has(.statut)),
+  .pre-diagnostic-fiche
+    :is(
+      .fil-ariane,
+      .pre-diagnostic-actions,
+      .pre-diagnostic-suite,
+      .pre-diagnostic-navigation,
+      .pre-diagnostic-impression,
+      .pre-diagnostic-a-relire,
+      .pre-diagnostic-ferme
+    ),
+  .pre-diagnostic-livret .pre-diagnostic-imprimer {
+    display: none;
+  }
+
+  body:has(.pre-diagnostic-fiche, .pre-diagnostic-livret) :is(.entete, .pied) {
+    --lien: var(--texte);
+    --accent-texte: var(--texte);
+
+    padding-block: var(--espace-3);
+    background: var(--fond-surface);
+    color: var(--texte);
+  }
+
+  body:has(.pre-diagnostic-fiche, .pre-diagnostic-livret)
+    :is(.entete__logo, .bouton-appel, .pied__titre) {
+    color: var(--texte);
+  }
+
+  .pre-diagnostic-fiche > * {
+    max-width: none;
+  }
+
+  .section.pre-diagnostic-fiche {
+    padding-block: 0;
+  }
+
+  .pre-diagnostic-fiche .alerte {
+    print-color-adjust: exact;
+  }
+
+  .pre-diagnostic-fiche :is(.carte, .alerte, .figure-technique) {
+    break-inside: avoid;
+  }
+
+  .pre-diagnostic-piste--illustree {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 14rem);
+  }
+
+  .pre-diagnostic-livret__branche {
+    break-before: page;
+    border-top: 0;
+  }
+}

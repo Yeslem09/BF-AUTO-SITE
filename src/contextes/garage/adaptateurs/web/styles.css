@@ -1,0 +1,400 @@
+/*
+ * Styles propres au contexte garage, classes préfixées « garage- ». Tout le
+ * reste vient des composants (docs/design/composants.md) : panneaux, volets,
+ * encart, tableau de tarifs, en-tête de page, champs, statut, `.a-valider`.
+ * Ici : la ligne de statut de la bande, la méthode, le bloc du garage et ses
+ * horaires, la disposition des pages Accès, Vos droits, légales et fermetures.
+ */
+
+/* Liens isolés sur leur ligne (sources, itinéraire, renvois) : cible tactile de
+   44 px, comme un bouton. Les liens pris dans une phrase gardent la hauteur de
+   la ligne. */
+.garage-source a,
+.garage-itineraire a,
+.garage-renvois a,
+.garage-lien-isole a,
+.garage-statut__itineraire {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+}
+
+.garage-source {
+  font-size: var(--taille-petite);
+}
+
+/* Un nom court (« BF Auto », « 94600 Choisy-le-Roi ») ne se coupe jamais. */
+.garage-insecable {
+  white-space: nowrap;
+}
+
+/* Emplacement `statut` : en tête de la bande sombre, comme la ligne de l'en-tête
+   qu'il remplace sur l'accueil. L'adresse courte seule sur téléphone. */
+.garage-statut {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-2) var(--espace-4);
+  padding-bottom: var(--espace-2);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.garage-statut__adresse {
+  color: var(--texte);
+}
+
+/* Sur téléphone, l'itinéraire est dans la barre fixe et dans le bloc du
+   garage : la ligne garde le statut et la rue sur une seule rangée. */
+.garage-statut__ville,
+.garage-statut__itineraire {
+  display: none;
+}
+
+.garage-statut__itineraire {
+  font-weight: var(--graisse-demi);
+}
+
+@media (min-width: 48rem) {
+  .garage-statut__ville {
+    display: inline;
+  }
+
+  .garage-statut__itineraire {
+    display: inline-flex;
+  }
+}
+
+/* Bloc atelier : la méthode en trois étapes numérotées, repères cerclés comme
+   ceux de la figure technique. */
+.garage-information > h3,
+.garage-information .tableau-tarifs {
+  margin-top: var(--espace-6);
+}
+
+/* Colonne étroite : « À partir de » peut passer à la ligne, le montant reste
+   d'un tenant (espaces insécables). */
+.garage-information .tableau-tarifs__prix {
+  white-space: normal;
+}
+
+.garage-methode {
+  display: grid;
+  gap: var(--espace-3);
+  counter-reset: etape;
+}
+
+.garage-methode__etape {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  column-gap: var(--espace-3);
+  align-items: baseline;
+  counter-increment: etape;
+}
+
+.garage-methode__etape::before {
+  display: grid;
+  grid-row: span 2;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: var(--bordure-fine) solid var(--accent);
+  border-radius: var(--rayon-pastille);
+  color: var(--texte-repere);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-demi);
+  content: counter(etape);
+  align-self: start;
+}
+
+.garage-methode__verbe {
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+}
+
+.garage-methode__texte {
+  grid-column: 2;
+  color: var(--texte-doux);
+}
+
+.garage-engagements {
+  display: grid;
+  gap: var(--espace-2);
+}
+
+.garage-engagements li {
+  padding-left: var(--espace-4);
+  border-left: var(--epaisseur-repere) solid var(--accent);
+  font-weight: var(--graisse-demi);
+}
+
+.garage-facade img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--rayon-1);
+}
+
+.garage-facade figcaption {
+  margin-top: var(--espace-2);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+/* Bloc du garage : téléphone en chiffres, horaires sous un filet */
+
+.garage-coordonnees__telephone a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+  font-size: var(--taille-telephone);
+  font-weight: var(--graisse-demi);
+  white-space: nowrap;
+}
+
+.garage-sans-rendez-vous {
+  margin-top: var(--espace-2);
+  color: var(--succes);
+  font-weight: var(--graisse-demi);
+}
+
+.garage-coordonnees__intertitre {
+  margin-top: var(--espace-5);
+  padding-top: var(--espace-4);
+  border-top: var(--bordure-fine) solid var(--filet);
+  font-size: var(--taille-base);
+}
+
+.garage-itineraire,
+.garage-renvois {
+  display: grid;
+}
+
+.garage-adresse {
+  line-height: var(--interligne-titre);
+}
+
+/* Horaires : filets pleins et fins (jamais de pointillés), aujourd'hui en tête,
+   marqué d'un trait orange et en demi-gras. */
+.garage-horaires {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--taille-petite);
+}
+
+.garage-horaires th,
+.garage-horaires td {
+  padding: var(--espace-2) 0;
+  border-bottom: var(--bordure-fine) solid var(--filet);
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.garage-horaires th {
+  padding-right: var(--espace-4);
+  font-weight: var(--graisse-demi);
+  white-space: nowrap;
+}
+
+.garage-horaires__aujourdhui th,
+.garage-horaires__aujourdhui td {
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+}
+
+.garage-horaires__aujourdhui th {
+  padding-left: var(--espace-3);
+  border-left: var(--epaisseur-repere) solid var(--accent);
+}
+
+.garage-horaires__plage {
+  white-space: nowrap;
+}
+
+/* Sur sa propre ligne : la colonne des jours reste étroite. */
+.garage-horaires__repere {
+  display: block;
+  color: var(--texte-doux);
+  font-weight: var(--graisse-normale);
+}
+
+.garage-horaires__exception td {
+  color: var(--erreur);
+  font-weight: var(--graisse-demi);
+}
+
+/* Encart « Nouveau nom » : l'ancien nom reste d'un tenant tant qu'il tient
+   sur la ligne, et ne se coupe en deux que sur un écran trop étroit. */
+.garage-nouveau-nom__ancien {
+  display: inline-block;
+}
+
+/* Page Accès et horaires : trois panneaux, l'encart dessous */
+
+.garage-acces > * + * {
+  margin-top: var(--espace-6);
+}
+
+.garage-acces__grille {
+  display: grid;
+  gap: var(--espace-5);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .garage-acces__grille {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.garage-sous-titre {
+  font-size: var(--taille-base);
+  font-weight: var(--graisse-demi);
+}
+
+.garage-liste,
+.garage-fermetures-publiques {
+  display: grid;
+  gap: var(--espace-1);
+}
+
+/* Pages de texte (Vos droits, légales) : un document blanc sur le béton,
+   sections séparées par un filet. */
+.garage-document {
+  max-width: calc(var(--mesure) + 2 * var(--espace-6));
+}
+
+.garage-document > * + * {
+  margin-top: var(--espace-6);
+  padding-top: var(--espace-6);
+  border-top: var(--bordure-fine) solid var(--filet);
+}
+
+.garage-document h2 {
+  font-size: var(--taille-h3);
+}
+
+.garage-document__pied {
+  font-size: var(--taille-petite);
+}
+
+@media (min-width: 48rem) {
+  .garage-document {
+    padding: var(--espace-6);
+  }
+}
+
+/* Un numéro de téléphone ne se coupe jamais en fin de ligne. */
+.garage-texte a[href^='tel:'] {
+  white-space: nowrap;
+}
+
+.garage-droits {
+  display: grid;
+  gap: var(--espace-5);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .garage-droits {
+    grid-template-columns: minmax(0, calc(var(--mesure) + 2 * var(--espace-6))) minmax(0, 20rem);
+    gap: var(--espace-6);
+  }
+
+  .garage-droits__apropos {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+.garage-droits ul:not([class]) {
+  display: grid;
+  gap: var(--espace-1);
+  padding-left: var(--espace-5);
+  list-style: disc;
+}
+
+.garage-mediateur {
+  padding: var(--espace-3) var(--espace-4);
+  border-left: var(--epaisseur-repere) solid var(--accent);
+  background: var(--fond-sourd);
+}
+
+/* Espace garagiste : fermetures exceptionnelles */
+
+/* Colonne de lecture alignée sur l'en-tête de page, jamais centrée à part. */
+.garage-fermetures > * {
+  max-width: 48rem;
+}
+
+.garage-fermetures__dates {
+  display: grid;
+  gap: var(--espace-4);
+}
+
+@media (min-width: 30rem) {
+  .garage-fermetures__dates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.garage-fermetures__liste {
+  display: grid;
+  gap: var(--espace-3);
+}
+
+.garage-fermetures__element {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espace-3);
+}
+
+.garage-fermetures__element .pastille {
+  margin-left: var(--espace-2);
+}
+
+/* Rappels déjà promis pendant une fermeture : sous la fermeture, pleine largeur. */
+.garage-rappels-promis {
+  flex-basis: 100%;
+}
+
+.garage-rappels-promis__liste {
+  display: grid;
+  gap: var(--espace-2);
+  padding-left: var(--espace-4);
+}
+
+/* Passe 2 du jury (J4) : un client par ligne, l'appel en bouton de 44 px au
+   moins, le numéro jamais coupé ; « Voir la demande » à part, sur 44 px. */
+.garage-rappels-promis__liste:has(.garage-rappels-promis__client) {
+  padding-left: 0;
+  list-style: none;
+  gap: var(--espace-3);
+}
+
+.garage-rappels-promis__gestes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-2) var(--espace-4);
+  margin-top: var(--espace-2);
+}
+
+.garage-rappels-promis__gestes .bouton,
+.garage-rappels-promis__demande {
+  min-height: var(--cible-tactile);
+}
+
+.garage-rappels-promis__demande {
+  display: inline-flex;
+  align-items: center;
+}
+
+.garage-numero {
+  white-space: nowrap;
+}
+
+.garage-compte-rendu form {
+  margin-top: var(--espace-2);
+}

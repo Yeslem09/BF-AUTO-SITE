@@ -1,0 +1,9 @@
+{
+  "commentaire": "Paramètres des demandes propres au garage. numero_rappel : numéro depuis lequel le garage rappelle ses clients, cité sur la page de confirmation (« enregistrez ce numéro pour décrocher »). Tant que le statut vaut a_valider, il n'est affiché qu'en démonstration (et surligné en relecture), jamais en production. Pour le publier : confirmer le numéro avec le garagiste, passer statut à valide et source à la personne qui l'a confirmé.",
+  "numero_rappel": {
+    "valeur": "06 05 92 28 38",
+    "statut": "a_valider",
+    "source": "proposition",
+    "note": "Proposition : le numéro public du garage. À confirmer : le garagiste rappelle-t-il depuis ce même téléphone, ou depuis un autre ?"
+  }
+}

@@ -1,0 +1,860 @@
+/*
+ * Base et couche commune : réinitialisation légère, typographie, primitives
+ * de mise en page, puis ce que porte chaque page (en-tête, menu, statut,
+ * pied, barre fixe basse). Mobile d'abord. Aucune ombre, aucun halo.
+ * Les composants réutilisables vivent dans composants.css (catalogue :
+ * docs/design/composants.md) ; l'accueil dans accueil.css.
+ */
+
+/* Base */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Ni reflet bleu de Chrome Android au toucher : chaque commande porte son
+     propre état d'appui (:active), aux couleurs de la charte. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* Un élément masqué l'est vraiment, même si un composant lui donne un display. */
+[hidden] {
+  display: none !important;
+}
+
+/* Une liste qui porte une classe est un composant : ni puces ni retrait. */
+:where(ul, ol)[class] {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--fond-page);
+  color: var(--texte);
+  font-family: var(--police);
+  font-size: var(--taille-base);
+  font-weight: var(--graisse-normale);
+  line-height: var(--interligne);
+  font-kerning: normal;
+  text-rendering: optimizelegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-titre);
+  letter-spacing: var(--interlettrage-titre);
+  text-wrap: balance;
+  /* Un titre ne se coupe jamais par césure : le mot passe entier à la ligne. */
+  hyphens: manual;
+}
+
+h1 {
+  font-size: var(--taille-h1);
+}
+
+h2 {
+  font-size: var(--taille-h2);
+}
+
+h3 {
+  font-size: var(--taille-h3);
+  letter-spacing: normal;
+}
+
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
+
+strong,
+b {
+  font-weight: var(--graisse-demi);
+}
+
+address {
+  font-style: normal;
+}
+
+a {
+  color: var(--lien);
+  text-decoration-line: underline;
+  text-decoration-color: var(--lien-souligne);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition:
+    color var(--duree-rapide) var(--courbe),
+    text-decoration-thickness var(--duree-rapide) var(--courbe);
+}
+
+a:hover,
+a:active {
+  color: var(--lien-survol);
+  text-decoration-thickness: 2px;
+}
+
+::selection {
+  background: var(--fond-survol);
+  color: var(--texte-titre);
+}
+
+/* Focus : épais, contrasté, visible au clavier seulement ; les zones sombres
+   redéfinissent --focus. */
+:focus-visible {
+  outline: var(--epaisseur-focus) solid var(--focus);
+  outline-offset: var(--decalage-focus);
+}
+
+[tabindex='-1']:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Tracés partagés du logo (src/web/logo.ts) : présents, jamais affichés. */
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Impression : ni menu, ni barre fixe, ni lien d'évitement ; les couleurs
+   passent en encre sur papier (jetons.css). */
+@media print {
+  .evitement,
+  .bandeau-mode,
+  .menu,
+  .barre-fixe {
+    display: none !important;
+  }
+}
+
+/* Primitives de mise en page */
+
+.conteneur {
+  width: 100%;
+  max-width: calc(var(--largeur-max) + 2 * var(--gouttiere));
+  margin-inline: auto;
+  padding-inline: var(--gouttiere);
+}
+
+.section {
+  padding-block: var(--espace-6);
+}
+
+.pile > * + * {
+  margin-top: var(--espace-4);
+}
+
+.pile > * + section {
+  margin-top: var(--espace-6);
+}
+
+.pile-serree > * + * {
+  margin-top: var(--espace-2);
+}
+
+.principal {
+  flex: 1 0 auto;
+}
+
+@media (min-width: 48rem) {
+  .section {
+    padding-block: var(--espace-8);
+  }
+}
+
+/* Lien d'évitement */
+
+.evitement {
+  position: absolute;
+  top: var(--espace-2);
+  left: var(--espace-2);
+  z-index: 40;
+  padding: var(--espace-3) var(--espace-4);
+  border: var(--bordure-fine) solid var(--bordure-forte);
+  border-radius: var(--rayon-1);
+  background: var(--fond-surface);
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+  transform: translateY(calc(-100% - var(--espace-4)));
+  transition: transform var(--duree) var(--courbe);
+}
+
+.evitement:focus {
+  transform: translateY(0);
+}
+
+/* Bandeau de mode (démonstration, relecture) : discret, jamais en production.
+   Posé en tête de l'en-tête, il reste dans un repère ; zone claire (jetons). */
+
+.bandeau-mode {
+  padding: var(--espace-1) var(--gouttiere);
+  border-bottom: var(--bordure-fine) solid var(--bordure);
+  background: var(--fond-sourd);
+  color: var(--texte);
+  font-size: var(--taille-petite);
+  line-height: var(--interligne-serre);
+  text-align: center;
+}
+
+/* En-tête : bande de marque (fond --fond-entete), filet d'accent en bas
+   (filet discret quand l'ouverture de l'accueil prolonge la bande) */
+
+.entete {
+  border-bottom: var(--bordure-fine) solid var(--accent);
+  background-color: var(--fond-entete);
+}
+
+body:has(.ouverture) .entete {
+  border-bottom-color: var(--filet);
+}
+
+.entete__rangee {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--espace-3);
+  min-height: var(--hauteur-entete);
+}
+
+.entete__logo {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+  border-radius: var(--rayon-1);
+}
+
+.logo {
+  width: auto;
+  height: var(--logo-hauteur);
+}
+
+/* Charte du logo : avec chat à 40 px et plus, sans chat en dessous (téléphone). */
+.logo--avec-chat {
+  --logo-hauteur: 2.5rem;
+}
+
+.logo--sans-chat {
+  --logo-hauteur: 2rem;
+}
+
+/* Pied de page : le même logo que l'en-tête, à chaque largeur (J1, J2, J6). */
+:is(.entete__logo, .pied__marque) .logo--avec-chat {
+  display: none;
+}
+
+.logo__lettres {
+  fill: var(--logo-lettres);
+}
+
+.symbole__lettres {
+  fill: var(--symbole-lettres);
+}
+
+.logo__ecrou {
+  fill: var(--logo-ecrou);
+}
+
+.symbole__fond {
+  fill: var(--symbole-fond);
+}
+
+.navigation {
+  display: none;
+}
+
+.entete__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-2);
+  margin-left: auto;
+}
+
+/* Téléphone de l'en-tête : le numéro en chiffres, toujours visible */
+
+.bouton-appel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-3);
+  min-height: var(--cible-tactile);
+  padding: var(--espace-2) var(--espace-3);
+  border: var(--bordure-fine) solid var(--bouton-fond);
+  border-radius: var(--rayon-1);
+  background: var(--bouton-fond);
+  color: var(--bouton-texte);
+  font-weight: var(--graisse-demi);
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--duree) var(--courbe);
+}
+
+.bouton-appel:hover {
+  background: var(--bouton-fond-survol);
+  color: var(--bouton-texte);
+}
+
+.bouton-appel:active {
+  border-color: var(--bouton-fond-appui);
+  background: var(--bouton-fond-appui);
+}
+
+.bouton-appel__verbe {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.bouton-appel__numero {
+  font-size: var(--taille-base);
+  letter-spacing: 0.01em;
+}
+
+/* Menu téléphone et tablette : <details> natif, aucun script */
+
+.menu__bouton {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+  padding: 0 var(--espace-3);
+  border: var(--bordure-fine) solid var(--bouton-bord);
+  border-radius: var(--rayon-1);
+  font-weight: var(--graisse-demi);
+  list-style: none;
+  cursor: pointer;
+  transition: border-color var(--duree) var(--courbe);
+}
+
+.menu__bouton::-webkit-details-marker {
+  display: none;
+}
+
+.menu__bouton:hover,
+.menu__bouton:active,
+.menu[open] > .menu__bouton {
+  border-color: var(--bouton-bord-survol);
+}
+
+.menu__bouton {
+  /* Les deux libellés occupent la même case : la largeur du bouton ne change
+     pas à l'ouverture, l'en-tête ne peut donc pas déborder en changeant d'état. */
+  display: inline-grid;
+  place-items: center;
+}
+
+.menu__ouvrir,
+.menu__fermer {
+  grid-area: 1 / 1;
+}
+
+.menu__fermer,
+.menu[open] .menu__ouvrir {
+  visibility: hidden;
+}
+
+.menu[open] .menu__fermer {
+  visibility: visible;
+}
+
+.menu__panneau {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 30;
+  padding: var(--espace-2) var(--gouttiere) var(--espace-5);
+  border-bottom: var(--bordure-fine) solid var(--accent);
+  background: var(--fond-menu);
+}
+
+.menu__lien {
+  display: flex;
+  align-items: center;
+  min-height: var(--cible-confort);
+  padding-left: var(--espace-3);
+  border-bottom: var(--bordure-fine) solid var(--filet);
+  border-left: var(--epaisseur-repere) solid transparent;
+  font-size: var(--taille-plus);
+  font-weight: var(--graisse-demi);
+  text-decoration: none;
+}
+
+.menu__lien[aria-current='page'],
+.menu__lien:active {
+  border-left-color: var(--accent);
+}
+
+/* Ligne de statut : ouvert ou non, et où */
+
+.entete__statut {
+  border-top: var(--bordure-fine) solid var(--filet);
+}
+
+/* Sur l'accueil, le contexte garage peut fournir son propre bloc de statut en
+   tête de la bande : la ligne commune s'efface alors pour ne rien répéter. */
+body:has(.accueil__zone--statut) .entete__statut {
+  display: none;
+}
+
+.entete__statut-ligne {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espace-2) var(--espace-4);
+  padding-block: var(--espace-2);
+  color: var(--texte-doux);
+  font-size: var(--taille-base);
+}
+
+.entete__adresse {
+  color: var(--texte);
+}
+
+.entete__ville,
+.entete__itineraire {
+  display: none;
+}
+
+.entete__itineraire {
+  font-weight: var(--graisse-demi);
+}
+
+/* Téléphone : le logo sans chat, le numéro et le menu tiennent sur une ligne,
+   dans les gouttières, de 320 à 767 px, menu ouvert compris (mesuré par
+   tests/e2e/design.spec.ts). Le numéro garde 16 px partout : on resserre les
+   écarts, puis le logo, jamais les chiffres. */
+@media (max-width: 47.99rem) {
+  .entete__rangee,
+  .entete__actions {
+    gap: var(--espace-2);
+  }
+
+  .bouton-appel,
+  .menu__bouton {
+    padding-inline: var(--espace-2);
+  }
+}
+
+@media (max-width: 29.99rem) {
+  .entete__rangee,
+  .entete__actions {
+    gap: var(--espace-1);
+  }
+
+  .bouton-appel__numero {
+    letter-spacing: normal;
+  }
+}
+
+@media (max-width: 24.99rem) {
+  .logo--sans-chat {
+    --logo-hauteur: 1.5rem;
+  }
+
+  .bouton-appel__numero {
+    font-size: var(--taille-petite);
+  }
+}
+
+@media (max-width: 22.49rem) {
+  .logo--sans-chat {
+    --logo-hauteur: 1.25rem;
+  }
+
+  .menu__bouton {
+    padding-inline: var(--espace-1);
+  }
+}
+
+@media (min-width: 48rem) {
+  .entete__rangee {
+    gap: var(--espace-5);
+    min-height: 4.5rem;
+  }
+
+  :is(.entete__logo, .pied__marque) .logo--sans-chat {
+    display: none;
+  }
+
+  :is(.entete__logo, .pied__marque) .logo--avec-chat {
+    display: block;
+  }
+
+  .bouton-appel {
+    padding-inline: var(--espace-4);
+  }
+
+  .bouton-appel__numero {
+    font-size: var(--taille-telephone);
+  }
+
+  .entete__ville,
+  .entete__itineraire {
+    display: inline;
+  }
+}
+
+/* Bureau : logo, cinq entrées (« Accès et horaires » compris) et appel sur une
+   ligne, de 1024 px au grand écran (mesuré par tests/e2e/design.spec.ts). Les
+   écarts s'ouvrent avec la largeur ; le verbe « Appeler » attend 1280 px. */
+@media (min-width: 64rem) {
+  .entete__rangee {
+    gap: var(--espace-5);
+    min-height: 5.5rem;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .navigation {
+    display: block;
+  }
+
+  .navigation__liste {
+    display: flex;
+    gap: var(--espace-4);
+  }
+
+  /* 16 px pile : le seuil de lecture, et la place de cinq entrées à 1024 px. */
+  .navigation__lien {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--cible-tactile);
+    border-bottom: var(--bordure-fine) solid transparent;
+    color: var(--texte);
+    font-size: 1rem;
+    font-weight: var(--graisse-demi);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: border-color var(--duree) var(--courbe);
+  }
+
+  .navigation__lien:hover,
+  .navigation__lien:active {
+    border-bottom-color: var(--accent);
+    color: var(--texte);
+  }
+
+  .navigation__lien[aria-current='page'] {
+    border-bottom: var(--epaisseur-repere) solid var(--accent);
+  }
+
+  .bouton-appel {
+    min-height: 3.25rem;
+    padding: var(--espace-2) var(--espace-4);
+  }
+}
+
+@media (min-width: 75rem) {
+  .navigation__liste {
+    gap: var(--espace-5);
+  }
+
+  .navigation__lien {
+    font-size: var(--taille-base);
+  }
+}
+
+@media (min-width: 80rem) {
+  .entete__rangee {
+    gap: var(--espace-6);
+  }
+
+  .navigation__liste {
+    gap: var(--espace-6);
+  }
+
+  .bouton-appel {
+    padding-inline: var(--espace-5);
+  }
+
+  .bouton-appel__verbe {
+    position: static;
+    width: auto;
+    height: auto;
+    padding-right: var(--espace-3);
+    border-right: var(--bordure-fine) solid var(--bordure-champ);
+    clip-path: none;
+  }
+}
+
+/* Pages d'erreur : ce qui s'est passé, puis les trois intentions du site */
+
+.page-erreur {
+  display: grid;
+  gap: var(--espace-7);
+}
+
+.page-erreur__suites > * + * {
+  margin-top: var(--espace-4);
+}
+
+@media (min-width: 64rem) {
+  .page-erreur {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: start;
+    gap: var(--espace-8);
+  }
+
+  .page-erreur__suites {
+    padding-left: var(--espace-7);
+    border-left: var(--bordure-fine) solid var(--filet);
+  }
+}
+
+/* Pied de page */
+
+.pied {
+  padding-block: var(--espace-7) var(--espace-5);
+  border-top: var(--bordure-fine) solid var(--accent);
+  background: var(--fond-pied);
+}
+
+.pied__grille {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espace-6) var(--espace-5);
+}
+
+.pied__marque {
+  grid-column: 1 / -1;
+}
+
+.pied__marque p {
+  max-width: 24em;
+  margin-top: var(--espace-4);
+  color: var(--texte-doux);
+}
+
+.pied__titre {
+  margin-bottom: var(--espace-3);
+  color: var(--texte-repere);
+  font-size: var(--taille-mini);
+  letter-spacing: var(--interlettrage-capitales);
+  text-transform: uppercase;
+}
+
+.pied__telephone {
+  font-size: var(--taille-telephone);
+  font-weight: var(--graisse-demi);
+  white-space: nowrap;
+}
+
+.pied__liens {
+  display: grid;
+  gap: var(--espace-2);
+}
+
+.pied__liens a,
+.pied__bloc p > a {
+  display: inline-block;
+  padding-block: var(--espace-1);
+}
+
+/* Une adresse de courriel plus large que sa colonne (320 px) se coupe plutôt
+   que d'élargir la page. */
+.pied__courriel {
+  overflow-wrap: anywhere;
+}
+
+.pied__bas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--espace-2) var(--espace-6);
+  margin-top: var(--espace-7);
+  padding-top: var(--espace-4);
+  border-top: var(--bordure-fine) solid var(--filet);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+@media (min-width: 48rem) {
+  .pied__grille {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .pied__grille {
+    grid-template-columns: minmax(0, 1.4fr) repeat(4, minmax(0, 1fr));
+  }
+
+  .pied__marque {
+    grid-column: auto;
+  }
+}
+
+/* Barre fixe basse (téléphone) : l'action utile du moment, calculée depuis le
+   statut ; masquée pendant la saisie pour que le clavier ne cache aucun champ
+   (WCAG 2.2, critère 2.4.11), sans script, et sur un écran très bas (téléphone
+   couché, zoom à 400 %), où elle mangerait le tiers de la page. Hauteur fixe :
+   chaque bouton porte deux lignes au plus, chacune sur une ligne, coupée par
+   des points de suspension plutôt que d'agrandir la barre (mesuré de 320 à
+   767 px par tests/e2e/design.spec.ts). */
+
+.barre-fixe {
+  display: none;
+}
+
+@media (max-width: 47.99rem) and (min-height: 30rem) {
+  html:has(.barre-fixe) {
+    scroll-padding-bottom: calc(var(--hauteur-barre-fixe) + env(safe-area-inset-bottom, 0px));
+  }
+
+  body:has(.barre-fixe) {
+    padding-bottom: calc(var(--hauteur-barre-fixe) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .barre-fixe {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 30;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espace-2);
+    height: calc(var(--hauteur-barre-fixe) + env(safe-area-inset-bottom, 0px));
+    padding: var(--espace-2) var(--gouttiere)
+      calc(var(--espace-2) + env(safe-area-inset-bottom, 0px));
+    border-top: var(--bordure-fine) solid var(--accent);
+    background: var(--fond-barre-fixe);
+  }
+
+  body:has(:is(input:not([type='radio'], [type='checkbox'], [type='submit']), textarea):focus)
+    .barre-fixe {
+    display: none;
+  }
+}
+
+.barre-fixe__action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding-inline: var(--espace-2);
+  border: var(--bordure-fine) solid var(--bouton-bord);
+  border-radius: var(--rayon-1);
+  color: var(--texte);
+  font-weight: var(--graisse-demi);
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Appui au doigt : la couleur change tout de suite, sans transition. */
+.barre-fixe__action:active {
+  border-color: var(--bouton-bord-survol);
+  color: var(--lien-survol);
+}
+
+.barre-fixe__action--principale {
+  border-color: var(--bouton-fond);
+  background: var(--bouton-fond);
+  color: var(--bouton-texte);
+}
+
+/* Sous 360 px, quatre pixels gagnés de chaque côté : « mercredi 14 h 30 » tient. */
+@media (max-width: 22.49rem) {
+  .barre-fixe__action {
+    padding-inline: var(--espace-1);
+  }
+}
+
+.barre-fixe__action--principale:hover {
+  color: var(--bouton-texte);
+}
+
+.barre-fixe__action--principale:active {
+  border-color: var(--bouton-fond-appui);
+  background: var(--bouton-fond-appui);
+  color: var(--bouton-texte);
+}
+
+/* Une ligne chacune, jamais deux : la barre garde sa hauteur quel que soit le
+   statut (« demain 8 h 30 » plutôt que le statut complet, calculé par
+   src/web/barre-fixe.ts ; points de suspension au pire). */
+.barre-fixe__libelle,
+.barre-fixe__precision {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.barre-fixe__precision {
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-normale);
+}
+
+.barre-fixe__action--appel .barre-fixe__libelle {
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-normale);
+}
+
+.barre-fixe__action--appel .barre-fixe__precision {
+  font-size: var(--taille-plus);
+  font-weight: var(--graisse-demi);
+}

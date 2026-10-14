@@ -1,0 +1,50 @@
+# Déploiement Render par Blueprint : dans Render, « New » puis « Blueprint »,
+# choisir ce dépôt, puis renseigner les variables marquées « sync: false ».
+# Le site démarre en mode démonstration (bandeau, pages non indexées) ; passer
+# MODE_SITE à production quand le garage a validé ses données (horaires, prix,
+# mentions légales) : la production refuse de démarrer tant qu'il en manque.
+services:
+  - type: web
+    name: bf-auto-site
+    runtime: node
+    region: frankfurt
+    # Instance permanente (pas de mise en veille) et disque persistant pour SQLite.
+    plan: starter
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm run construire
+    startCommand: pnpm run demarrer
+    healthCheckPath: /sante
+    disk:
+      name: donnees-bf-auto
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: '20'
+      - key: MODE_SITE
+        value: demonstration
+      - key: HOTE
+        value: 0.0.0.0
+      - key: TRUST_PROXY
+        value: '1'
+      - key: BASE_SQLITE
+        value: /var/data/bf-auto.sqlite
+      - key: URL_PUBLIQUE
+        sync: false
+      - key: COURRIEL_FOURNISSEUR
+        value: gmail
+      - key: SMTP_UTILISATEUR
+        value: bfauto94@gmail.com
+      - key: SMTP_MOT_DE_PASSE
+        sync: false
+      - key: COURRIEL_GARAGE
+        value: bfauto94@gmail.com
+      - key: COURRIEL_GARAGISTE
+        value: bfauto94@gmail.com
+      - key: COURRIEL_RESPONSABLE_SITE
+        sync: false
+      - key: SMS_DESTINATAIRE
+        sync: false
+      - key: SMS_BREVO_CLE_API
+        sync: false
+      - key: SMS_BREVO_EXPEDITEUR
+        sync: false

@@ -1,0 +1,161 @@
+{
+  "marque": "BF Auto",
+  "version": "2.0",
+  "note": "Palette finale graphite et orange (décision d'Anthony, 2026-09-23). Rapports de contraste calculés selon WCAG 2.2 (texte courant : 4,5 minimum, AA ; objets graphiques : 3 minimum).",
+  "couleurs": [
+    {
+      "nom": "Graphite",
+      "cle": "graphite",
+      "hex": "#3A3935",
+      "rvb": [
+        58,
+        57,
+        53
+      ],
+      "usage": "Lettres et chat du logo sur fond clair, fond du symbole, de l'icône et des bandeaux sombres."
+    },
+    {
+      "nom": "Graphite profond",
+      "cle": "graphite-profond",
+      "hex": "#2F2E2B",
+      "rvb": [
+        47,
+        46,
+        43
+      ],
+      "usage": "Fond sombre du site (pied de page, zones profondes) ; le logo y passe en négatif."
+    },
+    {
+      "nom": "Orange atelier",
+      "cle": "orange",
+      "hex": "#E4682B",
+      "rvb": [
+        228,
+        104,
+        43
+      ],
+      "usage": "Écrou du logo, filets, boutons principaux. Objet graphique : jamais de texte orange atelier sur fond clair."
+    },
+    {
+      "nom": "Orange foncé",
+      "cle": "orange-fonce",
+      "hex": "#B5501B",
+      "rvb": [
+        181,
+        80,
+        27
+      ],
+      "usage": "Texte orange sur fond clair (liens, intertitres courts)."
+    },
+    {
+      "nom": "Blanc cassé",
+      "cle": "blanc-casse",
+      "hex": "#F5F4F2",
+      "rvb": [
+        245,
+        244,
+        242
+      ],
+      "usage": "Fond clair de référence ; lettres et chat du logo en négatif."
+    },
+    {
+      "nom": "Texte",
+      "cle": "texte",
+      "hex": "#262626",
+      "rvb": [
+        38,
+        38,
+        38
+      ],
+      "usage": "Texte courant du site."
+    },
+    {
+      "nom": "Gris clair",
+      "cle": "gris-clair",
+      "hex": "#C9C6BF",
+      "rvb": [
+        201,
+        198,
+        191
+      ],
+      "usage": "Descripteur GARAGE AUTOMOBILE du logo négatif, petits textes sur graphite."
+    }
+  ],
+  "contrastes": [
+    {
+      "avant_plan": "graphite",
+      "fond": "blanc-casse",
+      "rapport": 10.52
+    },
+    {
+      "avant_plan": "graphite",
+      "fond": "blanc",
+      "rapport": 11.56
+    },
+    {
+      "avant_plan": "blanc-casse",
+      "fond": "graphite",
+      "rapport": 10.52
+    },
+    {
+      "avant_plan": "blanc-casse",
+      "fond": "graphite-profond",
+      "rapport": 12.35
+    },
+    {
+      "avant_plan": "orange",
+      "fond": "blanc-casse",
+      "rapport": 3.03
+    },
+    {
+      "avant_plan": "orange",
+      "fond": "blanc",
+      "rapport": 3.33
+    },
+    {
+      "avant_plan": "orange",
+      "fond": "graphite",
+      "rapport": 3.48
+    },
+    {
+      "avant_plan": "orange",
+      "fond": "graphite-profond",
+      "rapport": 4.08
+    },
+    {
+      "avant_plan": "graphite-profond",
+      "fond": "orange",
+      "rapport": 4.08
+    },
+    {
+      "avant_plan": "orange-fonce",
+      "fond": "blanc-casse",
+      "rapport": 4.63
+    },
+    {
+      "avant_plan": "orange-fonce",
+      "fond": "blanc",
+      "rapport": 5.09
+    },
+    {
+      "avant_plan": "texte",
+      "fond": "blanc-casse",
+      "rapport": 13.77
+    },
+    {
+      "avant_plan": "texte",
+      "fond": "blanc",
+      "rapport": 15.13
+    },
+    {
+      "avant_plan": "gris-clair",
+      "fond": "graphite",
+      "rapport": 6.78
+    },
+    {
+      "avant_plan": "gris-clair",
+      "fond": "graphite-profond",
+      "rapport": 7.96
+    }
+  ]
+}

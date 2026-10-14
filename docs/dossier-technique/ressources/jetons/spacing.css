@@ -1,0 +1,20 @@
+:root {
+  --page-size: A4;
+  --page-margin: 22mm;
+
+  --space-section: 44px;
+  --space-h3: 24px;
+  --space-para: 9px;
+  --space-block: 14px;
+  --space-figure: 16px;
+
+  --indent-reponse: 26px;
+  --rule-reponse: 3px;
+  --pad-box-y: 16px;
+  --pad-box-x: 20px;
+  --pad-card: 13px 15px 15px;
+  --pad-cell: 7px 10px;
+
+  --radius-box: 6px;
+  --radius-card: 4px;
+}

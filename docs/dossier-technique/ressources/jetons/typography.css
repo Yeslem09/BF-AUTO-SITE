@@ -1,0 +1,20 @@
+/* Jetons typographiques du kit, surchargés : Hanken Grotesk, deux graisses (400 et 600). */
+:root {
+  --font-doc: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --fs-masthead: 26pt;
+  --fs-h2: 12.5pt;
+  --fs-h3: 10.4pt;
+  --fs-body: 9.2pt;
+  --fs-note: 8.5pt;
+  --fs-table: 7.8pt;
+  --fs-caption: 7.6pt;
+  --fs-runner: 7pt;
+  --fs-th: 6.8pt;
+  --fs-micro: 6.6pt;
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --lh-body: 1.45;
+  --ls-micro: 0.16em;
+  --ls-label: 0.11em;
+  --ls-h2: 0.06em;
+}

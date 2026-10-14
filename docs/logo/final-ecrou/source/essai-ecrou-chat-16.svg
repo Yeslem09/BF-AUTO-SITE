@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" role="img" aria-labelledby="t d">
+<title id="t">BF Auto</title>
+<desc id="d">Essai écarté : écrou à oreilles de chat, 16 px.</desc>
+<rect width="16" height="16" rx="3" fill="#3A3935"/>
+<path fill="#F5F4F2" d=""/>
+<path fill="#E4682B" d="M3 2h1v1h-1zM12 2h1v1h-1zM3 3h2v1h-2zM11 3h2v1h-2zM3 4h10v1h-10zM2 5h12v1h-12zM2 6h12v1h-12zM2 7h5v1h-5zM9 7h5v1h-5zM2 8h5v1h-5zM9 8h5v1h-5zM2 9h12v1h-12zM2 10h12v1h-12zM3 11h10v1h-10zM4 12h8v1h-8z"/>
+</svg>

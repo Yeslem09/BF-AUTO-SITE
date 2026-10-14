@@ -1,0 +1,305 @@
+/*
+ * Jetons de conception du site BF Auto : SEUL fichier qui contient des
+ * couleurs. Aucune autre feuille, aucun gabarit, aucun SVG en ligne n'écrit
+ * de couleur en dur (porte : src/web/feuilles-de-style.test.ts). Changer la
+ * palette ou la démarcation des zones se fait ici, et nulle part ailleurs.
+ *
+ * Palette : graphite et orange atelier (décision finale d'Anthony,
+ * docs/conception/kano-couleurs.md, version 2, graphite éclairci). L'orange
+ * de marque ne paraît jamais dans la zone de résultat du pré-diagnostic, hors
+ * boutons : les alertes ont leurs propres couleurs (rouge plein, cadre ambre,
+ * cadre gris).
+ *
+ * Quatre étages, du plus brut au plus parlant :
+ *   1. palette ;
+ *   2. teintes dérivées, chacune avec son rapport de contraste ;
+ *   3. fonds des zones : quelle zone est sombre, laquelle est claire ;
+ *   4. rôles (fond, texte, lien, bordure, focus...), les seuls noms qu'un
+ *      composant ou un contexte doit employer.
+ * Les rapports des paires de rôles sont recalculés à chaque essai par
+ * src/web/contrastes.test.ts (AAA pour le texte courant, AA partout ailleurs).
+ *
+ * Deux graisses seulement : 400 pour le texte, 600 pour les titres, boutons et
+ * intertitres. Deux fichiers de police, préchargés.
+ */
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('/fonts/hanken-grotesk-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('/fonts/hanken-grotesk-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* 1. Palette (décision finale, graphite éclairci) */
+  --couleur-graphite: #3a3935; /* bandeau d'ouverture, en-tête, aplats sombres */
+  --couleur-graphite-profond: #2f2e2b; /* fond sombre associé : pied, barre fixe, menu */
+  --couleur-orange: #e4682b; /* orange atelier : boutons, filets, grands textes */
+  --couleur-orange-clair: #f59a63; /* petit texte orange sur sombre : 5,33 et 6,26 */
+  --couleur-orange-fonce: #a84a17; /* liens sur clair : #b5501b d'Anthony assombri pour 4,5:1 sur le béton */
+  --couleur-encre: #262626; /* texte courant : 12,90 béton, 15,13 blanc */
+  --couleur-encre-bouton: #1c1b19; /* texte des boutons orange : 5,17 ; 7,94 au survol */
+  --couleur-beton: #ededea; /* fond de page : démarque les panneaux blancs */
+  --couleur-blanc: #ffffff; /* panneaux, champs */
+  --couleur-alerte-danger: #b3261e; /* « Ne roulez pas » : aplat plein, texte blanc 6,54 */
+  --couleur-alerte-attention: #e3b23c; /* « À faire contrôler » : cadre épais, jamais du texte */
+
+  /* 2. Teintes dérivées (rapport sur béton, puis sur blanc ou sur graphite) */
+  --couleur-texte-doux: #4a4946; /* texte secondaire : 7,67 béton, 9,00 blanc */
+  --couleur-bord-champ: #77766f; /* bord de champ et de choix : 3,89 béton, 4,56 blanc */
+  --couleur-bordure-nette: #b4b2ab; /* contour des panneaux blancs */
+  --couleur-filet: #dcdcd7; /* séparateur décoratif */
+  --couleur-sourd: #f8f8f5; /* aplat clair sous l'en-tête de page, encarts */
+  --couleur-survol-clair: #fcede4; /* survol clair : encre 13,3, bord de choix 4,02 */
+  --couleur-sur-sombre: #f4f3ef; /* texte sur graphite : 10,41 ; 12,23 sur le profond */
+  --couleur-sur-sombre-doux: #d2d0c9; /* texte secondaire sur graphite : 7,49 et 8,80 */
+  --couleur-bord-sombre: #9a988f; /* bord de choix sur graphite : 4,00 */
+  --couleur-filet-sombre: #4e4d48; /* séparateur décoratif sur graphite */
+  --couleur-statut-ouvert: #2a7249; /* témoin vert « ouvert », succès écrit : 4,97 béton, 5,83 blanc */
+  --couleur-statut-ouvert-clair: #7cc49a; /* pastille « ouvert » sur graphite : 5,63 */
+  --couleur-alerte-danger-clair: #f2b8a8; /* erreur écrite sur graphite : 6,71 */
+  --couleur-alerte-attention-pale: #fff6dc; /* fond du cadre ambre : encre 14,03 */
+  --couleur-alerte-danger-pale: #fbeae7; /* fond d'un message d'erreur */
+  --couleur-surlignage: #fce5d6; /* valeur à valider (relecture) : encre 12,48 */
+  --couleur-logo-clair: #f5f4f2; /* lettres et chat du logo sur graphite (final-ecrou) */
+  --couleur-trame: rgb(244 243 239 / 4%); /* trame de plan sur le graphite */
+  --couleur-grille: rgb(38 38 38 / 5%); /* quadrillage derrière les figures */
+  --couleur-grille-forte: rgb(38 38 38 / 9%);
+
+  /* 3. Fonds des zones. Une zone sombre porte aussi les rôles sombres
+     (bloc « zones sombres » plus bas) : déplacer son sélecteur d'un bloc à
+     l'autre suffit à la faire changer de camp. */
+  --fond-entete: var(--couleur-graphite);
+  --fond-ouverture: var(--couleur-graphite);
+  --fond-plaque: var(--couleur-blanc);
+  --filet-plaque: var(--couleur-orange);
+  --fond-panneau: var(--couleur-blanc);
+  --bord-panneau: var(--couleur-bordure-nette);
+  --fond-bandeau: var(--couleur-graphite);
+  --fond-pied: var(--couleur-graphite-profond);
+  --fond-barre-fixe: var(--couleur-graphite-profond);
+  --fond-menu: var(--couleur-graphite-profond);
+  --couleur-theme: var(--couleur-graphite); /* barre du navigateur sur téléphone */
+
+  /* Typographie : échelle fluide, du téléphone (320 px) au grand écran. Public
+     âgé (jury, passe 1) : texte courant à 18 px au bureau, rien d'utile sous
+     16 px, capitales espacées à 14 px ; porte : src/web/tailles.test.ts. */
+  --police: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', roboto, arial, sans-serif;
+  --graisse-normale: 400;
+  --graisse-demi: 600;
+  --graisse-forte: 600; /* deux graisses seulement : la forte est le demi-gras */
+  --taille-mini: 0.875rem; /* 14 px : capitales espacées seulement (surtitres) */
+  --taille-petite: clamp(1rem, 0.95rem + 0.15vw, 1.0625rem); /* aides, statut, légendes */
+  --taille-base: clamp(1rem, 0.9rem + 0.35vw, 1.125rem); /* 16 px, 18 px dès 1024 px */
+  --taille-plus: clamp(1.0625rem, 0.95rem + 0.45vw, 1.25rem);
+  --taille-h3: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+  --taille-h2: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+  --taille-h1: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+  --taille-telephone: clamp(1.125rem, 1rem + 0.55vw, 1.375rem);
+  --taille-accroche: clamp(1.25rem, 0.95rem + 1.2vw, 1.875rem);
+  --interligne: 1.6;
+  --interligne-serre: 1.35;
+  --interligne-titre: 1.15;
+  --interlettrage-capitales: 0.14em;
+  --interlettrage-titre: -0.015em;
+  --mesure: 68ch;
+
+  /* Espacements : une seule échelle, base 4 px */
+  --espace-1: 0.25rem;
+  --espace-2: 0.5rem;
+  --espace-3: 0.75rem;
+  --espace-4: 1rem;
+  --espace-5: 1.5rem;
+  --espace-6: 2rem;
+  --espace-7: 3rem;
+  --espace-8: 4rem;
+  --gouttiere: clamp(1rem, 0.25rem + 3.5vw, 4rem);
+  --largeur-max: 80rem;
+
+  /* Formes : rayons modestes, bordures d'un pixel, aucune ombre */
+  --rayon-1: 4px;
+  --rayon-2: 6px;
+  --rayon-pastille: 999px;
+  --rayon-plaque: 1.375rem; /* angle rentrant du logo, là où corner-shape existe */
+  --rayon-filet: 0.9375rem;
+  --bordure-fine: 1px;
+  --epaisseur-focus: 3px;
+  --decalage-focus: 2px;
+  --epaisseur-repere: 3px;
+  --cible-tactile: 2.75rem; /* 44 px : minimum WCAG 2.2 */
+  --cible-confort: 3rem; /* 48 px : boutons et choix */
+  --hauteur-entete: 3.75rem; /* 60 px sur téléphone, D7 : 64 px au plus */
+  --hauteur-barre-fixe: 4.5rem;
+  --logo-hauteur: 2rem;
+  --trame-pas: 2rem;
+
+  /* Mouvement : bref, et nul si l'utilisateur le demande */
+  --duree-rapide: 150ms;
+  --duree: 200ms;
+  --courbe: cubic-bezier(0.2, 0, 0, 1);
+  --transition-couleurs:
+    background-color var(--duree) var(--courbe), border-color var(--duree) var(--courbe),
+    color var(--duree) var(--courbe);
+}
+
+/* 4. Rôles des zones claires : la page, et toute zone claire posée dans une
+   zone sombre (la plaque du pré-diagnostic sur l'ouverture, le bandeau de mode
+   en tête de l'en-tête). */
+:root,
+.zone-claire,
+.plaque,
+.bandeau-mode {
+  --fond-page: var(--couleur-beton);
+  --fond-surface: var(--couleur-blanc);
+  --fond-sourd: var(--couleur-sourd);
+  --fond-survol: var(--couleur-survol-clair);
+  --fond-figure: var(--couleur-blanc);
+  --texte: var(--couleur-encre);
+  --texte-doux: var(--couleur-texte-doux);
+  --texte-titre: var(--couleur-encre);
+  --texte-repere: var(--couleur-orange-fonce);
+  --encre-figure: var(--couleur-encre);
+  --lien: var(--couleur-orange-fonce);
+  --lien-survol: var(--couleur-encre);
+  --lien-souligne: currentcolor;
+  --accent: var(--couleur-orange);
+  --accent-texte: var(--couleur-orange-fonce);
+  --accent-grand-texte: var(--couleur-orange-fonce);
+  --bordure: var(--couleur-bordure-nette);
+  --filet: var(--couleur-filet);
+  --bordure-champ: var(--couleur-bord-champ);
+  --bordure-forte: var(--couleur-encre);
+  --focus: var(--couleur-orange-fonce);
+  --succes: var(--couleur-statut-ouvert);
+  --succes-fond: var(--couleur-sourd);
+  --erreur: var(--couleur-alerte-danger);
+  --erreur-fond: var(--couleur-alerte-danger-pale);
+  --alerte-danger: var(--couleur-alerte-danger);
+  --alerte-danger-texte: var(--couleur-blanc);
+  --alerte-attention: var(--couleur-alerte-attention);
+  --alerte-attention-fond: var(--couleur-alerte-attention-pale);
+  --alerte-neutre: var(--couleur-bord-champ);
+  --neutre: var(--couleur-texte-doux);
+  --surlignage: var(--couleur-surlignage);
+  --trame: var(--couleur-trame);
+  --grille: var(--couleur-grille);
+  --grille-forte: var(--couleur-grille-forte);
+  --champ-fond: var(--couleur-blanc);
+  --champ-texte: var(--couleur-encre);
+  --champ-indication: var(--couleur-texte-doux);
+  --bouton-fond: var(--couleur-orange);
+  --bouton-texte: var(--couleur-encre-bouton);
+  --bouton-fond-survol: var(--couleur-orange-clair);
+  --bouton-fond-appui: var(--couleur-orange-clair); /* appui au doigt : encre 7,94 */
+  --bouton-bord: var(--couleur-encre);
+  --bouton-bord-survol: var(--couleur-orange-fonce);
+  --choix-fond: var(--couleur-blanc);
+  --choix-bord: var(--couleur-bord-champ);
+  --choix-bord-survol: var(--couleur-encre);
+  --pastille-ouvert: var(--couleur-statut-ouvert);
+  --pastille-ferme: var(--couleur-texte-doux);
+  --pastille-a-confirmer: var(--couleur-bord-champ);
+  --logo-lettres: var(--couleur-graphite);
+  --logo-ecrou: var(--couleur-orange);
+  --symbole-fond: var(--couleur-graphite);
+  --symbole-lettres: var(--couleur-logo-clair);
+
+  color: var(--texte);
+}
+
+/* Rôles des zones sombres (graphite). L'orange atelier n'y fait que 3,48:1 :
+   grands textes, filets et bordures seulement ; le petit texte orange passe en
+   orange clair. */
+.zone-sombre,
+.enseigne,
+.entete,
+.ouverture,
+.panneau__bandeau,
+.pied,
+.barre-fixe,
+.menu__panneau {
+  --fond-surface: transparent;
+  --fond-survol: var(--couleur-graphite-profond);
+  --fond-figure: var(--couleur-graphite-profond);
+  --texte: var(--couleur-sur-sombre);
+  --texte-doux: var(--couleur-sur-sombre-doux);
+  --texte-titre: var(--couleur-sur-sombre);
+  --texte-repere: var(--couleur-orange-clair);
+  --encre-figure: var(--couleur-sur-sombre);
+  --lien: var(--couleur-sur-sombre);
+  --lien-survol: var(--couleur-orange-clair);
+  --lien-souligne: var(--couleur-orange);
+  --accent: var(--couleur-orange);
+  --accent-texte: var(--couleur-orange-clair);
+  --accent-grand-texte: var(--couleur-orange);
+  --bordure: var(--couleur-filet-sombre);
+  --filet: var(--couleur-filet-sombre);
+  --bordure-champ: var(--couleur-bord-sombre);
+  --bordure-forte: var(--couleur-sur-sombre);
+  --focus: var(--couleur-orange-clair);
+  --succes: var(--couleur-statut-ouvert-clair);
+  --erreur: var(--couleur-alerte-danger-clair);
+  --neutre: var(--couleur-sur-sombre-doux);
+  --surlignage: var(--couleur-filet-sombre);
+  --bouton-bord: var(--couleur-bord-sombre);
+  --bouton-bord-survol: var(--couleur-orange-clair);
+  --choix-fond: transparent;
+  --choix-bord: var(--couleur-bord-sombre);
+  --choix-bord-survol: var(--couleur-orange-clair);
+  --pastille-ouvert: var(--couleur-statut-ouvert-clair);
+  --pastille-ferme: var(--couleur-sur-sombre-doux);
+  --pastille-a-confirmer: var(--couleur-bord-sombre);
+  --logo-lettres: var(--couleur-logo-clair);
+  --logo-ecrou: var(--couleur-orange);
+
+  color: var(--texte);
+}
+
+/* Impression : encre sur papier. Les zones sombres repassent en clair, sans
+   aplat ni trame, et gardent leurs repères lisibles. */
+@media print {
+  :root {
+    --fond-page: var(--couleur-blanc);
+    --fond-entete: var(--couleur-blanc);
+    --fond-ouverture: var(--couleur-blanc);
+    --fond-bandeau: var(--couleur-blanc);
+    --fond-pied: var(--couleur-blanc);
+    --trame: transparent;
+  }
+
+  .zone-sombre,
+  .enseigne,
+  .entete,
+  .ouverture,
+  .panneau__bandeau,
+  .pied {
+    --texte: var(--couleur-encre);
+    --texte-doux: var(--couleur-texte-doux);
+    --texte-titre: var(--couleur-encre);
+    --texte-repere: var(--couleur-orange-fonce);
+    --lien: var(--couleur-encre);
+    --lien-souligne: currentcolor;
+    --accent-texte: var(--couleur-orange-fonce);
+    --accent-grand-texte: var(--couleur-orange-fonce);
+    --bordure: var(--couleur-bordure-nette);
+    --filet: var(--couleur-filet);
+    --bordure-champ: var(--couleur-bord-champ);
+    --logo-lettres: var(--couleur-graphite);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duree-rapide: 0ms;
+    --duree: 0ms;
+  }
+}

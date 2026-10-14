@@ -1,0 +1,1376 @@
+{
+  "commentaire": "Arbre du pré-diagnostic, seule source des questions, choix, pistes et planchers d’urgence. Proposition à relire avec le garagiste à l’aide du livret (/pre-diagnostic/livret, hors production). Après la séance : renseigner relu_par (prénom du garagiste) et relu_le (AAAA-MM-JJ), passer statut à valide, et lister dans branches_non_validees les codes des branches refusées (leurs résultats deviennent « Vos réponses ne suffisent pas pour orienter »). Sans relecture datée, le pré-diagnostic n’est pas publié en production. Porte : pnpm exec tsx src/contextes/pre-diagnostic/adaptateurs/console/porte-arbre.ts",
+  "version": "2026-09-23",
+  "statut": "a_valider",
+  "source": "proposition",
+  "relu_par": "",
+  "relu_le": "",
+  "branches_non_validees": [],
+  "mention": "Pré-diagnostic établi à partir de vos seules réponses. Il ne remplace pas l’examen du véhicule.",
+  "actions": ["appeler", "rappel", "imprimer"],
+  "premiere_question": "Que remarquez-vous ?",
+  "question_signes": "Remarquez-vous l’un de ces signes ?",
+  "signes": [
+    {
+      "code": "voyant-rouge",
+      "libelle": "Un voyant rouge reste allumé moteur tournant (huile, température, batterie, freins), ou le voyant moteur clignote",
+      "niveau": "ne-pas-rouler"
+    },
+    {
+      "code": "pedale-molle",
+      "libelle": "La pédale de frein est molle ou s’enfonce",
+      "niveau": "ne-pas-rouler"
+    },
+    {
+      "code": "fumee-brule",
+      "libelle": "De la fumée sous le capot ou une odeur de brûlé",
+      "niveau": "ne-pas-rouler"
+    },
+    {
+      "code": "direction",
+      "libelle": "La direction tire fortement ou devient dure",
+      "niveau": "ne-pas-rouler"
+    },
+    {
+      "code": "perte-puissance",
+      "libelle": "Une perte soudaine de puissance",
+      "niveau": "ne-pas-rouler"
+    }
+  ],
+  "branches": [
+    {
+      "code": "voyant",
+      "libelle": "Un voyant s’allume",
+      "plancher": "sans-urgence",
+      "signes": ["voyant-rouge", "pedale-molle", "fumee-brule", "direction", "perte-puissance"],
+      "depart": "voyant-couleur"
+    },
+    {
+      "code": "bruit",
+      "libelle": "Un bruit inhabituel",
+      "plancher": "a-controler",
+      "signes": ["voyant-rouge", "pedale-molle", "fumee-brule", "direction", "perte-puissance"],
+      "depart": "bruit-moment"
+    },
+    {
+      "code": "vibrations",
+      "libelle": "Ça vibre ou la voiture tire d’un côté",
+      "plancher": "a-controler",
+      "signes": ["voyant-rouge", "pedale-molle", "fumee-brule", "direction", "perte-puissance"],
+      "depart": "vibrations-ressenti"
+    },
+    {
+      "code": "odeur-fumee-fuite",
+      "libelle": "Une odeur, une fumée ou une fuite",
+      "plancher": "sans-urgence",
+      "signes": ["voyant-rouge", "pedale-molle", "fumee-brule", "direction", "perte-puissance"],
+      "depart": "fuite-nature"
+    },
+    {
+      "code": "demarrage",
+      "libelle": "Elle démarre mal ou pas du tout",
+      "plancher": "a-controler",
+      "signes": ["voyant-rouge", "pedale-molle", "fumee-brule", "perte-puissance"],
+      "depart": "demarrage-finit"
+    },
+    {
+      "code": "freinage",
+      "libelle": "Le freinage a changé",
+      "plancher": "a-controler",
+      "signes": ["voyant-rouge", "pedale-molle", "fumee-brule", "direction", "perte-puissance"],
+      "depart": "freinage-changement"
+    },
+    {
+      "code": "ne-sais-pas",
+      "libelle": "Autre chose ou je ne sais pas",
+      "plancher": "sans-urgence",
+      "signes": ["voyant-rouge", "pedale-molle", "fumee-brule", "direction", "perte-puissance"],
+      "depart": "autre-situation"
+    }
+  ],
+  "questions": [
+    {
+      "code": "voyant-couleur",
+      "intitule": "De quelle couleur est le voyant qui reste allumé ?",
+      "aide": "Les voyants se trouvent au tableau de bord, derrière le volant.",
+      "choix": [
+        { "code": "orange", "libelle": "Orange ou jaune", "question": "voyant-orange" },
+        {
+          "code": "rouge",
+          "libelle": "Rouge, mais aucun de ceux de la question précédente",
+          "question": "voyant-rouge-oubli"
+        },
+        { "code": "vert-bleu", "libelle": "Vert ou bleu", "resultat": "voyant-information" },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "voyant-a-identifier" }
+      ]
+    },
+    {
+      "code": "voyant-orange",
+      "intitule": "À quoi ressemble ce voyant orange ?",
+      "choix": [
+        {
+          "code": "moteur",
+          "libelle": "Un moteur vu de profil, allumé sans clignoter",
+          "resultat": "voyant-moteur"
+        },
+        {
+          "code": "prechauffage",
+          "libelle": "Un ressort en spirale (moteur diesel), allumé ou clignotant en roulant",
+          "resultat": "voyant-prechauffage"
+        },
+        {
+          "code": "pneu",
+          "libelle": "Un pneu vu en coupe avec un point d’exclamation",
+          "resultat": "voyant-pression-pneus"
+        },
+        { "code": "abs", "libelle": "Les lettres ABS", "resultat": "voyant-abs" },
+        {
+          "code": "entretien",
+          "libelle": "Une clé plate, ou le mot SERVICE",
+          "resultat": "voyant-entretien"
+        },
+        {
+          "code": "ne-sais-pas",
+          "libelle": "Un autre symbole, ou je ne sais pas",
+          "resultat": "voyant-orange-a-identifier"
+        }
+      ]
+    },
+    {
+      "code": "voyant-rouge-oubli",
+      "intitule": "Ce voyant rouge s’éteint-il une fois la ceinture bouclée, les portes, le capot et le coffre bien fermés et le frein à main desserré ?",
+      "choix": [
+        { "code": "oui", "libelle": "Oui, il s’éteint", "resultat": "voyant-oubli" },
+        { "code": "non", "libelle": "Non, il reste allumé", "resultat": "voyant-rouge-persistant" },
+        {
+          "code": "ne-sais-pas",
+          "libelle": "Je ne sais pas",
+          "resultat": "voyant-rouge-persistant"
+        }
+      ]
+    },
+    {
+      "code": "bruit-moment",
+      "intitule": "Quand entendez-vous ce bruit ?",
+      "choix": [
+        { "code": "freinage", "libelle": "Quand je freine", "question": "frein-bruit" },
+        {
+          "code": "virage",
+          "libelle": "Dans les virages, ou en braquant à fond",
+          "resultat": "bruit-virage"
+        },
+        {
+          "code": "vitesse",
+          "libelle": "En roulant, de plus en plus fort avec la vitesse",
+          "resultat": "bruit-roulement"
+        },
+        {
+          "code": "bosses",
+          "libelle": "Sur les bosses, les pavés ou les dos-d’âne",
+          "resultat": "bruit-suspension"
+        },
+        {
+          "code": "moteur",
+          "libelle": "Moteur tournant, même voiture arrêtée",
+          "question": "bruit-moteur"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "bruit-a-situer" }
+      ]
+    },
+    {
+      "code": "frein-bruit",
+      "intitule": "À quoi ressemble ce bruit quand vous freinez ?",
+      "choix": [
+        {
+          "code": "sifflement",
+          "libelle": "Un sifflement ou un grincement aigu",
+          "resultat": "frein-sifflement"
+        },
+        {
+          "code": "frottement",
+          "libelle": "Un frottement métallique ou un raclement",
+          "resultat": "frein-metal"
+        },
+        {
+          "code": "claquement",
+          "libelle": "Un claquement ou un cognement",
+          "resultat": "frein-claquement"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "frein-bruit-a-situer" }
+      ]
+    },
+    {
+      "code": "bruit-moteur",
+      "intitule": "À quoi ressemble ce bruit, moteur tournant ?",
+      "choix": [
+        {
+          "code": "sifflement",
+          "libelle": "Un sifflement aigu, surtout moteur froid ou en braquant",
+          "resultat": "moteur-courroie"
+        },
+        {
+          "code": "cliquetis",
+          "libelle": "Un cliquetis ou un tic-tac qui suit le régime du moteur",
+          "resultat": "moteur-cliquetis"
+        },
+        {
+          "code": "grondement",
+          "libelle": "Un grondement qui augmente quand vous accélérez",
+          "resultat": "moteur-echappement"
+        },
+        {
+          "code": "cognement",
+          "libelle": "Un cognement sourd et régulier qui s’aggrave",
+          "resultat": "moteur-cognement"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "moteur-bruit-a-situer" }
+      ]
+    },
+    {
+      "code": "vibrations-ressenti",
+      "intitule": "Que ressentez-vous ?",
+      "choix": [
+        {
+          "code": "volant",
+          "libelle": "Le volant vibre à partir d’une certaine vitesse",
+          "resultat": "vibrations-equilibrage"
+        },
+        {
+          "code": "freinage",
+          "libelle": "Le volant ou la pédale vibre quand je freine",
+          "resultat": "frein-disques-voiles"
+        },
+        { "code": "tire", "libelle": "La voiture tire d’un côté", "question": "tire-freinage" },
+        {
+          "code": "moteur",
+          "libelle": "Le moteur tremble à l’arrêt ou à bas régime",
+          "resultat": "vibrations-moteur"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "vibrations-a-situer" }
+      ]
+    },
+    {
+      "code": "tire-freinage",
+      "intitule": "Tire-t-elle surtout quand vous freinez ?",
+      "choix": [
+        { "code": "oui", "libelle": "Oui, surtout au freinage", "resultat": "frein-dissymetrique" },
+        { "code": "non", "libelle": "Non, même sans freiner", "resultat": "tire-geometrie" },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "tire-a-situer" }
+      ]
+    },
+    {
+      "code": "fuite-nature",
+      "intitule": "Qu’avez-vous remarqué ?",
+      "choix": [
+        {
+          "code": "flaque",
+          "libelle": "Une flaque ou des gouttes sous la voiture",
+          "question": "fuite-couleur"
+        },
+        {
+          "code": "carburant",
+          "libelle": "Une odeur d’essence ou de gazole",
+          "resultat": "fuite-carburant"
+        },
+        {
+          "code": "echappement",
+          "libelle": "De la fumée qui sort de l’échappement",
+          "question": "fumee-couleur"
+        },
+        {
+          "code": "sucree",
+          "libelle": "Une odeur sucrée dans l’habitacle, parfois avec de la buée sur le pare-brise",
+          "resultat": "odeur-chauffage"
+        },
+        {
+          "code": "moisi",
+          "libelle": "Une odeur de moisi quand la ventilation marche",
+          "resultat": "odeur-climatisation"
+        },
+        {
+          "code": "ne-sais-pas",
+          "libelle": "Autre chose, ou je ne sais pas",
+          "resultat": "fuite-a-situer"
+        }
+      ]
+    },
+    {
+      "code": "fuite-couleur",
+      "intitule": "À quoi ressemble ce liquide ?",
+      "aide": "Regardez les gouttes sur un papier blanc, sans vous glisser sous la voiture.",
+      "choix": [
+        {
+          "code": "eau",
+          "libelle": "Clair comme de l’eau et sans odeur, sous l’avant de la voiture",
+          "resultat": "fuite-condensation"
+        },
+        { "code": "noir", "libelle": "Noir ou brun foncé, et gras", "resultat": "fuite-huile" },
+        {
+          "code": "colore",
+          "libelle": "Vert, rose, orange ou bleu, à l’odeur sucrée",
+          "resultat": "fuite-refroidissement"
+        },
+        {
+          "code": "frein",
+          "libelle": "Jaunâtre et gras, près d’une roue",
+          "resultat": "fuite-frein"
+        },
+        { "code": "rouge", "libelle": "Rouge et gras", "resultat": "fuite-boite-direction" },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "flaque-a-situer" }
+      ]
+    },
+    {
+      "code": "fumee-couleur",
+      "intitule": "À quoi ressemble la fumée à l’échappement ?",
+      "choix": [
+        {
+          "code": "vapeur",
+          "libelle": "Blanche et légère, seulement moteur froid, puis elle disparaît",
+          "resultat": "fumee-vapeur"
+        },
+        {
+          "code": "blanche",
+          "libelle": "Blanche et épaisse, même moteur chaud, à l’odeur sucrée",
+          "resultat": "fumee-blanche"
+        },
+        {
+          "code": "bleue",
+          "libelle": "Bleutée, avec une odeur d’huile brûlée",
+          "resultat": "fumee-bleue"
+        },
+        {
+          "code": "noire",
+          "libelle": "Noire, surtout quand vous accélérez",
+          "resultat": "fumee-noire"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "fumee-a-situer" }
+      ]
+    },
+    {
+      "code": "demarrage-finit",
+      "intitule": "Votre voiture finit-elle par démarrer ?",
+      "choix": [
+        {
+          "code": "difficile",
+          "libelle": "Oui, mais difficilement, après plusieurs essais",
+          "question": "demarrage-quand"
+        },
+        {
+          "code": "non",
+          "libelle": "Non, elle ne démarre pas du tout",
+          "question": "demarrage-cle"
+        },
+        {
+          "code": "cale",
+          "libelle": "Elle démarre, puis elle cale",
+          "resultat": "demarrage-calage"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "demarrage-a-situer" }
+      ]
+    },
+    {
+      "code": "demarrage-cle",
+      "intitule": "Que se passe-t-il quand vous tournez la clé ou appuyez sur le bouton de démarrage ?",
+      "choix": [
+        {
+          "code": "rien",
+          "libelle": "Rien ou un simple clic, et le tableau de bord s’allume faiblement ou pas du tout",
+          "resultat": "demarrage-batterie"
+        },
+        {
+          "code": "tourne",
+          "libelle": "Le démarreur tourne, mais le moteur ne se lance pas",
+          "resultat": "demarrage-lancement"
+        },
+        {
+          "code": "silence",
+          "libelle": "Le tableau de bord s’allume normalement, mais rien ne se passe",
+          "resultat": "demarrage-demarreur"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "demarrage-immobilise" }
+      ]
+    },
+    {
+      "code": "demarrage-quand",
+      "intitule": "Quand démarre-t-elle difficilement ?",
+      "choix": [
+        {
+          "code": "froid",
+          "libelle": "Surtout moteur froid, le matin",
+          "resultat": "demarrage-froid"
+        },
+        { "code": "chaud", "libelle": "Surtout moteur chaud", "resultat": "demarrage-chaud" },
+        {
+          "code": "toujours",
+          "libelle": "À chaque fois, et de plus en plus",
+          "resultat": "demarrage-usure"
+        },
+        {
+          "code": "ne-sais-pas",
+          "libelle": "Je ne sais pas",
+          "resultat": "demarrage-difficile-a-situer"
+        }
+      ]
+    },
+    {
+      "code": "freinage-changement",
+      "intitule": "Qu’est-ce qui a changé quand vous freinez ?",
+      "choix": [
+        {
+          "code": "bruit",
+          "libelle": "Un bruit : sifflement, grincement ou frottement",
+          "question": "frein-bruit"
+        },
+        {
+          "code": "efficacite",
+          "libelle": "Elle freine moins bien, il faut appuyer plus fort",
+          "resultat": "frein-efficacite"
+        },
+        {
+          "code": "vibre",
+          "libelle": "Le volant ou la pédale vibre",
+          "resultat": "frein-disques-voiles"
+        },
+        {
+          "code": "tire",
+          "libelle": "La voiture tire d’un côté",
+          "resultat": "frein-dissymetrique"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "freinage-a-situer" }
+      ]
+    },
+    {
+      "code": "autre-situation",
+      "intitule": "Qu’est-ce qui décrit le mieux la situation ?",
+      "choix": [
+        {
+          "code": "message",
+          "libelle": "Un message d’alerte s’affiche sur l’écran du tableau de bord",
+          "resultat": "autre-message"
+        },
+        {
+          "code": "comportement",
+          "libelle": "La voiture se comporte autrement (consommation, confort, tenue de route)",
+          "resultat": "autre-comportement"
+        },
+        {
+          "code": "normal",
+          "libelle": "Elle roule normalement, mais quelque chose m’inquiète",
+          "resultat": "autre-inquietude"
+        },
+        {
+          "code": "carrosserie",
+          "libelle": "Un choc, une bosse ou une rayure sur la carrosserie",
+          "question": "carrosserie-degat"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "autre-a-voir" }
+      ]
+    },
+    {
+      "code": "carrosserie-degat",
+      "intitule": "Que voyez-vous sur la carrosserie ?",
+      "aide": "Regardez la voiture à l’arrêt, moteur coupé, sans toucher une pièce qui pend.",
+      "choix": [
+        {
+          "code": "piece-pend",
+          "libelle": "Une pièce pend, frotte ou traîne, ou un feu est cassé",
+          "resultat": "carrosserie-securite"
+        },
+        {
+          "code": "bosse",
+          "libelle": "Une bosse ou un élément enfoncé, mais rien ne pend",
+          "resultat": "carrosserie-choc"
+        },
+        {
+          "code": "rayure",
+          "libelle": "Une rayure ou un éclat de peinture, sans plus",
+          "resultat": "carrosserie-rayure"
+        },
+        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "carrosserie-a-voir" }
+      ]
+    }
+  ],
+  "resultats": [
+    {
+      "code": "voyant-information",
+      "niveau": "sans-urgence",
+      "pistes": [
+        {
+          "texte": "Un voyant vert ou bleu indique qu’un équipement est en marche, comme les feux ou le régulateur de vitesse, et n’annonce pas de panne.",
+          "verification": "la signification de ce voyant sur votre modèle, lors d’un prochain passage."
+        }
+      ]
+    },
+    {
+      "code": "voyant-a-identifier",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un voyant orange ou rouge qui reste allumé signale un défaut enregistré par un calculateur de la voiture.",
+          "verification": "l’identification du voyant avec vous et la lecture des codes défaut à la valise."
+        }
+      ]
+    },
+    {
+      "code": "voyant-moteur",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un défaut d’allumage ou d’injection, qui peut augmenter la consommation et abîmer le catalyseur s’il dure.",
+          "verification": "la lecture des codes défaut à la valise, puis les bougies, les bobines d’allumage ou les injecteurs selon le moteur."
+        },
+        {
+          "texte": "Un capteur qui envoie une mesure incohérente au calculateur, comme la sonde de température ou le débitmètre d’air.",
+          "verification": "le capteur désigné par les codes défaut, son branchement et son câblage."
+        },
+        {
+          "texte": "Un défaut du système antipollution, par exemple sur la vanne de recirculation des gaz d’échappement ou sur le filtre à particules d’un diesel.",
+          "verification": "l’état et le fonctionnement de la vanne et du filtre, par des mesures et un essai sur route.",
+          "famille": "echappement"
+        }
+      ]
+    },
+    {
+      "code": "voyant-prechauffage",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Des bougies de préchauffage usées, qui rendent les démarrages à froid difficiles.",
+          "verification": "la résistance de chaque bougie de préchauffage et le relais qui les commande."
+        },
+        {
+          "texte": "Un défaut de gestion du moteur, que certains diesels signalent par ce voyant quand il clignote en roulant.",
+          "verification": "la lecture des codes défaut à la valise."
+        }
+      ]
+    },
+    {
+      "code": "voyant-pression-pneus",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un pneu sous-gonflé ou une crevaison lente, par un clou, une valve ou une jante abîmée.",
+          "verification": "la pression des quatre pneus à froid et la recherche d’une fuite.",
+          "famille": "pneus"
+        },
+        {
+          "texte": "Un capteur de pression dont la pile s’use avec les années.",
+          "verification": "la lecture de chaque capteur avec l’outil adapté.",
+          "famille": "pneus"
+        }
+      ]
+    },
+    {
+      "code": "voyant-abs",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un capteur de vitesse de roue encrassé ou abîmé, qui laisse les freins fonctionner mais sans l’antiblocage des roues.",
+          "verification": "la lecture des codes défaut, puis le capteur et sa couronne sur la roue désignée."
+        },
+        {
+          "texte": "Un défaut du bloc ABS ou de son alimentation électrique.",
+          "verification": "le calculateur ABS, ses fusibles et son branchement."
+        }
+      ]
+    },
+    {
+      "code": "voyant-entretien",
+      "niveau": "sans-urgence",
+      "pistes": [
+        {
+          "texte": "L’échéance d’entretien programmée approche ou est dépassée, ce qui n’annonce pas une panne.",
+          "verification": "le kilométrage, la date de la dernière révision et le programme d’entretien prévu par le constructeur."
+        }
+      ]
+    },
+    {
+      "code": "voyant-orange-a-identifier",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un voyant orange signale un défaut à faire contrôler avant qu’il ne s’aggrave.",
+          "verification": "l’identification du voyant avec vous et la lecture des codes défaut à la valise."
+        }
+      ]
+    },
+    {
+      "code": "voyant-oubli",
+      "niveau": "sans-urgence",
+      "pistes": [
+        {
+          "texte": "Le voyant signalait un oubli, corrigé depuis, et non une panne.",
+          "verification": "le contacteur concerné, seulement si le voyant revient sans raison."
+        }
+      ]
+    },
+    {
+      "code": "voyant-rouge-persistant",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Un voyant rouge qui reste allumé signale un défaut que le constructeur demande de traiter avant de reprendre la route.",
+          "verification": "l’identification du voyant avec vous, la lecture des codes défaut et le contrôle des niveaux."
+        }
+      ]
+    },
+    {
+      "code": "bruit-virage",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un cardan de transmission usé, qui claque en braquant, souvent parce que son soufflet de protection est déchiré.",
+          "verification": "l’état des soufflets et le jeu des cardans, en braquant à fond lors d’un essai à basse vitesse."
+        },
+        {
+          "texte": "Une rotule ou un silentbloc du train avant fatigué.",
+          "verification": "le jeu des rotules et l’état des silentblocs, voiture levée.",
+          "famille": "amortisseurs-et-suspension"
+        }
+      ]
+    },
+    {
+      "code": "bruit-roulement",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un roulement de roue usé, qui gronde de plus en plus fort avec la vitesse.",
+          "verification": "le jeu et le bruit de rotation de chaque roue, voiture levée."
+        },
+        {
+          "texte": "Un pneu usé de façon irrégulière, qui produit un bruit semblable.",
+          "verification": "l’usure et l’état des quatre pneus.",
+          "famille": "pneus"
+        }
+      ]
+    },
+    {
+      "code": "bruit-suspension",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une biellette de barre stabilisatrice ou un silentbloc usé, qui claque sur les bosses.",
+          "verification": "le jeu des biellettes et l’état des silentblocs, voiture levée.",
+          "famille": "amortisseurs-et-suspension"
+        },
+        {
+          "texte": "Un amortisseur ou une coupelle d’amortisseur fatigué.",
+          "verification": "l’efficacité et l’étanchéité des amortisseurs, et l’état des coupelles.",
+          "famille": "amortisseurs-et-suspension"
+        },
+        {
+          "texte": "Une pièce desserrée sous la voiture, comme l’échappement ou un écran de protection.",
+          "verification": "les fixations de l’échappement et des protections sous la caisse.",
+          "famille": "echappement"
+        }
+      ]
+    },
+    {
+      "code": "bruit-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un bruit de roue, de suspension, de frein ou de moteur, que l’atelier doit entendre pour le situer.",
+          "verification": "un essai sur route avec vous pour reproduire le bruit, puis la pièce en cause, voiture levée."
+        }
+      ]
+    },
+    {
+      "code": "frein-sifflement",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Des plaquettes de frein arrivées à leur témoin d’usure, qui siffle pour le signaler.",
+          "verification": "l’épaisseur des plaquettes et l’état des disques, roues déposées.",
+          "famille": "freinage"
+        },
+        {
+          "texte": "Des plaquettes ou des disques encrassés, ou durcis par une surchauffe.",
+          "verification": "l’état de surface des plaquettes et des disques.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "frein-metal",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Des plaquettes usées jusqu’au métal, qui attaquent le disque et allongent la distance de freinage.",
+          "verification": "l’épaisseur des plaquettes et l’état des disques, souvent à remplacer en même temps.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "frein-claquement",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une plaquette qui bouge dans son logement, ou une agrafe de maintien absente.",
+          "verification": "le montage des plaquettes, leurs agrafes et la fixation de l’étrier.",
+          "famille": "freinage"
+        },
+        {
+          "texte": "Un jeu dans le train avant, qui se révèle au freinage.",
+          "verification": "le jeu des rotules et l’état des silentblocs, voiture levée.",
+          "famille": "amortisseurs-et-suspension"
+        }
+      ]
+    },
+    {
+      "code": "frein-bruit-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Des plaquettes usées ou un disque abîmé.",
+          "verification": "l’épaisseur des plaquettes et l’état des disques, roues déposées.",
+          "famille": "freinage"
+        },
+        {
+          "texte": "Une pièce de fixation du frein desserrée ou absente.",
+          "verification": "la fixation des étriers et la présence des agrafes.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "moteur-courroie",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une courroie d’accessoires usée ou détendue, qui patine sur ses poulies.",
+          "verification": "l’état et la tension de la courroie d’accessoires.",
+          "famille": "demarrage-et-charge"
+        },
+        {
+          "texte": "Un galet tendeur ou enrouleur en fin de vie.",
+          "verification": "le bruit et le jeu des galets, moteur tournant.",
+          "famille": "demarrage-et-charge"
+        }
+      ]
+    },
+    {
+      "code": "moteur-cliquetis",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un niveau d’huile trop bas, qui graisse mal le haut du moteur.",
+          "verification": "le niveau et l’état de l’huile, et la date de la dernière vidange.",
+          "famille": "vidange-et-filtres"
+        },
+        {
+          "texte": "Des poussoirs ou une distribution qui prennent du jeu.",
+          "verification": "l’écoute du moteur et le jeu de la distribution.",
+          "famille": "distribution"
+        }
+      ]
+    },
+    {
+      "code": "moteur-echappement",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un échappement percé ou un joint d’échappement qui fuit.",
+          "verification": "l’étanchéité de la ligne d’échappement et de ses joints, voiture levée.",
+          "famille": "echappement"
+        },
+        {
+          "texte": "Une fixation d’échappement cassée, qui laisse la ligne toucher la caisse.",
+          "verification": "les supports et les silentblocs de l’échappement.",
+          "famille": "echappement"
+        }
+      ]
+    },
+    {
+      "code": "moteur-cognement",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Un cognement grave dans le moteur, qui peut annoncer une casse s’il continue de tourner.",
+          "verification": "la pression et le niveau d’huile, et l’écoute du bas du moteur."
+        }
+      ]
+    },
+    {
+      "code": "moteur-bruit-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une courroie ou un galet d’accessoires fatigué.",
+          "verification": "l’état et la tension de la courroie, et le jeu des galets.",
+          "famille": "demarrage-et-charge"
+        },
+        {
+          "texte": "Un manque d’huile ou un échappement qui fuit.",
+          "verification": "le niveau d’huile et l’étanchéité de l’échappement."
+        }
+      ]
+    },
+    {
+      "code": "vibrations-equilibrage",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une roue mal équilibrée, qui fait vibrer le volant à partir d’une certaine vitesse.",
+          "verification": "l’équilibrage des roues sur la machine.",
+          "famille": "pneus"
+        },
+        {
+          "texte": "Une jante voilée ou un pneu déformé après un choc contre un trottoir ou un nid-de-poule.",
+          "verification": "le voile des jantes et l’état des flancs des pneus.",
+          "famille": "pneus"
+        }
+      ]
+    },
+    {
+      "code": "frein-disques-voiles",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Des disques de frein voilés ou usés de façon irrégulière.",
+          "verification": "le voile et l’épaisseur des disques, et l’état des plaquettes.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "vibrations-moteur",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un cylindre qui fonctionne mal, à cause d’une bougie, d’une bobine d’allumage ou d’un injecteur.",
+          "verification": "la lecture des codes défaut, puis l’allumage ou l’injection du cylindre en cause."
+        },
+        {
+          "texte": "Un support moteur usé, qui transmet les vibrations à la caisse.",
+          "verification": "l’état des supports du moteur et de la boîte de vitesses."
+        }
+      ]
+    },
+    {
+      "code": "vibrations-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une roue, un pneu ou un disque de frein déformé.",
+          "verification": "l’équilibrage des roues, l’état des pneus et le voile des disques."
+        },
+        {
+          "texte": "Un support moteur usé ou un cylindre qui fonctionne mal.",
+          "verification": "les supports du moteur et la lecture des codes défaut."
+        }
+      ]
+    },
+    {
+      "code": "frein-dissymetrique",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un étrier de frein grippé, qui freine plus d’un côté que de l’autre.",
+          "verification": "l’efficacité du freinage roue par roue et l’état des étriers et des flexibles.",
+          "famille": "freinage"
+        },
+        {
+          "texte": "Des plaquettes usées ou encrassées de façon inégale.",
+          "verification": "l’état des plaquettes et des disques des deux côtés.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "tire-geometrie",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un pneu sous-gonflé ou usé d’un seul côté.",
+          "verification": "la pression et l’usure des quatre pneus.",
+          "famille": "pneus"
+        },
+        {
+          "texte": "Un parallélisme déréglé, souvent après un choc contre un trottoir ou un nid-de-poule.",
+          "verification": "la géométrie du train avant sur le banc de parallélisme.",
+          "famille": "pneus"
+        },
+        {
+          "texte": "Un frein qui reste légèrement serré sur une roue.",
+          "verification": "la libre rotation de chaque roue et la chaleur des freins après un essai.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "tire-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un pneu sous-gonflé ou usé de façon inégale.",
+          "verification": "la pression et l’usure des quatre pneus.",
+          "famille": "pneus"
+        },
+        {
+          "texte": "Un parallélisme déréglé.",
+          "verification": "la géométrie du train avant sur le banc de parallélisme.",
+          "famille": "pneus"
+        },
+        {
+          "texte": "Un frein qui serre plus d’un côté que de l’autre.",
+          "verification": "l’efficacité du freinage roue par roue.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "fuite-carburant",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Une fuite de carburant sur une durite, un raccord ou le réservoir, avec un risque d’incendie.",
+          "verification": "l’étanchéité du circuit de carburant, du réservoir jusqu’au moteur."
+        }
+      ]
+    },
+    {
+      "code": "odeur-chauffage",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une fuite de liquide de refroidissement au radiateur de chauffage, derrière le tableau de bord.",
+          "verification": "le niveau du liquide de refroidissement et l’étanchéité du circuit, moteur froid."
+        }
+      ]
+    },
+    {
+      "code": "odeur-climatisation",
+      "niveau": "sans-urgence",
+      "pistes": [
+        {
+          "texte": "Un filtre d’habitacle encrassé ou un circuit de climatisation humide où se développent des moisissures.",
+          "verification": "l’état du filtre d’habitacle et l’assainissement du circuit de climatisation.",
+          "famille": "climatisation"
+        }
+      ]
+    },
+    {
+      "code": "fuite-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une fuite d’huile, de liquide de refroidissement ou de carburant, à localiser sur la voiture.",
+          "verification": "l’origine de la fuite ou de l’odeur, voiture levée, et le niveau de chaque liquide."
+        }
+      ]
+    },
+    {
+      "code": "fuite-condensation",
+      "niveau": "sans-urgence",
+      "pistes": [
+        {
+          "texte": "De l’eau de condensation de la climatisation, qui s’écoule normalement sous la voiture par temps chaud.",
+          "verification": "la nature du liquide et le bon écoulement de la climatisation, lors d’un prochain passage.",
+          "famille": "climatisation"
+        }
+      ]
+    },
+    {
+      "code": "fuite-huile",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une fuite d’huile moteur par un joint, le carter ou le bouchon de vidange.",
+          "verification": "l’origine de la fuite, voiture levée, et le niveau d’huile.",
+          "famille": "vidange-et-filtres"
+        },
+        {
+          "texte": "Une fuite d’huile de boîte de vitesses.",
+          "verification": "l’étanchéité de la boîte et des joints de sortie de transmission."
+        }
+      ]
+    },
+    {
+      "code": "fuite-refroidissement",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une fuite de liquide de refroidissement par une durite, le radiateur ou la pompe à eau.",
+          "verification": "l’étanchéité du circuit de refroidissement sous pression, moteur froid."
+        }
+      ]
+    },
+    {
+      "code": "fuite-frein",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Une fuite de liquide de frein sur un flexible, un étrier ou un cylindre de roue, qui peut faire perdre le freinage.",
+          "verification": "l’étanchéité du circuit de freinage et le niveau du liquide de frein.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "fuite-boite-direction",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une fuite de liquide de boîte automatique ou de direction assistée.",
+          "verification": "l’origine de la fuite et les niveaux de la boîte et de la direction assistée."
+        }
+      ]
+    },
+    {
+      "code": "flaque-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une fuite d’huile moteur ou de boîte de vitesses.",
+          "verification": "l’origine de la fuite, voiture levée, et le niveau d’huile."
+        },
+        {
+          "texte": "Une fuite de liquide de refroidissement.",
+          "verification": "l’étanchéité du circuit de refroidissement, moteur froid."
+        },
+        {
+          "texte": "Une fuite de liquide de frein, la plus grave des trois.",
+          "verification": "l’étanchéité du circuit de freinage et le niveau du liquide de frein, en premier.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "fumee-vapeur",
+      "niveau": "sans-urgence",
+      "pistes": [
+        {
+          "texte": "De la vapeur d’eau de condensation, normale au démarrage par temps frais.",
+          "verification": "l’aspect de la fumée moteur chaud, lors d’un prochain passage."
+        }
+      ]
+    },
+    {
+      "code": "fumee-blanche",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Du liquide de refroidissement qui brûle dans le moteur, par exemple à cause d’un joint de culasse abîmé.",
+          "verification": "le niveau de liquide de refroidissement, la présence de gaz dans le circuit et la compression des cylindres."
+        }
+      ]
+    },
+    {
+      "code": "fumee-bleue",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un moteur qui consomme de l’huile, par des segments, des joints de soupapes ou un turbo usés.",
+          "verification": "la consommation d’huile, l’état du turbo et la compression des cylindres."
+        }
+      ]
+    },
+    {
+      "code": "fumee-noire",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un excès de carburant à la combustion, dû par exemple à un filtre à air encrassé, un injecteur qui fuit ou un défaut de turbo.",
+          "verification": "le filtre à air, la lecture des codes défaut, les injecteurs et le turbo."
+        }
+      ]
+    },
+    {
+      "code": "fumee-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un moteur qui brûle de l’huile ou du liquide de refroidissement.",
+          "verification": "les niveaux d’huile et de liquide de refroidissement, et la compression des cylindres."
+        },
+        {
+          "texte": "Un excès de carburant à la combustion.",
+          "verification": "le filtre à air, les injecteurs et la lecture des codes défaut."
+        }
+      ]
+    },
+    {
+      "code": "demarrage-calage",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un défaut d’alimentation en carburant ou en air, par une pompe, un filtre, un capteur ou un boîtier papillon encrassé.",
+          "verification": "la lecture des codes défaut, la pression de carburant et l’état du boîtier papillon."
+        }
+      ]
+    },
+    {
+      "code": "demarrage-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une batterie fatiguée ou un démarreur qui peine.",
+          "verification": "le test de la batterie, de l’alternateur et du démarreur.",
+          "famille": "batterie"
+        },
+        {
+          "texte": "Un défaut d’alimentation en carburant ou d’allumage.",
+          "verification": "la lecture des codes défaut et la pression de carburant."
+        }
+      ]
+    },
+    {
+      "code": "demarrage-batterie",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Une batterie déchargée ou en fin de vie, surtout après un froid, un long arrêt ou des trajets courts.",
+          "verification": "le test de la batterie et de sa recharge par l’alternateur.",
+          "famille": "batterie"
+        },
+        {
+          "texte": "Des cosses de batterie oxydées ou desserrées.",
+          "verification": "l’état et le serrage des cosses et du câble de masse.",
+          "famille": "batterie"
+        }
+      ]
+    },
+    {
+      "code": "demarrage-lancement",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Un défaut d’alimentation en carburant, par la pompe, le filtre ou un réservoir presque vide malgré la jauge.",
+          "verification": "la pression d’alimentation en carburant et la lecture des codes défaut."
+        },
+        {
+          "texte": "Un défaut d’allumage, ou de préchauffage sur un diesel.",
+          "verification": "l’allumage ou les bougies de préchauffage selon le moteur."
+        },
+        {
+          "texte": "Une courroie de distribution cassée, qu’un démarreur sollicité encore et encore peut transformer en casse moteur.",
+          "verification": "l’état de la courroie de distribution, avant tout nouvel essai de démarrage.",
+          "famille": "distribution"
+        }
+      ]
+    },
+    {
+      "code": "demarrage-demarreur",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Un démarreur ou son relais en panne.",
+          "verification": "l’alimentation et le fonctionnement du démarreur et de son relais.",
+          "famille": "demarrage-et-charge"
+        },
+        {
+          "texte": "Une sécurité qui bloque le démarrage, comme le levier d’une boîte automatique hors de la position P, la pédale d’embrayage relâchée ou l’antidémarrage.",
+          "verification": "les contacteurs de sécurité et l’antidémarrage, par la lecture des codes défaut."
+        }
+      ]
+    },
+    {
+      "code": "demarrage-immobilise",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Une batterie déchargée ou un démarreur en panne.",
+          "verification": "le test de la batterie et du démarreur.",
+          "famille": "batterie"
+        },
+        {
+          "texte": "Un défaut d’alimentation en carburant ou d’allumage.",
+          "verification": "la lecture des codes défaut et la pression de carburant."
+        }
+      ]
+    },
+    {
+      "code": "demarrage-froid",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une batterie fatiguée, qui peine par temps froid.",
+          "verification": "le test de la batterie et de sa recharge par l’alternateur.",
+          "famille": "batterie"
+        },
+        {
+          "texte": "Des bougies de préchauffage usées, sur un moteur diesel.",
+          "verification": "la résistance des bougies de préchauffage et leur relais."
+        }
+      ]
+    },
+    {
+      "code": "demarrage-chaud",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une sonde de température du moteur qui envoie une mauvaise mesure au calculateur.",
+          "verification": "la lecture des codes défaut et la sonde de température."
+        },
+        {
+          "texte": "Un démarreur qui peine quand il chauffe.",
+          "verification": "le courant absorbé par le démarreur et son fonctionnement moteur chaud.",
+          "famille": "demarrage-et-charge"
+        }
+      ]
+    },
+    {
+      "code": "demarrage-usure",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une batterie ou un démarreur en fin de vie.",
+          "verification": "le test de la batterie, de l’alternateur et du démarreur.",
+          "famille": "batterie"
+        },
+        {
+          "texte": "Un défaut d’alimentation en carburant, comme un filtre encrassé ou une pompe fatiguée.",
+          "verification": "la pression de carburant et l’état du filtre."
+        }
+      ]
+    },
+    {
+      "code": "demarrage-difficile-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une batterie fatiguée, ou des bougies de préchauffage usées sur un diesel.",
+          "verification": "le test de la batterie et des bougies de préchauffage.",
+          "famille": "batterie"
+        },
+        {
+          "texte": "Un défaut d’alimentation en carburant.",
+          "verification": "la pression de carburant et la lecture des codes défaut."
+        }
+      ]
+    },
+    {
+      "code": "frein-efficacite",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Des plaquettes ou des disques très usés.",
+          "verification": "l’épaisseur des plaquettes et des disques, roues déposées.",
+          "famille": "freinage"
+        },
+        {
+          "texte": "Un liquide de frein vieilli, qui a pris l’humidité et perd de son efficacité quand il chauffe.",
+          "verification": "l’état du liquide de frein et la date de sa dernière vidange.",
+          "famille": "freinage"
+        },
+        {
+          "texte": "Un défaut de l’assistance de freinage, comme le servofrein ou sa pompe à vide sur un diesel.",
+          "verification": "le fonctionnement du servofrein et de sa dépression.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "freinage-a-situer",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Des plaquettes ou des disques usés.",
+          "verification": "l’épaisseur des plaquettes et l’état des disques, roues déposées.",
+          "famille": "freinage"
+        },
+        {
+          "texte": "Un étrier de frein grippé ou un liquide de frein vieilli.",
+          "verification": "l’état des étriers et du liquide de frein.",
+          "famille": "freinage"
+        }
+      ]
+    },
+    {
+      "code": "autre-message",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Une alerte enregistrée par un calculateur de la voiture.",
+          "verification": "la lecture des codes défaut et des messages enregistrés, puis l’organe signalé."
+        }
+      ]
+    },
+    {
+      "code": "autre-comportement",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un changement de comportement lié à l’usure d’une pièce, à retrouver avant qu’elle ne s’aggrave.",
+          "verification": "un essai sur route avec vous, la lecture des codes défaut et les pièces d’usure."
+        }
+      ]
+    },
+    {
+      "code": "autre-inquietude",
+      "niveau": "sans-urgence",
+      "pistes": [
+        {
+          "texte": "Un détail à décrire au garagiste lors d’un prochain passage.",
+          "verification": "ce que vous avez remarqué, avec vous, lors d’un essai ou voiture levée."
+        }
+      ]
+    },
+    {
+      "code": "autre-a-voir",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un souci que l’atelier doit voir sur la voiture pour le situer.",
+          "verification": "un essai sur route avec vous et la lecture des codes défaut."
+        }
+      ]
+    },
+    {
+      "code": "carrosserie-securite",
+      "niveau": "ne-pas-rouler",
+      "pistes": [
+        {
+          "texte": "Une pièce de carrosserie détachée, comme un pare-chocs ou un écran de protection, qui peut tomber sur la route ou toucher une roue.",
+          "verification": "la fixation de chaque élément touché et les pièces situées derrière, avant de chiffrer la réparation.",
+          "famille": "carrosserie"
+        },
+        {
+          "texte": "Un feu cassé, qui empêche de bien voir ou d’être vu, de nuit comme par mauvais temps.",
+          "verification": "l’état du bloc optique, de son ampoule et le réglage du faisceau.",
+          "famille": "eclairage"
+        }
+      ]
+    },
+    {
+      "code": "carrosserie-choc",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un élément de carrosserie enfoncé, qui peut cacher une fixation, un radiateur ou un capteur abîmé derrière lui.",
+          "verification": "l’élément touché et les pièces situées derrière, avant de chiffrer la réparation.",
+          "famille": "carrosserie"
+        },
+        {
+          "texte": "Un choc près d’une roue, qui peut dérégler le parallélisme ou abîmer la suspension.",
+          "verification": "la géométrie du train roulant et l’état de la suspension du côté touché.",
+          "famille": "amortisseurs-et-suspension"
+        }
+      ]
+    },
+    {
+      "code": "carrosserie-rayure",
+      "niveau": "sans-urgence",
+      "pistes": [
+        {
+          "texte": "Un dégât de peinture, à traiter avant que la rouille ne gagne la tôle mise à nu.",
+          "verification": "la profondeur de la rayure et la réparation qui convient, lors d’un prochain passage.",
+          "famille": "carrosserie"
+        }
+      ]
+    },
+    {
+      "code": "carrosserie-a-voir",
+      "niveau": "a-controler",
+      "pistes": [
+        {
+          "texte": "Un dégât que l’atelier doit voir sur la voiture pour l’évaluer.",
+          "verification": "l’élément touché, ses fixations et les pièces situées derrière.",
+          "famille": "carrosserie"
+        }
+      ]
+    }
+  ]
+}

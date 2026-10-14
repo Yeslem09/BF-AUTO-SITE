@@ -1,0 +1,270 @@
+/*
+ * Accueil (structure V3, décisions d'Anthony du 2026-09-23 ; colonnes
+ * rééquilibrées après le jury de la passe 1).
+ *
+ * Le document suit l'ordre du téléphone : statut, accroche et activités,
+ * question 1 du pré-diagnostic, pièces détachées, raccourcis, puis la grille
+ * des familles en pleine largeur, l'atelier (avec la Fig. 1), les questions,
+ * le garage, le rappel et l'encart. Au bureau, la grille replace :
+ * - bande d'ouverture sombre : accroche sur une ligne en tête, pièces
+ *   détachées à gauche, plaque de la question 1 à droite ;
+ * - grille des familles en pleine largeur juste dessous ;
+ * - deux colonnes de panneaux blancs sur le béton, de hauteurs voisines : à
+ *   gauche l'atelier puis les questions ; à droite le garage, le rappel puis
+ *   l'encart. Aucune colonne ne laisse d'écran vide (tests/e2e/design.spec.ts).
+ * Une zone absente n'est pas rendue ; une colonne vide non plus.
+ */
+
+/* Bande d'ouverture */
+
+.ouverture {
+  padding-block: var(--espace-4) var(--espace-5);
+  border-bottom: var(--bordure-fine) solid var(--accent);
+  background-color: var(--fond-ouverture);
+}
+
+.ouverture__grille {
+  display: grid;
+  gap: var(--espace-5);
+}
+
+.ouverture__tete > * + * {
+  margin-top: var(--espace-2);
+}
+
+/* Sur téléphone, le titre de page reste pour les lecteurs d'écran et les
+   moteurs ; la place va à la question 1. */
+.ouverture__titre {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* L'accroche tient en une ligne au bureau : lieu, promesse, chute à l'accent. */
+.accroche {
+  color: var(--texte-titre);
+  font-size: var(--taille-accroche);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-serre);
+  letter-spacing: var(--interlettrage-titre);
+  text-wrap: balance;
+}
+
+.accroche__lieu {
+  color: var(--texte-doux);
+  font-weight: var(--graisse-normale);
+}
+
+.accroche__insecable {
+  white-space: nowrap;
+}
+
+/* Sur téléphone, l'accroche fait 20 px : l'orange atelier n'y atteint pas
+   4,5:1 sur le graphite, l'orange clair si. Grand texte (24 px) dès 768 px :
+   l'orange atelier y suffit. */
+.accroche__chute {
+  color: var(--accent-texte);
+  font-style: normal;
+}
+
+/* Ce que fait le garage, sous l'accroche. */
+.accroche__activites {
+  max-width: var(--mesure);
+  color: var(--texte-doux);
+  font-size: var(--taille-plus);
+  line-height: var(--interligne-serre);
+}
+
+.ouverture__pieces {
+  display: grid;
+  align-content: start;
+  gap: var(--espace-5);
+}
+
+.raccourcis .bouton-choix__aide {
+  display: none;
+}
+
+.raccourcis__liste {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+}
+
+@media (min-width: 48rem) {
+  .ouverture {
+    padding-block: var(--espace-6) var(--espace-7);
+  }
+
+  .ouverture__grille {
+    gap: var(--espace-6);
+  }
+
+  .ouverture__titre {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+
+  .raccourcis .bouton-choix__aide {
+    display: block;
+  }
+
+  .accroche__chute {
+    color: var(--accent-grand-texte);
+  }
+}
+
+@media (min-width: 64rem) {
+  .ouverture--avec-plaque .ouverture__grille {
+    grid-template-areas:
+      'tete tete'
+      'pieces plaque';
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--espace-6) var(--espace-8);
+  }
+
+  /* Tant que le catalogue ne fournit pas les pièces de la bande, l'accroche et
+     les raccourcis se centrent en hauteur face à la plaque : aucun blanc mort. */
+  .ouverture--avec-plaque:not(:has(.accueil__zone--recherche-pieces)) .ouverture__grille {
+    grid-template-areas:
+      '. plaque'
+      'tete plaque'
+      'pieces plaque'
+      '. plaque';
+    grid-template-rows: 1fr auto auto 1fr;
+  }
+
+  /* Les aires ne valent que dans la variante qui les déclare : sans plaque, la
+     bande reste une seule colonne (sinon tout s'empilerait au même endroit). */
+  .ouverture--avec-plaque .ouverture__tete {
+    grid-area: tete;
+  }
+
+  .ouverture--avec-plaque .ouverture__pieces {
+    grid-area: pieces;
+    gap: var(--espace-6);
+  }
+
+  .ouverture--avec-plaque .accueil__zone--pre-diagnostic {
+    grid-area: plaque;
+    align-self: start;
+  }
+}
+
+/* Grille des familles, pleine largeur, juste sous la bande */
+
+.accueil__pleine-largeur {
+  padding-top: var(--espace-6);
+}
+
+@media (min-width: 48rem) {
+  .accueil__pleine-largeur {
+    padding-top: var(--espace-7);
+  }
+}
+
+/* Partie claire : colonnes de panneaux blancs sur le béton */
+
+.accueil__jour {
+  padding-block: var(--espace-5) var(--espace-7);
+}
+
+.accueil__colonnes,
+.accueil__colonne {
+  display: grid;
+  align-content: start;
+  gap: var(--espace-4);
+  min-width: 0;
+}
+
+.accueil__zone {
+  min-width: 0;
+}
+
+/* Chaque zone des colonnes est un panneau ; l'encart porte déjà son cadre. */
+.accueil__colonne > .accueil__zone {
+  padding: var(--espace-5) var(--espace-4);
+  border: var(--bordure-fine) solid var(--bord-panneau);
+  border-radius: var(--rayon-1);
+  background: var(--fond-panneau);
+}
+
+/* Un bloc qui apporte sa propre carte ne se retrouve pas encadré deux fois,
+   ni dans un panneau des colonnes, ni dans la plaque de la bande. */
+.accueil__colonne > .accueil__zone > .carte,
+.plaque__filet > .carte {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+/* La Fig. 1 se lit en grand dans le bloc atelier. */
+.accueil__figure {
+  margin-top: var(--espace-6);
+}
+
+.accueil__figure .figure-technique {
+  max-width: none;
+}
+
+@media (min-width: 48rem) {
+  .accueil__jour {
+    padding-block: var(--espace-7) var(--espace-8);
+  }
+
+  /* Deux colonnes de hauteurs voisines : à gauche l'atelier (et sa Fig. 1)
+     puis les questions ; à droite le garage, le rappel puis l'encart. Depuis
+     les prix d'exemple de l'atelier (passe 1 du jury), l'encart sous les
+     questions laissait 500 px vides sous le rappel. Mesuré sur l'accueil réel
+     de 768 à 1440 px : moins de 180 px d'écart entre les deux pieds de colonne. */
+  .accueil__colonnes {
+    grid-template-areas:
+      'gauche droite'
+      'gauche encart';
+    grid-template-rows: auto 1fr;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: var(--espace-5);
+  }
+
+  .accueil__colonne {
+    gap: var(--espace-5);
+  }
+
+  .accueil__colonne > .accueil__zone {
+    padding: var(--espace-6);
+  }
+
+  .accueil__colonne--gauche {
+    grid-area: gauche;
+  }
+
+  .accueil__colonne--droite {
+    grid-area: droite;
+  }
+
+  .accueil__zone--encart {
+    grid-area: encart;
+    align-self: start;
+  }
+
+  /* Une colonne seule prend toute la largeur, l'encart dessous. */
+  .accueil__colonnes:not(:has(> .accueil__colonne--droite)) {
+    grid-template-areas:
+      'gauche'
+      'encart';
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .accueil__colonnes:not(:has(> .accueil__colonne--gauche)) {
+    grid-template-areas:
+      'droite'
+      'encart';
+    grid-template-rows: auto auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

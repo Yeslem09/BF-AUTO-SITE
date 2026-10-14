@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "target": "ES2020",
+    "allowJs": false,
+    "checkJs": false,
+    "types": []
+  },
+  "include": ["src/web/client/**/*.ts", "src/contextes/*/adaptateurs/web/client/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

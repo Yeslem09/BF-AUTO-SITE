@@ -1,0 +1,455 @@
+/*
+ * Styles propres au contexte catalogue. Tout le reste vient des composants
+ * communs (recherche, puces et grille des familles, figure technique,
+ * tableau de tarifs, cartes, fil d'Ariane) : ici seulement la mise en page
+ * des pages du catalogue. Classes préfixées « catalogue- », couleurs par les
+ * seuls jetons, aucune ombre.
+ */
+
+/* Bande d'ouverture de l'accueil : le titre et sa ligne d'offre, la
+   recherche, douze familles en puces, le lien vers toutes les familles. Au
+   bureau, la colonne descend ainsi jusqu'au pied de la plaque du
+   pré-diagnostic, à sa droite (tests/e2e/design.spec.ts) ; sur téléphone,
+   six puces seulement : le premier écran reste court. */
+
+.catalogue-bande > .catalogue-bande__offre {
+  margin-top: var(--espace-2);
+  color: var(--texte-doux);
+}
+
+.catalogue-bande > .recherche {
+  margin-top: var(--espace-5);
+}
+
+.catalogue-bande > .catalogue-bande__toutes {
+  margin-top: var(--espace-4);
+}
+
+/* Lien isolé : cible tactile de 44 px (P-04). */
+.catalogue-bande__toutes a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+  font-weight: var(--graisse-demi);
+}
+
+@media (max-width: 47.99rem) {
+  .catalogue-bande__puce-bureau {
+    display: none;
+  }
+}
+
+/* Au bureau, la plaque voisine perd des lignes en s'élargissant : les puces
+   gardent cinq rangées jusqu'à 86 rem, puis passent à quatre quand la plaque
+   atteint sa hauteur la plus courte. Mesuré de 1024 à 1920 px : 40 px d'écart
+   au plus entre les deux pieds de colonne. */
+@media (min-width: 64rem) and (max-width: 85.99rem) {
+  .catalogue-bande > .puces-familles {
+    max-width: 39rem;
+  }
+}
+
+/* Sur téléphone, deux cartes par rangée : les dix-huit familles tiennent en
+   neuf rangées au lieu de dix-huit écrans de haut. */
+@media (max-width: 29.99rem) {
+  .grille-familles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Liste des familles : recherche et résultats, puis la grille complète. */
+
+.catalogue-recherche > .recherche {
+  max-width: 40rem;
+}
+
+.catalogue-resultats--vide,
+.catalogue-encarts > .carte {
+  max-width: var(--mesure);
+}
+
+.catalogue-renvois {
+  display: grid;
+  gap: var(--espace-1);
+  color: var(--texte-doux);
+}
+
+/* Liens isolés : cible tactile de 44 px (P-04), le texte reste sur sa ligne. */
+.catalogue-renvois a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+}
+
+.catalogue-exclusions {
+  display: grid;
+  gap: var(--espace-2);
+}
+
+.catalogue-exclusions li,
+.catalogue-signes li {
+  padding-left: var(--espace-4);
+  border-left: var(--epaisseur-repere) solid var(--bordure);
+}
+
+/* Page d'une famille : sur téléphone, à quoi ça sert, la figure, ses pièces,
+   le prix, les offres, les signes d'usure. Au bureau, la figure à gauche, le
+   reste à droite, puis les offres en pleine largeur. */
+
+.catalogue-fiche {
+  display: grid;
+  gap: var(--espace-6);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.catalogue-fiche__mots {
+  color: var(--texte-doux);
+  font-weight: var(--graisse-demi);
+}
+
+.catalogue-fiche__figure .figure-technique {
+  max-width: none;
+}
+
+@media (min-width: 64rem) {
+  .catalogue-fiche {
+    grid-template-areas:
+      'figure role'
+      'figure pieces'
+      'figure prix'
+      'offres offres'
+      'signes renvois';
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--espace-6) var(--espace-7);
+    align-items: start;
+  }
+
+  .catalogue-fiche--sans-figure {
+    grid-template-areas:
+      'role prix'
+      'offres offres'
+      'signes renvois';
+    grid-template-rows: auto;
+  }
+
+  .catalogue-fiche__role {
+    grid-area: role;
+  }
+
+  .catalogue-fiche__figure {
+    grid-area: figure;
+  }
+
+  .catalogue-fiche__pieces {
+    grid-area: pieces;
+  }
+
+  .catalogue-fiche__prix {
+    grid-area: prix;
+  }
+
+  .catalogue-fiche__offres {
+    grid-area: offres;
+  }
+
+  .catalogue-fiche__signes {
+    grid-area: signes;
+  }
+
+  .catalogue-fiche__renvois {
+    grid-area: renvois;
+  }
+}
+
+/* Nomenclature : le numéro de chaque pièce, dans la même pastille que les
+   repères de la figure. */
+
+.catalogue-nomenclature {
+  display: grid;
+  gap: var(--espace-2);
+}
+
+.catalogue-nomenclature li {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-3);
+}
+
+.catalogue-nomenclature__repere {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: var(--bordure-fine) solid var(--accent);
+  border-radius: 50%;
+  color: var(--texte-titre);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-demi);
+}
+
+.catalogue-nomenclature__piece {
+  font-weight: var(--graisse-demi);
+}
+
+.catalogue-nomenclature__cachee {
+  color: var(--texte-doux);
+  font-weight: var(--graisse-normale);
+}
+
+/* Prix : montant en évidence, précisions en petit. */
+
+.catalogue-prix__montant {
+  color: var(--texte-titre);
+  font-size: var(--taille-h2);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-titre);
+}
+
+.catalogue-prix__precisions {
+  display: grid;
+  gap: var(--espace-1);
+  margin-top: var(--espace-2);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.catalogue-prix__exact {
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.catalogue-fiche__actions {
+  flex-direction: column;
+}
+
+.catalogue-fiche__actions .bouton {
+  width: 100%;
+}
+
+/* Les deux offres côte à côte dès que la place le permet. */
+
+.catalogue-offres {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  gap: var(--espace-4);
+}
+
+.catalogue-offre {
+  border-top: var(--epaisseur-repere) solid var(--accent);
+}
+
+.catalogue-offre__titre {
+  font-size: var(--taille-h3);
+}
+
+.catalogue-verification {
+  max-width: var(--mesure);
+  padding-left: var(--espace-4);
+  border-left: var(--epaisseur-repere) solid var(--accent);
+}
+
+.catalogue-signes {
+  display: grid;
+  gap: var(--espace-2);
+}
+
+.catalogue-signes li {
+  border-left-color: var(--accent);
+}
+
+/* Tarifs : chaque tableau sur son panneau blanc. Au bureau, deux colonnes :
+   les prestations à gauche, main-d'œuvre et familles sur devis à droite,
+   sans vide à droite des tableaux (J2, J3). */
+
+.catalogue-tarifs {
+  display: grid;
+  /* minmax(0, …) : un tableau ne force jamais la page à défiler de côté. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espace-5);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .catalogue-tarifs {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    /* La troisième rangée prend la hauteur restante : les familles sur devis
+       suivent la main-d'œuvre, sans vide entre les deux. */
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas:
+      'note note'
+      'forfaits transverses'
+      'forfaits sur-devis'
+      'actions actions';
+  }
+
+  .catalogue-tarifs > .catalogue-prix__proposition {
+    grid-area: note;
+  }
+
+  .catalogue-tarifs > .catalogue-tarifs__forfaits {
+    grid-area: forfaits;
+  }
+
+  .catalogue-tarifs > .catalogue-tarifs__transverses {
+    grid-area: transverses;
+  }
+
+  .catalogue-tarifs > .catalogue-tarifs__sur-devis {
+    grid-area: sur-devis;
+  }
+
+  .catalogue-tarifs > .catalogue-tarifs__actions {
+    grid-area: actions;
+  }
+}
+
+/* Une prestation sur deux rangées : son nom (en-tête de ligne seul), puis
+   ce que le prix comprend et la demande de prix en texte secondaire ; le prix
+   occupe les deux rangées, jamais coupé : « À partir de » d'un tenant, le
+   montant d'un tenant, sans césure (J1, J2). */
+.catalogue-tableau-tarifs .catalogue-tarif > * {
+  padding-bottom: var(--espace-1);
+  border-bottom: 0;
+}
+
+.catalogue-tableau-tarifs .catalogue-tarif__prix {
+  padding-left: var(--espace-3);
+  border-bottom: var(--bordure-fine) solid var(--filet);
+  vertical-align: top;
+  white-space: normal;
+  hyphens: none;
+  overflow-wrap: normal;
+}
+
+.catalogue-tarif__morceau {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Au téléphone, la colonne des prix a sa largeur : « À partir de » sur une
+   ligne, le montant sur la suivante, et le nom garde la place de se lire. */
+@media (max-width: 40rem) {
+  .catalogue-tableau-tarifs {
+    table-layout: fixed;
+  }
+
+  .catalogue-tableau-tarifs .tableau-tarifs__prix {
+    width: 7.5rem;
+  }
+}
+
+.catalogue-tableau-tarifs .catalogue-tarif__suite td {
+  padding-top: 0;
+  hyphens: none;
+  overflow-wrap: break-word;
+}
+
+.catalogue-tarif__demande {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+}
+
+/* Les forfaits d'une famille : intitulé, montant, précisions. */
+
+.catalogue-forfaits {
+  display: grid;
+  gap: var(--espace-4);
+}
+
+.catalogue-forfait__intitule {
+  font-size: var(--taille-h3);
+}
+
+/* Les familles sur devis, en une liste de liens plutôt qu'en lignes identiques. */
+
+.catalogue-sur-devis {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-2) var(--espace-4);
+}
+
+.catalogue-sur-devis a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+}
+
+/* Une recherche qui décrit un symptôme : le pré-diagnostic d'abord. */
+
+.catalogue-symptome {
+  border-top: var(--epaisseur-repere) solid var(--accent);
+}
+
+.catalogue-gamme {
+  max-width: var(--mesure);
+}
+
+.catalogue-tarifs__famille {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+}
+
+/* Relecture seulement : marque des valeurs encore à valider par le garage. */
+
+.catalogue-a-relire {
+  border-color: var(--accent);
+  background: var(--fond-sourd);
+  color: var(--texte);
+  font-weight: var(--graisse-demi);
+  white-space: nowrap;
+}
+
+.catalogue-a-relire-note {
+  margin-top: var(--espace-2);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-normale);
+}
+
+/* Prestation : ce qu'il faut décrire, et la photo du dégât par SMS. */
+.catalogue-consigne__texte {
+  font-weight: var(--graisse-demi);
+}
+
+.catalogue-consigne__sms {
+  white-space: nowrap;
+}
+
+/* Résultats de la recherche : chaque famille avec son prix et la demande de
+   prix (J2 : le prix dès le résultat). */
+.catalogue-resultats__liste {
+  display: grid;
+  gap: var(--espace-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+}
+
+.catalogue-resultat {
+  display: flex;
+  gap: var(--espace-4);
+  align-items: flex-start;
+}
+
+.catalogue-resultat__planche {
+  flex: 0 0 5rem;
+}
+
+.catalogue-resultat__nom a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+}
+
+.catalogue-resultat__aide {
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.catalogue-resultat__prix {
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+}

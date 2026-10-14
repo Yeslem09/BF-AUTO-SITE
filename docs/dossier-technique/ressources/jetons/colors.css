@@ -1,0 +1,37 @@
+/* Jetons de couleur du kit « Réponse AO », surchargés à la charte de BF Auto
+   (docs/conception/kano-couleurs.md, décision finale ; public/css/jetons.css).
+   Les noms du kit sont conservés pour que ses composants restent valables ;
+   aucun bleu nuit, aucun doré : graphite, orange en accent rare, béton et blanc. */
+:root {
+  --navy: #3a3935; /* graphite : titres, filets, en-têtes de tableau */
+  --navy-hover: #2f2e2b; /* graphite profond */
+  --slate: #b4b2ab; /* filet sous les titres de section */
+
+  --ink-1: #262626; /* texte courant */
+  --ink-2: #262626;
+  --ink-3: #3a3935;
+  --ink-4: #4a4946; /* texte secondaire */
+  --ink-5: #6b6f77; /* gris de l'estampille de pagination du kit */
+  --ink-6: #77766f;
+
+  --paper: #ffffff;
+  --surface-tint: #ededea; /* béton */
+  --surface-figure: #ededea; /* béton */
+  --surface-zebra: #f8f8f5; /* béton adouci */
+  --border: #dcdcd7;
+
+  --accent: var(--navy);
+  --text-body: var(--ink-1);
+  --text-muted: var(--ink-4);
+  --text-label: var(--ink-6);
+  --surface-card: var(--paper);
+  --link: #a84a17;
+  --link-hover: #a84a17;
+
+  /* Propres à BF Auto */
+  --orange: #e4682b; /* accent rare */
+  --orange-clair: #f59a63; /* petit texte orange sur graphite */
+  --bordure-nette: #b4b2ab;
+  --sur-sombre: #f4f3ef;
+  --sur-sombre-doux: #d2d0c9;
+}

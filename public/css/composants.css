@@ -1,0 +1,1135 @@
+/*
+ * Bibliothèque de composants du site BF Auto. Chaque bloc porte le nom de sa
+ * classe ; le HTML attendu, les états et l'accessibilité sont décrits dans
+ * docs/design/composants.md. Les couleurs viennent toutes des rôles : posé
+ * dans une zone sombre (bande, en-tête, pied), un composant s'inverse seul.
+ */
+
+/* Surtitre en ligne de cote : capitales espacées précédées d'un trait à talons,
+   repris de la signature du logo. */
+
+.surtitre {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-3);
+  color: var(--texte-repere);
+  font-size: var(--taille-mini);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-serre);
+  letter-spacing: var(--interlettrage-capitales);
+  text-transform: uppercase;
+}
+
+.surtitre::before {
+  flex: none;
+  width: 2.25rem;
+  height: 0.4375rem;
+  border-inline: var(--bordure-fine) solid var(--accent);
+  background: linear-gradient(var(--accent), var(--accent)) center / 100% 1px no-repeat;
+  content: '';
+}
+
+.pile > .surtitre + * {
+  margin-top: var(--espace-2);
+}
+
+.texte-intro {
+  max-width: var(--mesure);
+  color: var(--texte-doux);
+  font-size: var(--taille-plus);
+}
+
+.titre-carte {
+  font-size: var(--taille-h3);
+}
+
+/* En-tête de page de contenu : fil d'Ariane, surtitre, titre, chapeau */
+
+.entete-page {
+  padding-block: var(--espace-6) var(--espace-5);
+  border-bottom: var(--bordure-fine) solid var(--filet);
+  background: var(--fond-sourd);
+}
+
+.entete-page > .conteneur > * + * {
+  margin-top: var(--espace-3);
+}
+
+/* Fil d'Ariane */
+
+.fil-ariane ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-1) var(--espace-2);
+  /* Replié sur deux lignes, les cibles de 44 px se touchent sans se chevaucher. */
+  row-gap: calc(var(--cible-tactile) - 1lh);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.fil-ariane li + li::before {
+  margin-right: var(--espace-2);
+  content: '/' / '';
+}
+
+.fil-ariane [aria-current='page'] {
+  color: var(--texte);
+  text-decoration: none;
+}
+
+/* Cible de 44 px de haut pour chaque lien (P-04), sans épaissir la ligne : la
+   marge négative rend au fil la hauteur d'une ligne de texte, si bien que les
+   liens, le séparateur et la page courante restent sur la même ligne de base. */
+.fil-ariane a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+  margin-block: calc((1lh - var(--cible-tactile)) / 2);
+}
+
+/* Boutons : principal (aplat de marque), secondaire (cadre). Dans une zone
+   sombre, le principal passe en clair, sans classe à ajouter. */
+
+.bouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--espace-2);
+  min-height: var(--cible-confort);
+  padding: var(--espace-2) var(--espace-5);
+  border: var(--bordure-fine) solid transparent;
+  border-radius: var(--rayon-1);
+  font-weight: var(--graisse-demi);
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duree) var(--courbe),
+    border-color var(--duree) var(--courbe),
+    color var(--duree) var(--courbe);
+}
+
+.bouton--principal {
+  border-color: var(--bouton-fond);
+  background: var(--bouton-fond);
+  color: var(--bouton-texte);
+}
+
+.bouton--principal:hover {
+  border-color: var(--bouton-fond-survol);
+  background: var(--bouton-fond-survol);
+  color: var(--bouton-texte);
+}
+
+.bouton--principal:active {
+  border-color: var(--bouton-fond-appui);
+  background: var(--bouton-fond-appui);
+  color: var(--bouton-texte);
+}
+
+.bouton--secondaire {
+  border-color: var(--bouton-bord);
+  background: transparent;
+  color: var(--texte-titre);
+}
+
+.bouton--secondaire:hover,
+.bouton--secondaire:active {
+  border-color: var(--bouton-bord-survol);
+  background: var(--fond-survol);
+  color: var(--texte-titre);
+}
+
+.bouton[aria-disabled='true'],
+.bouton:disabled {
+  border-color: var(--bordure);
+  background: var(--fond-sourd);
+  color: var(--texte-doux);
+  cursor: not-allowed;
+}
+
+form[aria-busy='true'] [type='submit'] {
+  cursor: progress;
+}
+
+.liste-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-3);
+}
+
+@media (max-width: 29.99rem) {
+  .liste-actions {
+    flex-direction: column;
+  }
+
+  .liste-actions .bouton {
+    width: 100%;
+  }
+}
+
+/* Liste de choix en boutons bordés : réponses du pré-diagnostic, raccourcis,
+   options. Un vrai bouton ou un lien, cadré, 48 px de haut au moins. */
+
+.liste-choix {
+  display: grid;
+  gap: var(--espace-2);
+}
+
+.liste-choix > li {
+  display: grid;
+}
+
+.liste-choix--colonnes {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+.bouton-choix {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--cible-confort);
+  padding: var(--espace-2) var(--espace-4);
+  border: var(--bordure-fine) solid var(--choix-bord);
+  border-radius: var(--rayon-1);
+  background: var(--choix-fond);
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-serre);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duree) var(--courbe),
+    border-color var(--duree) var(--courbe);
+}
+
+.bouton-choix:hover {
+  border-color: var(--choix-bord-survol);
+  background: var(--fond-survol);
+  color: var(--texte-titre);
+}
+
+.bouton-choix:active {
+  border-color: var(--choix-bord-survol);
+  background: var(--fond-survol);
+}
+
+.bouton-choix--incertain {
+  border-style: dashed;
+}
+
+/* Choix courant : la page ou l'étape affichée (aria-current), l'option
+   enfoncée (aria-pressed), la réponse déjà donnée. Aspect d'une tuile cochée :
+   bord doublé, fond de survol ; le focus reste visible par-dessus. */
+.bouton-choix:is([aria-current]:not([aria-current='false']), [aria-pressed='true']) {
+  border-color: var(--bordure-forte);
+  outline: var(--bordure-fine) solid var(--bordure-forte);
+  outline-offset: -2px;
+  background: var(--fond-survol);
+}
+
+.bouton-choix:is([aria-current]:not([aria-current='false']), [aria-pressed='true']):focus-visible {
+  outline: var(--epaisseur-focus) solid var(--focus);
+  outline-offset: var(--decalage-focus);
+}
+
+.bouton-choix__aide {
+  margin-top: var(--espace-1);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-normale);
+}
+
+/* Option à cocher en tuile bordée (bouton radio ou case) */
+
+.choix-tuile {
+  display: flex;
+  align-items: center;
+  gap: var(--espace-3);
+  min-height: var(--cible-confort);
+  padding: var(--espace-2) var(--espace-4);
+  border: var(--bordure-fine) solid var(--choix-bord);
+  border-radius: var(--rayon-1);
+  background: var(--choix-fond);
+  cursor: pointer;
+  transition:
+    background-color var(--duree) var(--courbe),
+    border-color var(--duree) var(--courbe);
+}
+
+.choix-tuile:hover {
+  border-color: var(--choix-bord-survol);
+}
+
+.choix-tuile:active {
+  border-color: var(--choix-bord-survol);
+  background: var(--fond-survol);
+}
+
+.choix-tuile:has(:checked) {
+  border-color: var(--bordure-forte);
+  outline: var(--bordure-fine) solid var(--bordure-forte);
+  outline-offset: -2px;
+  background: var(--fond-survol);
+}
+
+.choix-tuile:has(:focus-visible) {
+  outline: var(--epaisseur-focus) solid var(--focus);
+  outline-offset: var(--decalage-focus);
+}
+
+.choix-tuile input,
+.choix input {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  accent-color: var(--lien);
+}
+
+.choix-tuile input:focus-visible {
+  outline: none;
+}
+
+/* Case isolée (consentement) : une ligne, sans cadre */
+
+.choix {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espace-3);
+  min-height: var(--cible-tactile);
+  padding-block: var(--espace-2);
+  cursor: pointer;
+}
+
+.choix input {
+  margin-top: 0.2em;
+}
+
+/* Cartes */
+
+.carte {
+  position: relative;
+  padding: var(--espace-5);
+  border: var(--bordure-fine) solid var(--bordure);
+  border-radius: var(--rayon-2);
+  background: var(--fond-surface);
+}
+
+.carte--lien {
+  transition: border-color var(--duree) var(--courbe);
+}
+
+.carte--lien:hover,
+.carte--lien:active {
+  border-color: var(--bordure-forte);
+}
+
+/* Toute la carte est cliquable, le lien du titre reste le seul élément focalisable. */
+.lien-etendu {
+  color: var(--texte-titre);
+  text-decoration: none;
+}
+
+.lien-etendu::after {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--rayon-2);
+  content: '';
+}
+
+.carte--lien:hover .lien-etendu {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.lien-etendu:focus-visible {
+  outline: none;
+}
+
+.lien-etendu:focus-visible::after {
+  outline: var(--epaisseur-focus) solid var(--focus);
+  outline-offset: var(--decalage-focus);
+}
+
+.grille-cartes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--espace-4);
+}
+
+/* Bandes de marque (en-tête, ouverture de l'accueil, bande « enseigne » libre) :
+   aplat et trame de plan à peine visible. */
+
+.enseigne {
+  background-color: var(--fond-bandeau);
+}
+
+.enseigne,
+.entete,
+.ouverture {
+  background-image:
+    linear-gradient(var(--trame) 1px, transparent 1px),
+    linear-gradient(90deg, var(--trame) 1px, transparent 1px);
+  background-position: -1px -1px;
+  background-size: var(--trame-pas) var(--trame-pas);
+}
+
+/* Panneau « plaque » : filet intérieur, angles rentrants comme le logo là où le
+   navigateur sait les tracer. */
+
+.plaque {
+  padding: var(--espace-2);
+  border-radius: var(--rayon-2);
+  background: var(--fond-plaque);
+}
+
+.plaque__filet {
+  padding: var(--espace-5) var(--espace-4) var(--espace-4);
+  border: var(--bordure-fine) solid var(--filet-plaque);
+  border-radius: var(--rayon-1);
+}
+
+.plaque__filet > * + * {
+  margin-top: var(--espace-4);
+}
+
+@supports (corner-shape: scoop) {
+  .plaque {
+    border-radius: var(--rayon-plaque);
+    corner-shape: scoop;
+  }
+
+  .plaque__filet {
+    border-radius: var(--rayon-filet);
+    corner-shape: scoop;
+  }
+}
+
+@media (min-width: 48rem) {
+  .plaque__filet {
+    padding: var(--espace-6) var(--espace-6) var(--espace-5);
+  }
+}
+
+/* Panneau : surface blanche à bordure nette, posée sur le béton ; un bandeau
+   de marque peut en coiffer le haut. Marge intérieure de 16 px sur téléphone,
+   comme les panneaux de l'accueil : le texte à 16 px y garde sa place. */
+
+.panneau {
+  --marge-panneau: var(--espace-4);
+
+  padding: var(--marge-panneau);
+  border: var(--bordure-fine) solid var(--bord-panneau);
+  border-radius: var(--rayon-1);
+  background: var(--fond-panneau);
+}
+
+.panneau__bandeau {
+  margin: calc(-1 * var(--marge-panneau)) calc(-1 * var(--marge-panneau)) var(--marge-panneau);
+  padding: var(--espace-3) var(--marge-panneau);
+  border-radius: var(--rayon-1) var(--rayon-1) 0 0;
+  background: var(--fond-bandeau);
+}
+
+@media (min-width: 30rem) {
+  .panneau {
+    --marge-panneau: var(--espace-5);
+  }
+}
+
+/* Encart (nouveau nom, information de passage) : aplat doux, filet de marque */
+
+.encart {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espace-4);
+  align-items: center;
+  padding: var(--espace-4) var(--espace-5);
+  border: var(--bordure-fine) solid var(--accent);
+  border-radius: var(--rayon-1);
+  background: var(--fond-sourd);
+}
+
+.encart:has(> .encart__symbole) {
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+}
+
+@supports (corner-shape: scoop) {
+  .encart {
+    border-radius: var(--rayon-filet);
+    corner-shape: scoop;
+  }
+}
+
+.encart__symbole {
+  align-self: start;
+}
+
+.encart__corps > * + * {
+  margin-top: var(--espace-2);
+}
+
+.encart__surtitre {
+  color: var(--texte-repere);
+  font-size: var(--taille-mini);
+  font-weight: var(--graisse-demi);
+  letter-spacing: var(--interlettrage-capitales);
+  text-transform: uppercase;
+}
+
+.encart__titre {
+  font-size: var(--taille-h3);
+  letter-spacing: normal;
+}
+
+@media (min-width: 48rem) {
+  .encart:has(> .encart__symbole) {
+    grid-template-columns: 4.75rem minmax(0, 1fr);
+    gap: var(--espace-5);
+  }
+}
+
+/* Symbole du logo (plaque carrée) : ses couleurs suivent les jetons --logo-*
+   de la zone où il est posé (version positive sur fond clair). */
+
+.symbole {
+  width: 100%;
+  height: auto;
+}
+
+/* Champs de formulaire : libellé au-dessus, aide et erreur reliées au champ
+   par aria-describedby. */
+
+.champ {
+  display: grid;
+  gap: var(--espace-2);
+}
+
+.champ__libelle {
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-serre);
+}
+
+.champ__facultatif,
+.champ__aide {
+  color: var(--texte-doux);
+  font-weight: var(--graisse-normale);
+}
+
+.champ__aide {
+  font-size: var(--taille-petite);
+}
+
+.champ__erreur {
+  color: var(--erreur);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-demi);
+}
+
+.champ__saisie {
+  width: 100%;
+  min-height: var(--cible-confort);
+  padding: var(--espace-2) var(--espace-3);
+  border: var(--bordure-fine) solid var(--bordure-champ);
+  border-radius: var(--rayon-1);
+  background: var(--champ-fond);
+  color: var(--champ-texte);
+  transition: border-color var(--duree-rapide) var(--courbe);
+}
+
+.champ__saisie:hover {
+  border-color: var(--bordure-forte);
+}
+
+.champ__saisie::placeholder {
+  color: var(--champ-indication);
+  opacity: 1;
+}
+
+textarea.champ__saisie {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+/* Flèche de liste tracée en CSS, à la couleur du texte du champ. */
+select.champ__saisie {
+  padding-right: var(--espace-7);
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentcolor 50%),
+    linear-gradient(135deg, currentcolor 50%, transparent 50%);
+  background-position:
+    right 1.25rem center,
+    right 0.875rem center;
+  background-repeat: no-repeat;
+  background-size: 0.375rem 0.375rem;
+  cursor: pointer;
+}
+
+.champ__saisie[aria-invalid='true'] {
+  border-color: var(--erreur);
+  outline: var(--bordure-fine) solid var(--erreur);
+  outline-offset: -2px;
+}
+
+.champ__saisie[aria-invalid='true']:focus-visible {
+  outline: var(--epaisseur-focus) solid var(--focus);
+  outline-offset: var(--decalage-focus);
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  padding: 0;
+  font-weight: var(--graisse-demi);
+}
+
+/* Légende d'un groupe de champs : l'aspect d'un libellé. Flottante, elle
+   devient un enfant ordinaire de la grille `.champ` : l'écart s'applique sous
+   elle comme sous le libellé d'un champ seul. */
+fieldset.champ > legend {
+  float: left;
+  width: 100%;
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-serre);
+}
+
+/* Messages d'état */
+
+.message {
+  padding: var(--espace-4);
+  border: var(--bordure-fine) solid var(--bordure);
+  border-left-width: var(--epaisseur-repere);
+  border-radius: var(--rayon-1);
+  background: var(--fond-surface);
+}
+
+.message--succes {
+  border-color: var(--succes);
+  background: var(--succes-fond);
+}
+
+.message--erreur {
+  border-color: var(--erreur);
+  background: var(--erreur-fond);
+}
+
+/* Volets repliables (questions fréquentes, détails) : <details> natif */
+
+.liste-volets {
+  border-top: var(--bordure-fine) solid var(--filet);
+}
+
+.volet {
+  border-bottom: var(--bordure-fine) solid var(--filet);
+}
+
+.volet__titre {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--cible-confort);
+  padding: var(--espace-3) var(--espace-7) var(--espace-3) 0;
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-serre);
+  list-style: none;
+  cursor: pointer;
+}
+
+.volet__titre::-webkit-details-marker {
+  display: none;
+}
+
+/* Signe plus ou moins, tracé en deux traits : il dit « s'ouvre » et « se ferme ». */
+.volet__titre::before,
+.volet__titre::after {
+  position: absolute;
+  top: 50%;
+  right: var(--espace-3);
+  width: 0.875rem;
+  height: 2px;
+  background: var(--texte-repere);
+  content: '';
+  transition: transform var(--duree) var(--courbe);
+}
+
+.volet__titre::after {
+  transform: rotate(90deg);
+}
+
+.volet[open] > .volet__titre::after {
+  transform: rotate(0deg);
+}
+
+.volet__titre:hover,
+.volet__titre:active {
+  color: var(--lien);
+}
+
+.volet__contenu {
+  padding-bottom: var(--espace-4);
+}
+
+.volet__contenu > * + * {
+  margin-top: var(--espace-2);
+}
+
+/* Statut d'ouverture : point de couleur doublé par le texte. Le point est posé
+   dans la marge, centré sur la première ligne : il ne reste jamais seul sur une
+   ligne, même quand un statut long (« Fermé exceptionnellement, ouvre demain à
+   8 h 30 ») passe sur deux lignes. */
+
+.statut {
+  position: relative;
+  padding-left: calc(0.5rem + var(--espace-2));
+}
+
+.statut::before {
+  position: absolute;
+  top: calc((1lh - 0.5rem) / 2);
+  left: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--rayon-pastille);
+  background: var(--neutre);
+  content: '';
+}
+
+.statut--ouvert::before {
+  background: var(--pastille-ouvert);
+}
+
+.statut--ferme::before {
+  background: var(--pastille-ferme);
+}
+
+.statut--a-confirmer::before {
+  background: var(--pastille-a-confirmer);
+}
+
+.statut--pastille {
+  display: inline-block;
+  padding: var(--espace-1) var(--espace-3) var(--espace-1)
+    calc(var(--espace-3) + 0.5rem + var(--espace-2));
+  border: var(--bordure-fine) solid var(--bordure-champ);
+  /* Pilule sur une ligne ; sur deux lignes, un cadre arrondi plutôt qu'une gélule. */
+  border-radius: 1.25rem;
+  color: var(--texte);
+  font-weight: var(--graisse-demi);
+}
+
+.statut--pastille::before {
+  top: calc(var(--espace-1) + (1lh - 0.5rem) / 2);
+  left: var(--espace-3);
+}
+
+/* Pastille texte (catégorie, étiquette) */
+
+.pastille {
+  display: inline-block;
+  padding: 0.125rem var(--espace-2);
+  border: var(--bordure-fine) solid var(--bordure-champ);
+  border-radius: var(--rayon-pastille);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-demi);
+  line-height: 1.4;
+}
+
+/* Listes de définitions (mentions, fiches) */
+
+.liste-definitions {
+  display: grid;
+  align-items: baseline;
+  gap: var(--espace-1) var(--espace-5);
+}
+
+.liste-definitions dt {
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-demi);
+}
+
+.liste-definitions dd + dt {
+  margin-top: var(--espace-3);
+}
+
+@media (min-width: 40rem) {
+  .liste-definitions {
+    grid-template-columns: minmax(10rem, max-content) 1fr;
+  }
+
+  .liste-definitions dd + dt {
+    margin-top: 0;
+  }
+}
+
+/* Cellule de tableau : un mot trop long pour elle (« exceptionnellement » à
+   320 px, en 16 px) se coupe, avec un trait d'union là où le navigateur sait
+   le faire, plutôt que d'élargir la page. */
+td {
+  hyphens: auto;
+  overflow-wrap: anywhere;
+}
+
+/* Tableau de tarifs : prix alignés à droite (la police n'a pas de chiffres
+   tabulaires), véhicule de référence sous la prestation. */
+
+.tableau-tarifs {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableau-tarifs caption {
+  padding-bottom: var(--espace-3);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+  text-align: left;
+}
+
+.tableau-tarifs th,
+.tableau-tarifs td {
+  padding: var(--espace-3) 0;
+  border-bottom: var(--bordure-fine) solid var(--filet);
+  text-align: left;
+  vertical-align: baseline;
+}
+
+.tableau-tarifs thead th {
+  border-bottom-color: var(--bordure-forte);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-demi);
+}
+
+.tableau-tarifs tbody th {
+  padding-right: var(--espace-4);
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+}
+
+.tableau-tarifs .tableau-tarifs__prix {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.tableau-tarifs td.tableau-tarifs__prix {
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+}
+
+.tableau-tarifs__detail {
+  display: block;
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-normale);
+}
+
+/* Illustration technique au trait (familles de pièces) : dessin en
+   currentColor, cadre fin, légende en dessous. */
+
+.illustration-technique {
+  display: grid;
+  gap: var(--espace-2);
+  color: var(--texte-titre);
+}
+
+.illustration-technique__dessin {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 80 / 56;
+  padding: var(--espace-3);
+  border: var(--bordure-fine) solid var(--filet);
+  border-radius: var(--rayon-1);
+  background: var(--fond-surface);
+}
+
+.illustration-technique__legende {
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.grille-illustrations {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 7.5rem), 1fr));
+  gap: var(--espace-4) var(--espace-3);
+}
+
+a:hover .illustration-technique {
+  color: var(--lien);
+}
+
+/* Recherche par mot : champ et bouton sur une ligne, repliés sous 20 rem. */
+
+.recherche__ligne {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-2);
+}
+
+.recherche__ligne .champ__saisie {
+  flex: 1 1 12rem;
+  width: auto;
+  min-width: 0;
+}
+
+.recherche__ligne .bouton {
+  flex: 0 0 auto;
+}
+
+/* Puces de familles : liens bordés, petite figure au trait et nom. */
+
+.puces-familles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-2);
+}
+
+.puce-famille {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espace-2);
+  min-height: var(--cible-confort);
+  padding: var(--espace-1) var(--espace-3) var(--espace-1) var(--espace-2);
+  border: var(--bordure-fine) solid var(--choix-bord);
+  border-radius: var(--rayon-1);
+  background: var(--choix-fond);
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+  text-decoration: none;
+  transition: var(--transition-couleurs);
+}
+
+.puce-famille:hover,
+.puce-famille:active {
+  border-color: var(--choix-bord-survol);
+  background: var(--fond-survol);
+  color: var(--texte-titre);
+}
+
+.puce-famille__dessin {
+  flex: none;
+  width: 2.5rem;
+  height: auto;
+  aspect-ratio: 80 / 56;
+  color: var(--encre-figure);
+}
+
+/* Grille des familles : cartes blanches, figure au trait sur quadrillage,
+   nom et précision ; toute la carte est un lien. */
+
+.grille-familles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+  gap: var(--espace-3);
+}
+
+/* La planche garde sa taille ; la place en trop dans une rangée haute va sous
+   le texte, au lieu d'étirer inégalement les rangées de la carte. */
+.carte-famille {
+  display: grid;
+  align-content: start;
+  gap: var(--espace-2);
+  height: 100%;
+  padding: var(--espace-3);
+  border: var(--bordure-fine) solid var(--bord-panneau);
+  border-radius: var(--rayon-1);
+  background: var(--fond-panneau);
+  color: var(--texte-titre);
+  text-decoration: none;
+  transition: var(--transition-couleurs);
+}
+
+.carte-famille:hover {
+  border-color: var(--choix-bord-survol);
+  color: var(--texte-titre);
+}
+
+.carte-famille:active {
+  border-color: var(--choix-bord-survol);
+  background: var(--fond-survol);
+  color: var(--texte-titre);
+}
+
+.carte-famille__planche {
+  display: block;
+  padding: var(--espace-2);
+  border: var(--bordure-fine) solid var(--filet);
+  border-radius: 2px;
+  background-color: var(--fond-figure);
+  background-image:
+    linear-gradient(var(--grille-forte) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grille-forte) 1px, transparent 1px),
+    linear-gradient(var(--grille) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grille) 1px, transparent 1px);
+  background-position: -1px -1px;
+  background-size:
+    2rem 2rem,
+    2rem 2rem,
+    0.5rem 0.5rem,
+    0.5rem 0.5rem;
+  color: var(--encre-figure);
+}
+
+.carte-famille__dessin {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 80 / 56;
+}
+
+.carte-famille:hover .carte-famille__dessin {
+  color: var(--accent);
+}
+
+.carte-famille__nom {
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-serre);
+}
+
+.carte-famille__aide {
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+  line-height: var(--interligne-serre);
+}
+
+/* Conduites à tenir du pré-diagnostic : jamais l'orange de marque. Le texte
+   porte le sens, la forme le double (aplat rouge, cadre ambre épais, cadre gris). */
+
+.alerte {
+  padding: var(--espace-4) var(--espace-5);
+  border: var(--epaisseur-repere) solid var(--alerte-neutre);
+  border-radius: var(--rayon-1);
+  background: var(--fond-surface);
+  color: var(--texte);
+}
+
+.alerte > * + * {
+  margin-top: var(--espace-2);
+}
+
+.alerte__titre {
+  font-size: var(--taille-h3);
+  font-weight: var(--graisse-demi);
+  line-height: var(--interligne-titre);
+}
+
+.alerte--danger {
+  --texte: var(--alerte-danger-texte);
+  --texte-titre: var(--alerte-danger-texte);
+  --lien: var(--alerte-danger-texte);
+  --focus: var(--alerte-danger-texte);
+
+  border-color: var(--alerte-danger);
+  background: var(--alerte-danger);
+}
+
+.alerte--attention {
+  border-width: calc(2 * var(--epaisseur-repere));
+  border-color: var(--alerte-attention);
+  background: var(--alerte-attention-fond);
+}
+
+/* Figure technique, élément signature : dessin au trait sur grille millimétrée
+   discrète, repères numérotés à l'accent, légende « Fig. N » qui nomme chaque
+   repère (src/web/figure-technique.ts). */
+
+.figure-technique {
+  display: grid;
+  gap: var(--espace-3);
+  max-width: 34rem;
+}
+
+.figure-technique__planche {
+  padding: var(--espace-4);
+  border: var(--bordure-fine) solid var(--filet);
+  border-radius: var(--rayon-1);
+  background-color: var(--fond-figure);
+  background-image:
+    linear-gradient(var(--grille-forte) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grille-forte) 1px, transparent 1px),
+    linear-gradient(var(--grille) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grille) 1px, transparent 1px);
+  background-position: -1px -1px;
+  background-size:
+    2.5rem 2.5rem,
+    2.5rem 2.5rem,
+    0.5rem 0.5rem,
+    0.5rem 0.5rem;
+  color: var(--encre-figure);
+}
+
+.figure-technique__dessin {
+  width: 100%;
+  height: auto;
+}
+
+.figure-technique__repere {
+  color: var(--accent);
+}
+
+.figure-technique__rappel,
+.figure-technique__pastille {
+  stroke: currentcolor;
+  stroke-width: 1.15;
+  vector-effect: non-scaling-stroke;
+}
+
+.figure-technique__rappel {
+  stroke-width: 0.8;
+}
+
+.figure-technique__cible {
+  fill: currentcolor;
+}
+
+.figure-technique__pastille {
+  fill: var(--fond-figure);
+}
+
+.figure-technique__chiffre {
+  fill: var(--texte-titre);
+  font-family: var(--police);
+  font-weight: var(--graisse-demi);
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.figure-technique__legende {
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.figure-technique__numero,
+.figure-technique__terme b {
+  color: var(--texte-titre);
+  font-weight: var(--graisse-demi);
+}
+
+.figure-technique__numero {
+  margin-right: var(--espace-1);
+}
+
+/* Valeur à valider (mode relecture) : surlignée, jamais soulignée, pour
+   qu'elle ne ressemble pas à un lien. */
+
+.a-valider {
+  padding-inline: 0.15em;
+  border-radius: 2px;
+  background: var(--surlignage);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}

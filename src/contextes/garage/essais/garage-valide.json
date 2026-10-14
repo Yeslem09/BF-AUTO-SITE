@@ -1,0 +1,310 @@
+{
+  "commentaire": "CONFIGURATION D'ESSAI, entièrement fictive, réservée aux tests : toutes les valeurs y sont validées pour exercer le mode production. Horaires d'essai du Kano : du lundi au samedi, de 8 h 30 à 12 h et de 14 h à 19 h, fermé le dimanche. Aucune de ces valeurs ne décrit le vrai garage.",
+  "identite": {
+    "nom": {
+      "statut": "valide",
+      "valeur": "BF Auto",
+      "source": "essai"
+    },
+    "ancien_nom": {
+      "statut": "valide",
+      "valeur": "Garage auto Choisy 94",
+      "source": "essai"
+    },
+    "accroche": {
+      "statut": "valide",
+      "valeur": "Accroche d'essai du garage",
+      "source": "essai"
+    },
+    "activites": {
+      "statut": "valide",
+      "valeur": "Activités d'essai du garage",
+      "source": "essai"
+    },
+    "adresse": {
+      "statut": "valide",
+      "valeur": {
+        "voie": "7 rue Demanieux",
+        "code_postal": "94600",
+        "ville": "Choisy-le-Roi"
+      },
+      "source": "essai"
+    },
+    "telephone": {
+      "statut": "valide",
+      "valeur": "06 05 92 28 38",
+      "source": "essai"
+    },
+    "courriel": {
+      "statut": "valide",
+      "valeur": "contact@garage-essai.example",
+      "source": "essai"
+    },
+    "coordonnees": {
+      "statut": "valide",
+      "valeur": {
+        "latitude": 48.77,
+        "longitude": 2.41
+      },
+      "source": "essai"
+    }
+  },
+  "horaires": {
+    "statut": "valide",
+    "valeur": {
+      "lundi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "mardi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "mercredi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "jeudi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "vendredi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "samedi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "dimanche": []
+    },
+    "source": "essai"
+  },
+  "socle_de_confiance": {
+    "prenom_garagiste": {
+      "statut": "valide",
+      "valeur": "Prénom d'essai",
+      "source": "essai"
+    },
+    "photo_facade": {
+      "statut": "valide",
+      "valeur": {
+        "chemin": "/img/garage/facade-essai.webp",
+        "texte_alternatif": "Façade d'essai du garage",
+        "largeur": 1200,
+        "hauteur": 800
+      },
+      "source": "essai"
+    },
+    "devis_ecrit_avant_travaux": {
+      "statut": "valide",
+      "valeur": true,
+      "source": "essai"
+    },
+    "appel_avant_travaux_supplementaires": {
+      "statut": "valide",
+      "valeur": true,
+      "source": "essai"
+    },
+    "accueil_sans_rendez_vous": {
+      "statut": "valide",
+      "valeur": true,
+      "source": "essai"
+    }
+  },
+  "pratique": {
+    "pieces_remplacees_restituees": {
+      "statut": "valide",
+      "valeur": true,
+      "source": "essai"
+    },
+    "moyens_paiement": {
+      "statut": "valide",
+      "valeur": ["carte", "especes"],
+      "source": "essai"
+    },
+    "documents_a_apporter": {
+      "statut": "valide",
+      "valeur": ["document d'essai"],
+      "source": "essai"
+    },
+    "stationnement": {
+      "statut": "valide",
+      "valeur": "Stationnement d'essai.",
+      "source": "essai"
+    },
+    "attente_sur_place": {
+      "statut": "valide",
+      "valeur": "Attente d'essai.",
+      "source": "essai"
+    },
+    "enseigne_actuelle": {
+      "statut": "valide",
+      "valeur": "Enseigne d'essai.",
+      "source": "essai"
+    },
+    "reperes": {
+      "statut": "valide",
+      "valeur": ["Repère d'essai."],
+      "source": "essai"
+    },
+    "transports": {
+      "statut": "valide",
+      "valeur": ["Arrêt d'essai."],
+      "source": "essai"
+    }
+  },
+  "suivi_client": {
+    "delai_rappel": {
+      "statut": "valide",
+      "valeur": "prochaine-demi-journee",
+      "source": "essai"
+    },
+    "lien_avis_google": {
+      "statut": "valide",
+      "valeur": "https://avis.example/bf-auto-essai",
+      "source": "essai"
+    },
+    "lien_gestion_fiche_google": {
+      "statut": "valide",
+      "valeur": "https://fiche.example/horaires-exceptionnels",
+      "source": "essai"
+    },
+    "meme_exploitant": {
+      "statut": "valide",
+      "valeur": true,
+      "source": "essai"
+    }
+  },
+  "editeur": {
+    "raison_sociale": {
+      "statut": "valide",
+      "valeur": "SOCIÉTÉ D'ESSAI",
+      "source": "essai"
+    },
+    "forme_juridique": {
+      "statut": "valide",
+      "valeur": "SAS d'essai",
+      "source": "essai"
+    },
+    "capital": {
+      "statut": "valide",
+      "valeur": "1 000 euros",
+      "source": "essai"
+    },
+    "siege": {
+      "statut": "valide",
+      "valeur": "1 rue d'Essai, 94600 Choisy-le-Roi",
+      "source": "essai"
+    },
+    "registre": {
+      "statut": "valide",
+      "valeur": "RCS d'essai",
+      "source": "essai"
+    },
+    "siret": {
+      "statut": "valide",
+      "valeur": "123 456 782 00002",
+      "source": "essai"
+    },
+    "tva": {
+      "statut": "valide",
+      "valeur": "FR00123456782",
+      "source": "essai"
+    },
+    "directeur_publication": {
+      "statut": "valide",
+      "valeur": "Directeur d'essai",
+      "source": "essai"
+    }
+  },
+  "hebergement": {
+    "hebergeur": {
+      "statut": "valide",
+      "valeur": {
+        "nom": "Hébergeur d'essai",
+        "adresse": "1 avenue d'Essai, 75000 Paris",
+        "telephone": "01 00 00 00 00"
+      },
+      "source": "essai"
+    },
+    "region": {
+      "statut": "valide",
+      "valeur": "Région d'essai, dans l'Union européenne",
+      "source": "essai"
+    },
+    "prestataires_envoi": {
+      "statut": "valide",
+      "valeur": [
+        {
+          "role": "courriel",
+          "nom": "Messagerie d'essai",
+          "lieu_traitement": "dans l'Union européenne"
+        }
+      ],
+      "source": "essai"
+    },
+    "encadrement_transferts": {
+      "statut": "valide",
+      "valeur": "garantie d'essai",
+      "source": "essai"
+    }
+  },
+  "mediateur": {
+    "statut": "valide",
+    "valeur": {
+      "nom": "Médiateur d'essai",
+      "adresse": "2 rue d'Essai, 75000 Paris",
+      "site": "https://mediateur.example"
+    },
+    "source": "essai"
+  },
+  "marque": {
+    "nom_de_domaine": {
+      "statut": "valide",
+      "valeur": "garage-essai.example",
+      "source": "essai"
+    },
+    "anteriorite_marque": {
+      "statut": "valide",
+      "valeur": "Recherche d'essai consignée",
+      "source": "essai"
+    }
+  }
+}

@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>BF Auto, logo final écrou</title>
+<style>
+@font-face { font-family: "Hanken"; font-weight: 400; src: url("file:///Users/anthonybalou/Library/Fonts/HankenGrotesk-Regular.ttf"); }
+@font-face { font-family: "Hanken"; font-weight: 600; src: url("file:///Users/anthonybalou/Library/Fonts/HankenGrotesk-SemiBold.ttf"); }
+@font-face { font-family: "Hanken"; font-weight: 700; src: url("file:///Users/anthonybalou/Library/Fonts/HankenGrotesk-Bold.ttf"); }
+:root {
+  --graphite: #3A3935; --profond: #2F2E2B; --orange: #E4682B; --orange-fonce: #B5501B;
+  --casse: #F5F4F2; --texte: #262626; --gris: #C9C6BF; --filet: #D9D6D0; --beton: #E7E5E1;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #FBFAF8; color: var(--texte); font-family: "Hanken", system-ui, sans-serif; font-size: 15px; line-height: 1.5; width: 1600px; }
+.page { padding: 48px 56px 64px; }
+header.tete { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--filet); padding-bottom: 24px; margin-bottom: 36px; }
+.sur { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--orange-fonce); font-weight: 600; }
+h1 { font-size: 30px; font-weight: 600; margin: 6px 0 8px; letter-spacing: -.01em; }
+.chapo { max-width: 900px; color: #45443F; }
+h2 { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--graphite); margin: 40px 0 14px; }
+.grille { display: grid; gap: 20px; }
+.g2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.carte { border: 1px solid var(--filet); background: #fff; padding: 20px; position: relative; }
+.etiquette { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #6B6963; font-weight: 600; margin-bottom: 12px; }
+.sombre { background: var(--graphite); border-color: var(--graphite); }
+.sombre .etiquette { color: var(--gris); }
+.casse { background: var(--casse); }
+.scene { display: flex; align-items: center; justify-content: center; min-height: 340px; }
+.scene img.grand { width: 78%; }
+.note { font-size: 13px; color: #5A5853; margin-top: 10px; }
+.sombre .note { color: var(--gris); }
+.variantes .carte { min-height: 190px; display: flex; flex-direction: column; }
+.variantes .carte .zone { flex: 1; display: flex; align-items: center; justify-content: center; }
+.variantes img { width: 86%; }
+/* symbole */
+.tailles { display: flex; align-items: flex-end; gap: 36px; flex-wrap: wrap; }
+.tailles figure { text-align: center; font-size: 12px; color: #5A5853; }
+.tailles figure img { display: block; margin: 0 auto 8px; }
+.pixel { image-rendering: pixelated; }
+.onglet { display: inline-flex; align-items: center; gap: 8px; background: var(--beton); border: 1px solid var(--filet); border-bottom: 0; padding: 8px 14px; font-size: 13px; width: 240px; }
+.barre-nav { background: var(--beton); border: 1px solid var(--filet); height: 36px; }
+/* palette */
+.pastille { border: 1px solid var(--filet); background: #fff; }
+.pastille .aplat { height: 96px; }
+.pastille .info { padding: 10px 12px; font-size: 13px; }
+.pastille .info b { display: block; font-weight: 600; }
+.pastille .info span { color: #5A5853; }
+/* en-tete de site */
+.site { border: 1px solid var(--filet); background: #fff; }
+.site-entete { height: 72px; display: flex; align-items: center; padding: 0 40px; border-bottom: 1px solid var(--filet); background: var(--casse); }
+.site-entete img { height: 40px; display: block; }
+.site-entete nav { margin-left: auto; display: flex; gap: 30px; font-size: 16px; font-weight: 600; color: var(--graphite); }
+.site-entete .bouton { margin-left: 36px; background: var(--orange); color: #262626; font-weight: 600; font-size: 16px; padding: 11px 20px; }
+.site-bandeau { background: var(--graphite); color: var(--casse); padding: 40px; display: flex; gap: 40px; align-items: center; }
+.site-bandeau h3 { font-size: 34px; font-weight: 700; line-height: 1.15; max-width: 640px; }
+.site-bandeau p { color: var(--gris); margin-top: 10px; max-width: 620px; }
+.site-bandeau .filet { width: 56px; height: 4px; background: var(--orange); margin-bottom: 18px; }
+.mobile { width: 375px; border: 1px solid var(--filet); background: #fff; }
+.mobile .site-entete { height: 56px; padding: 0 16px; }
+.mobile .site-entete img { height: 32px; }
+.mobile .menu { margin-left: auto; border: 1px solid var(--graphite); font-size: 14px; font-weight: 600; padding: 5px 12px; color: var(--graphite); }
+.mobile .corps { background: var(--graphite); color: var(--casse); padding: 20px 16px; font-size: 20px; font-weight: 700; line-height: 1.2; }
+/* carte de visite */
+.cv { width: 340px; height: 220px; position: relative; }
+.cv-recto { background: var(--graphite); display: flex; align-items: center; justify-content: center; }
+.cv-verso { background: var(--casse); border: 1px solid var(--filet); padding: 22px 24px; display: flex; flex-direction: column; }
+.cv-verso .nom { font-size: 17px; font-weight: 700; color: var(--texte); margin-top: auto; }
+.cv-verso .fonction { font-size: 12px; color: #5A5853; }
+.cv-verso .coord { font-size: 12px; color: var(--texte); margin-top: 10px; }
+.cv-verso .coord i { font-style: normal; color: var(--orange-fonce); }
+.cv-verso .filet { width: 36px; height: 3px; background: var(--orange); margin: 14px 0 12px; }
+ul.liste { margin: 8px 0 0 18px; font-size: 14px; }
+ul.liste li { margin: 4px 0; }
+.essai { display: flex; gap: 28px; align-items: center; }
+.essai figure { text-align: center; font-size: 12px; color: #5A5853; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="tete">
+  <div>
+    <div class="sur">BF Auto, Choisy-le-Roi · identité · jeu final</div>
+    <h1>L'écrou serré, graphite et orange, avec le chat du garage</h1>
+    <p class="chapo">Le B et le F serrent un écrou orange ; un chat, dessiné sur la même grille que les lettres, dort sur le O. Lettres et chat en graphite (blanc cassé sur fond sombre), écrou en orange atelier, rien d'autre : deux couleurs, aucun effet, tout en chemins vectoriels.</p>
+  </div>
+  <img src="icon-192.png" width="96" height="96" alt="Symbole BF Auto">
+</header>
+
+<h2>Logo principal, avec le chat</h2>
+<div class="grille g2">
+  <div class="carte casse scene"><div class="etiquette" style="position:absolute;top:20px;left:20px">Fond clair · logo.svg</div><img class="grand" src="logo.svg" alt="Logo BF Auto sur fond clair"></div>
+  <div class="carte sombre scene"><div class="etiquette" style="position:absolute;top:20px;left:20px">Fond graphite · logo-negatif.svg</div><img class="grand" src="logo-negatif.svg" alt="Logo BF Auto sur fond graphite"></div>
+</div>
+
+<h2>Versions</h2>
+<div class="grille g4 variantes">
+  <div class="carte"><div class="etiquette">Une couleur, noir · logo-mono.svg</div><div class="zone"><img src="logo-mono.svg" alt=""></div></div>
+  <div class="carte sombre"><div class="etiquette">Une couleur, blanc · logo-blanc.svg</div><div class="zone"><img src="logo-blanc.svg" alt=""></div></div>
+  <div class="carte casse"><div class="etiquette">Sans chat · logo-sans-chat.svg</div><div class="zone"><img src="logo-sans-chat.svg" alt=""></div></div>
+  <div class="carte casse"><div class="etiquette">Compact, sans descripteur · logo-compact.svg</div><div class="zone"><img src="logo-compact.svg" alt="" style="width:70%"></div></div>
+</div>
+
+<h2>Symbole et favicon, rendus réels</h2>
+<div class="grille" style="grid-template-columns: 560px 1fr;">
+  <div class="carte casse" style="display:flex;justify-content:center;align-items:center"><figure style="text-align:center;font-size:12px;color:#5A5853"><img src="icon-512.png" width="512" height="512" alt="Symbole 512 px" style="display:block;margin-bottom:8px">512 px · symbole.svg</figure></div>
+  <div class="grille" style="gap:20px">
+    <div class="carte">
+      <div class="etiquette">Taille réelle, 64, 32 et 16 px</div>
+      <div class="tailles">
+        <figure><img src="source/symbole-64.png" width="64" height="64" alt="">64 px<br>symbole.svg</figure>
+        <figure><img src="favicon-48.png" width="48" height="48" alt="">48 px<br>symbole.svg</figure>
+        <figure><img src="favicon-32.png" width="32" height="32" alt="">32 px<br>favicon.svg</figure>
+        <figure><img src="favicon-16.png" width="16" height="16" alt="">16 px<br>pixel</figure>
+        <div style="margin-left:24px">
+          <div class="onglet"><img src="favicon-16.png" width="16" height="16" alt="">BF Auto, garage à Choisy</div>
+          <div class="barre-nav" style="width:420px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="carte">
+      <div class="etiquette">Loupe au pixel</div>
+      <div class="tailles">
+        <figure><img class="pixel" src="favicon-32.png" width="192" height="192" alt="">32 px, grossi 6 fois<br>bords droits sur les pixels pairs</figure>
+        <figure><img class="pixel" src="favicon-16.png" width="192" height="192" alt="">16 px, grossi 12 fois<br>dessiné pixel par pixel</figure>
+        <p class="note" style="max-width:360px">À 16 px l'écrou devient un carré orange de 2 px isolé par un pixel de fond de chaque côté : B et F entaillés restent lisibles. À 32 px l'écrou retrouve sa forme d'hexagone percé.</p>
+      </div>
+    </div>
+    <div class="carte">
+      <div class="etiquette">Oreilles de chat sur l'écrou : essai écarté</div>
+      <div class="essai">
+        <figure><img class="pixel" src="source/essai-ecrou-chat-16.png" width="96" height="96" alt="">essai, 16 px grossi</figure>
+        <figure><img src="source/essai-ecrou-chat-16.png" width="16" height="16" alt="">taille réelle</figure>
+        <p class="note" style="max-width:640px">Lisible, mais il se lit « chat » avant « garage » et perd le nom : on dirait l'icône d'un vétérinaire. Le favicon garde B, écrou, F ; le chat vit dans le logo, là où il a la place d'être un chat.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2>Palette</h2>
+<div class="grille" style="grid-template-columns: repeat(7, 1fr);">
+  <div class="pastille"><div class="aplat" style="background:#3A3935"></div><div class="info"><b>Graphite</b>#3A3935<br><span>10,5:1 sur blanc cassé</span></div></div>
+  <div class="pastille"><div class="aplat" style="background:#2F2E2B"></div><div class="info"><b>Graphite profond</b>#2F2E2B<br><span>12,4:1 sous blanc cassé</span></div></div>
+  <div class="pastille"><div class="aplat" style="background:#E4682B"></div><div class="info"><b>Orange atelier</b>#E4682B<br><span>objet : 3,0:1 sur clair, 3,5:1 sur graphite</span></div></div>
+  <div class="pastille"><div class="aplat" style="background:#B5501B"></div><div class="info"><b>Orange foncé</b>#B5501B<br><span>texte : 4,6:1 sur blanc cassé</span></div></div>
+  <div class="pastille"><div class="aplat" style="background:#F5F4F2"></div><div class="info"><b>Blanc cassé</b>#F5F4F2<br><span>fond clair de référence</span></div></div>
+  <div class="pastille"><div class="aplat" style="background:#262626"></div><div class="info"><b>Texte</b>#262626<br><span>13,8:1 sur blanc cassé</span></div></div>
+  <div class="pastille"><div class="aplat" style="background:#C9C6BF"></div><div class="info"><b>Gris clair</b>#C9C6BF<br><span>6,8:1 sur graphite</span></div></div>
+</div>
+
+<h2>En-tête de site, taille réelle</h2>
+<div class="site">
+  <div class="site-entete">
+    <img src="logo-compact.svg" alt="BF Auto">
+    <nav><span>Pièces</span><span>Pré-diagnostic</span><span>Le garage</span><span>Contact</span></nav>
+    <span class="bouton">Appeler le garage</span>
+  </div>
+  <div class="site-bandeau">
+    <div><div class="filet"></div><h3>Votre voiture entre de bonnes mains, à Choisy-le-Roi.</h3><p>Texte d'exemple pour juger l'en-tête en situation ; logo compact à 40 px de haut, chat compris (capitales de 27 px).</p></div>
+  </div>
+</div>
+<div style="display:flex;gap:28px;align-items:flex-start;margin-top:20px">
+  <div class="mobile">
+    <div class="site-entete"><img src="logo-compact-sans-chat.svg" alt="BF Auto"><span class="menu">Menu</span></div>
+    <div class="corps">Votre voiture entre de bonnes mains.</div>
+  </div>
+  <p class="note" style="max-width:640px;margin-top:6px">Mobile, 375 px de large : sous 40 px de haut, l'en-tête passe à logo-compact-sans-chat.svg (32 px). Le chat réduit à 32 px ne serait plus qu'une tache ; sans lui, les capitales montent à 31 px de haut et l'écrou garde 12 px de large.</p>
+</div>
+
+<h2>Mises en situation</h2>
+<div class="grille g2">
+  <div class="carte casse">
+    <div class="etiquette">Enseigne de façade</div>
+    <svg viewBox="0 0 700 380" width="100%" role="img" aria-label="Façade du garage avec enseigne">
+      <rect width="700" height="380" fill="#E7E5E1"/>
+      <rect x="40" y="30" width="620" height="330" fill="#EFEDEA"/>
+      <rect x="40" y="30" width="620" height="8" fill="#C9C6BF"/>
+      <rect x="70" y="56" width="560" height="108" fill="#3A3935"/>
+      <image href="logo-negatif.svg" x="175" y="63" width="350" height="94"/>
+      <rect x="80" y="190" width="300" height="170" fill="#D3D0CA"/>
+      <g fill="#BEBAB3"><rect x="80" y="205" width="300" height="3"/><rect x="80" y="225" width="300" height="3"/><rect x="80" y="245" width="300" height="3"/><rect x="80" y="265" width="300" height="3"/><rect x="80" y="285" width="300" height="3"/><rect x="80" y="305" width="300" height="3"/><rect x="80" y="325" width="300" height="3"/><rect x="80" y="345" width="300" height="3"/></g>
+      <rect x="430" y="200" width="80" height="160" fill="#3A3935"/>
+      <rect x="444" y="214" width="52" height="60" fill="#D9D6D0"/>
+      <rect x="524" y="200" width="80" height="100" fill="#D9D6D0"/>
+      <rect x="563" y="200" width="2" height="100" fill="#EFEDEA"/>
+      <rect x="622" y="182" width="38" height="4" fill="#3A3935"/>
+      <rect x="644" y="186" width="4" height="10" fill="#3A3935"/>
+      <image href="icon-192.png" x="614" y="196" width="64" height="64"/>
+      <rect x="0" y="360" width="700" height="20" fill="#C9C6BF"/>
+    </svg>
+    <p class="note">Bandeau graphite, logo négatif en lettres découpées ou boîtier ; écrou en orange mat, jamais chromé. Drapeau sur potence : le symbole.</p>
+  </div>
+  <div class="carte casse">
+    <div class="etiquette">Véhicule d'atelier</div>
+    <svg viewBox="0 0 700 380" width="100%" role="img" aria-label="Fourgon d'atelier marqué BF Auto">
+      <rect width="700" height="380" fill="#E7E5E1"/>
+      <rect x="0" y="320" width="700" height="60" fill="#C9C6BF"/>
+      <path d="M60 300 L60 120 Q60 96 84 96 L470 96 Q490 96 504 110 L600 200 Q640 206 640 240 L640 300 Z" fill="#F5F4F2" stroke="#BEBAB3" stroke-width="2"/>
+      <path d="M486 118 L566 196 L486 196 Z" fill="#9FA3A6"/>
+      <rect x="60" y="282" width="580" height="6" fill="#E4682B"/>
+      <rect x="470" y="120" width="2" height="170" fill="#BEBAB3"/>
+      <image href="logo.svg" x="92" y="130" width="350" height="128"/>
+      <circle cx="170" cy="306" r="36" fill="#2F2E2B"/><circle cx="170" cy="306" r="14" fill="#9FA3A6"/>
+      <circle cx="540" cy="306" r="36" fill="#2F2E2B"/><circle cx="540" cy="306" r="14" fill="#9FA3A6"/>
+      <rect x="620" y="232" width="20" height="14" fill="#E4682B"/>
+    </svg>
+    <p class="note">Fourgon blanc : version couleur, chat compris ; carrosserie sombre : négatif. Une seule bande orange en bas de caisse, pas de décor.</p>
+  </div>
+  <div class="carte casse">
+    <div class="etiquette">Carte de visite, 85 x 55 mm, échelle 4 px par mm</div>
+    <div style="display:flex;gap:24px;align-items:center;justify-content:center;padding:18px 0">
+      <div class="cv cv-recto"><img src="logo-compact-negatif.svg" alt="" style="width:236px"></div>
+      <div class="cv cv-verso">
+        <img src="logo-compact-sans-chat.svg" alt="" style="width:120px">
+        <div class="nom">Prénom Nom</div>
+        <div class="fonction">Mécanicien, gérant</div>
+        <div class="filet"></div>
+        <div class="coord">Téléphone et adresse à confirmer<br><i>Choisy-le-Roi</i></div>
+      </div>
+    </div>
+    <p class="note">Recto graphite avec le chat ; verso clair sans chat (logo de 30 mm : le chat y serait trop petit).</p>
+  </div>
+  <div class="carte casse">
+    <div class="etiquette">Tenue brodée</div>
+    <svg viewBox="0 0 700 380" width="100%" role="img" aria-label="Veste de travail brodée">
+      <rect width="700" height="380" fill="#E7E5E1"/>
+      <path d="M250 40 L310 28 Q350 52 390 28 L450 40 L560 96 L600 230 L540 246 L512 150 L512 360 L188 360 L188 150 L160 246 L100 230 L140 96 Z" fill="#2F2E2B"/>
+      <path d="M310 28 Q350 52 390 28 L380 44 Q350 64 320 44 Z" fill="#3A3935"/>
+      <rect x="348" y="56" width="4" height="304" fill="#3A3935"/>
+      <image href="logo-compact-negatif.svg" x="378" y="104" width="104" height="38"/>
+      <rect x="226" y="250" width="100" height="4" fill="#3A3935"/>
+      <rect x="374" y="250" width="100" height="4" fill="#3A3935"/>
+    </svg>
+    <p class="note">Poitrine : logo compact négatif avec chat brodé à 110 mm de large, pour garder un jeu d'un millimètre autour de l'écrou (fil blanc cassé et orange). En dessous : symbole seul, 40 mm.</p>
+  </div>
+</div>
+
+<h2>Ce qui a changé depuis le concept c5</h2>
+<div class="grille g2">
+  <div class="carte">
+    <ul class="liste">
+      <li>Palette graphite #3A3935 et orange atelier #E4682B ; lettres et chat graphite, écrou orange, deux couleurs au total.</li>
+      <li>Risque de lecture « BoF » : alésage réduit de 21 à 16 (écrou plein et percé, plus un petit o), toujours en orange hors une couleur.</li>
+      <li>Jeu écrou et lettres porté de 8 à 10 unités, pour le vinyle et la broderie.</li>
+      <li>Chanfreins raccourcis de 28 à 20, AUTO élargi et approches ouvertes : moins pochoir, panses du B plus droites.</li>
+    </ul>
+  </div>
+  <div class="carte">
+    <ul class="liste">
+      <li>Chat couché sur le O, même grammaire que les lettres : aplats, oreilles en triangles à 60 degrés, jeu constant de 10, queue en crochet dessinée comme le bas du U, yeux clos évidés.</li>
+      <li>Favicon dessiné au pixel à 16 et 32 px ; symbole recalé sur une grille de 16 unités, barre médiane affinée pour rouvrir les contreformes du B.</li>
+      <li>Descripteur en graphite sur clair (deux couleurs à fabriquer), gris clair sur graphite.</li>
+    </ul>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

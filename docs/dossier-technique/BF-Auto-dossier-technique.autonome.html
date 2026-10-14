@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BF Auto, dossier technique du site</title>
+<link rel="stylesheet" href="ressources/jetons/fonts.css">
+<link rel="stylesheet" href="ressources/jetons/colors.css">
+<link rel="stylesheet" href="ressources/jetons/typography.css">
+<link rel="stylesheet" href="ressources/styles.css">
+<style>doc-page:not(:defined){visibility:hidden}</style>
+<style id="doc-page-footer-print-fix">
+/* Correctif du kit : Chromium ne répète pas à l'impression un élément fixe ancré en bas ;
+   le pied revient dans le flux du tfoot, répété à chaque page. */
+@media print {
+  [slot="footer"] {
+    position: static !important;
+    inset: auto !important;
+    top: auto !important; right: auto !important;
+    bottom: auto !important; left: auto !important;
+  }
+}
+</style>
+<style>
+html, body { margin: 0; }
+.doc { font-family: var(--font-doc); color: var(--ink-1); font-size: var(--fs-body); line-height: var(--lh-body); -webkit-font-smoothing: antialiased; }
+.doc p { margin: 0 0 5px; text-align: justify; hyphens: auto; }
+.doc strong, .doc b { font-weight: 600; }
+.doc code { font-family: Menlo, 'SF Mono', Consolas, monospace; font-size: 0.84em; color: var(--ink-3); background: var(--surface-zebra); border: 1px solid var(--border); border-radius: 3px; padding: 0 2px; }
+.page { break-after: page; }
+/* Dernière page : hauteur utile entière (297 mm moins les bandes d'en-tête et de pied),
+   pour que le pied courant reste en bas même si le texte s'arrête plus haut. */
+.derniere { break-before: page; display: flow-root; min-height: 248.4mm; box-sizing: border-box; }
+
+/* Titres : H2 numérotés en capitales à filet, H3 numérotés */
+h2.article { color: var(--accent); font-size: var(--fs-h2); font-weight: 600; letter-spacing: var(--ls-h2); text-transform: uppercase; line-height: 1.3; margin: 0 0 6px; padding-bottom: 5px; border-bottom: 2px solid var(--slate); }
+h2.article.suite { margin-top: 12px; }
+h3.sous { color: var(--accent); font-size: var(--fs-h3); font-weight: 600; line-height: 1.3; margin: 9px 0 3px; }
+
+/* Encadré « L'essentiel » */
+.essentiel { background: var(--surface-tint); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 8px 14px 9px; margin: 4px 0 6px; break-inside: avoid; }
+.essentiel .titre { font-size: var(--fs-micro); font-weight: 600; letter-spacing: var(--ls-micro); text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.essentiel ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px; }
+.essentiel li { position: relative; padding-left: 11px; font-size: var(--fs-note); line-height: 1.4; }
+.essentiel li::before { content: ""; position: absolute; left: 0; top: 0.55em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+/* Tableaux natifs : en-tête graphite plein, zébrures */
+table.tab { width: 100%; border-collapse: collapse; margin: 4px 0 6px; font-size: var(--fs-table); line-height: 1.34; break-inside: avoid; }
+table.tab th { background: var(--accent); color: #ffffff; font-size: var(--fs-th); font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; text-align: left; padding: 4px 7px; border: 1px solid var(--accent); }
+table.tab td { border: 1px solid var(--border); padding: 3px 7px; vertical-align: top; }
+table.tab tbody tr:nth-child(even) td { background: var(--surface-zebra); }
+table.tab td.cle { font-weight: 600; color: var(--ink-2); }
+table.tab code { white-space: nowrap; }
+
+/* Figures : fond béton, légende « Figure N. » */
+figure.fig { margin: 5px 0 6px; break-inside: avoid; }
+.fig .cadre { background: var(--surface-figure); border: 1px solid var(--border); border-radius: 6px; padding: 9px 10px; }
+.fig figcaption { font-size: var(--fs-caption); color: var(--text-muted); line-height: 1.4; margin-top: 4px; }
+.fig figcaption b { color: var(--accent); font-weight: 600; }
+.boite { background: #ffffff; border: 1px solid var(--bordure-nette); border-radius: 4px; padding: 4px 6px 5px; }
+.boite .t { font-size: 7.3pt; font-weight: 600; color: var(--ink-2); line-height: 1.25; }
+.boite .d { font-size: 6.5pt; color: var(--ink-4); line-height: 1.3; margin-top: 1px; }
+.boite.haut { border-top: 2.5px solid var(--accent); }
+.boite.condition { border: 1px dashed var(--accent); }
+.fleche { flex: none; width: 13px; display: flex; align-items: center; justify-content: center; }
+.fleche svg { display: block; }
+.voie { display: flex; align-items: stretch; }
+.voie + .voie { margin-top: 6px; }
+.voie .libelle { flex: none; width: 23mm; display: flex; flex-direction: column; justify-content: center; padding-right: 6px; }
+.voie .libelle span { font-size: 6.4pt; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); line-height: 1.3; }
+.voie .libelle small { font-size: 6.3pt; color: var(--ink-4); line-height: 1.3; }
+.voie .contenu { flex: 1; display: flex; align-items: stretch; }
+.voie .contenu > .boite { flex: 1; }
+.voie .contenu.espace { gap: 6px; }
+
+/* Figure 1 : l'hexagone */
+.hexa { position: relative; display: grid; grid-template-columns: 31mm 25mm 36mm 25mm 31mm; column-gap: 2mm; grid-template-rows: auto repeat(3, 12.5mm); row-gap: 2.6mm; justify-content: center; }
+.hexa .entete { grid-row: 1; font-size: 6.2pt; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-4); text-align: center; }
+.hexa .ligne { grid-column: 1 / 6; align-self: center; height: 0; border-top: 1.2px solid var(--accent); z-index: 0; }
+.hexa .boite { z-index: 1; display: flex; flex-direction: column; justify-content: center; }
+.hexa .port { z-index: 1; align-self: center; justify-self: center; background: #ffffff; border: 1.2px solid var(--accent); border-radius: 999px; padding: 2px 7px; font-size: 6.6pt; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+.hexa .coeur { grid-column: 3; grid-row: 2 / 5; z-index: 2; background: var(--accent); clip-path: polygon(50% 0, 100% 24%, 100% 76%, 50% 100%, 0 76%, 0 24%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #ffffff; }
+.hexa .coeur .k { font-size: 6.2pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange-clair); margin-bottom: 2px; }
+.hexa .coeur .c { font-size: 7.6pt; font-weight: 600; line-height: 1.32; }
+.hexa .coeur .n { font-size: 6.1pt; color: var(--sur-sombre-doux); margin-top: 2px; line-height: 1.25; }
+
+/* Page de garde */
+.garde { height: 238mm; display: flex; flex-direction: column; box-sizing: border-box; }
+.garde p { text-align: left; hyphens: manual; }
+.garde .logo { margin-top: 18px; }
+.garde .logo img { height: 21mm; display: block; }
+.garde .lieu { font-size: 7pt; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-6); margin-top: 7px; }
+.garde .carte { margin-top: auto; background: var(--accent); border-radius: 6px; padding: 36px 40px 32px; }
+.garde .carte .k { font-size: 8pt; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--sur-sombre-doux); margin: 0 0 16px; }
+.garde .carte h1 { color: #ffffff; font-size: var(--fs-masthead); font-weight: 600; line-height: 1.12; margin: 0; letter-spacing: -0.005em; }
+.garde .carte .filet { width: 52px; height: 2.5px; background: var(--orange); margin: 22px 0 20px; }
+.garde .carte .s { font-size: 12.5pt; font-weight: 600; color: var(--sur-sombre); margin: 0; line-height: 1.35; }
+.garde .carte .date { font-size: 9.5pt; color: var(--sur-sombre-doux); margin: 10px 0 0; }
+.garde .accroche { font-size: 11.5pt; line-height: 1.45; color: var(--ink-3); margin: 18px 2px 12px; }
+.garde .infos { margin-top: auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 18px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-tint); padding: 16px 20px; }
+.garde .infos .l { font-size: 6.6pt; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+.garde .infos .v { font-size: 8.4pt; color: var(--ink-2); margin-top: 2px; line-height: 1.35; }
+</style>
+</head>
+<body>
+
+<doc-page size="a4" margin="22mm" style="--doc-hdr-h:40px;--doc-ftr-h:66.6px">
+
+  <div slot="header" style="height:26px;box-sizing:border-box;display:flex;justify-content:space-between;align-items:flex-end;font-family:var(--font-doc);font-size:7pt;font-weight:600;letter-spacing:0.11em;text-transform:uppercase;color:var(--ink-5);border-bottom:1.5px solid var(--accent);padding-bottom:7px">
+    <span style="color:var(--accent)">BF Auto, Choisy-le-Roi · Dossier technique</span>
+    <span style="font-weight:400">Septembre 2026</span>
+  </div>
+
+  <!-- Pied courant : « Dossier technique, » puis l'estampille « page X / N » posée par
+       post_traiter_pdf.py --marge-mm 22 (Helvetica 8 pt, #6b6f77, bord droit à 188 mm et ligne
+       de base à 22 mm du bas). La bande de pied (--doc-ftr-h : 66,6 px + 0,35 in = 26,5 mm) place
+       le filet à 270,5 mm et la ligne de base de ce texte sur celle de l'estampille. -->
+  <div slot="footer" style="box-sizing:border-box;border-top:1px solid var(--border);padding:1.71mm 13.33mm 0 0;margin:0;text-align:right;font-family:Helvetica,Arial,sans-serif;font-size:8pt;line-height:10pt;color:#6b6f77">Dossier technique,</div>
+
+  <div class="doc" lang="fr">
+
+    <!-- ============ PAGE DE GARDE ============ -->
+    <div class="page garde" data-screen-label="Page de garde">
+      <div class="logo">
+        <img src="ressources/logo.svg" alt="BF Auto, garage automobile">
+        <div class="lieu">7 rue Demanieux, 94600 Choisy-le-Roi</div>
+      </div>
+      <div class="carte">
+        <p class="k">Site internet du garage BF Auto</p>
+        <h1>Dossier technique du site</h1>
+        <div class="filet"></div>
+        <p class="s">Architecture hexagonale, accès et sécurité, connecteurs courriel et SMS</p>
+        <p class="date">Septembre 2026</p>
+      </div>
+      <p class="accroche">Des pages rapides et sobres pour les clients, un espace sans mot de passe pour le garagiste, et un cœur métier qui ne dépend d'aucun fournisseur : on change de messagerie, de fournisseur de SMS ou de base de données sans toucher aux règles du garage.</p>
+      <div class="essentiel">
+        <div class="titre">L'essentiel</div>
+        <ul>
+          <li><strong>Pour les clients.</strong> Des pages rendues par le serveur, lisibles sans JavaScript, sans cookie ni traceur : pièces détachées, pré-diagnostic, demandes de rendez-vous, de devis ou de rappel.</li>
+          <li><strong>Pour le garagiste.</strong> Un espace sans mot de passe. Chaque demande arrive par courriel, et aussi par SMS si le client ne doit pas rouler ; répondre « fait » au courriel la range.</li>
+          <li><strong>Une architecture hexagonale.</strong> Cinq contextes métier étanches : Gmail, SMS, base de données et navigateur se remplacent sans toucher au métier (article 1).</li>
+          <li><strong>Verrouillé et prouvé.</strong> Démarrage refusé s'il manque une donnée obligatoire ; 1&nbsp;624 tests et 313 exécutions de parcours navigateur au vert le 24 septembre 2026.</li>
+        </ul>
+      </div>
+      <div class="infos">
+        <div><div class="l">Garage</div><div class="v">BF Auto, 7 rue Demanieux, 94600 Choisy-le-Roi</div></div>
+        <div><div class="l">Contenu du site</div><div class="v">Pièces détachées, pré-diagnostic, demandes, espace garagiste</div></div>
+        <div><div class="l">Code</div><div class="v">Dépôt bf-auto-site, branche main : TypeScript, Fastify, SQLite</div></div>
+        <div><div class="l">Pour qui</div><div class="v">Le garage, Anthony BALOU, le développeur qui reprendra le site</div></div>
+      </div>
+    </div>
+
+    <!-- ============ ARTICLE 1 ============ -->
+    <div data-screen-label="Architecture">
+      <h2 class="article">Article 1. Architecture hexagonale</h2>
+      <h3 class="sous">1.1 Le principe, en mots simples</h3>
+      <p>Les règles du garage (horaires, pièces et prix, questionnaire, demandes, accès) sont écrites en TypeScript pur : elles ignorent Gmail, la base de données et le navigateur, et ne connaissent que des <strong>ports</strong>, des prises normalisées comme « envoyer un courriel » ou « enregistrer une demande ». Des <strong>adaptateurs</strong> branchent chaque prise sur un outil réel, comme la prise de diagnostic d'une voiture accepte n'importe quelle valise. La figure 1 montre cette organisation.</p>
+
+      <figure class="fig">
+        <div class="cadre">
+          <div class="hexa">
+            <div class="entete" style="grid-column:1">Adaptateurs</div>
+            <div class="entete" style="grid-column:2">Ports</div>
+            <div class="entete" style="grid-column:3">Cœur métier</div>
+            <div class="entete" style="grid-column:4">Ports</div>
+            <div class="entete" style="grid-column:5">Adaptateurs</div>
+
+            <div class="ligne" style="grid-row:2"></div>
+            <div class="ligne" style="grid-row:3"></div>
+            <div class="ligne" style="grid-row:4"></div>
+
+            <div class="boite" style="grid-column:1;grid-row:2"><div class="t">Navigateur</div><div class="d">Client et garagiste, pages HTML servies par Fastify</div></div>
+            <div class="boite" style="grid-column:1;grid-row:3"><div class="t">Fichiers de données</div><div class="d">Garage, catalogue, pré-diagnostic (JSON versionné)</div></div>
+            <div class="boite" style="grid-column:1;grid-row:4"><div class="t">Base SQLite</div><div class="d">Demandes, fermetures, sessions du garagiste</div></div>
+
+            <div class="port" style="grid-column:2;grid-row:2">Pages web</div>
+            <div class="port" style="grid-column:2;grid-row:3">Sources de données</div>
+            <div class="port" style="grid-column:2;grid-row:4">Dépôts</div>
+
+            <div class="coeur">
+              <div class="k">Cinq contextes</div>
+              <div class="c">Garage<br>Pré-diagnostic<br>Pièces détachées<br>Demandes<br>Accès</div>
+              <div class="n">TypeScript pur,<br>sans paquet externe</div>
+            </div>
+
+            <div class="port" style="grid-column:4;grid-row:2">Envoi de courriels</div>
+            <div class="port" style="grid-column:4;grid-row:3">Boîte de réception</div>
+            <div class="port" style="grid-column:4;grid-row:4">Envoi de SMS</div>
+
+            <div class="boite" style="grid-column:5;grid-row:2"><div class="t">Gmail, envoi (SMTP)</div><div class="d">Notifications, liens de connexion</div></div>
+            <div class="boite" style="grid-column:5;grid-row:3"><div class="t">Gmail, lecture (IMAP)</div><div class="d">Réponses « fait », courriels revenus</div></div>
+            <div class="boite" style="grid-column:5;grid-row:4"><div class="t">SMS d'urgence</div><div class="d">OVHcloud ou Brevo, pour « Ne roulez pas »</div></div>
+          </div>
+        </div>
+        <figcaption><b>Figure 1.</b> Le cœur métier ne connaît que des ports ; les adaptateurs les branchent sur les outils réels. Ports du code : <code>SourceIdentiteGarage</code>, <code>SourceCatalogue</code>, <code>SourceArbre</code>, <code>DepotDemandes</code>, <code>DepotFermetures</code>, <code>DepotAcces</code>, <code>Horloge</code>, <code>Notificateur</code>, <code>ExpediteurCourriel</code>, <code>BoiteDeReception</code>, <code>EnvoiSms</code>.</figcaption>
+      </figure>
+
+      <h3 class="sous">1.2 Cinq contextes métier, étanches</h3>
+      <table class="tab">
+        <thead><tr><th style="width:17%">Contexte</th><th style="width:36%">Rôle</th><th style="width:26%">Ce qu'il offre aux autres</th><th>Données</th></tr></thead>
+        <tbody>
+          <tr><td class="cle">Garage</td><td>Identité, horaires, statut d'ouverture à l'heure de Paris, fermetures exceptionnelles, pages légales</td><td>Demi-journées de rendez-vous, phrase de rappel</td><td><code>garage.json</code> ; fermetures en base</td></tr>
+          <tr><td class="cle">Pré-diagnostic</td><td>Cinq questions au plus, puis « Ne roulez pas », « À faire contrôler » ou « Pas d'urgence »</td><td>Résumé joint à la demande de rappel</td><td><code>pre-diagnostic.json</code>, publié après relecture</td></tr>
+          <tr><td class="cle">Pièces détachées</td><td>18 familles d'intervention, recherche par mot, tarifs, retrait au garage ou pose à l'atelier</td><td>Famille d'un devis ; seule source des prix</td><td><code>catalogue.json</code></td></tr>
+          <tr><td class="cle">Demandes</td><td>Formulaire unique (rendez-vous, devis, rappel), notification, liste et fiche du garagiste</td><td>État des notifications pour <code>/sante</code></td><td>SQLite, effacées à 12 mois</td></tr>
+          <tr><td class="cle">Accès</td><td>Connexion du garagiste sans mot de passe, session, signalement d'un changement à Anthony</td><td>Protection de tout l'espace garagiste</td><td>SQLite, jetons en empreinte</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sous">1.3 Pourquoi c'est solide</h3>
+      <table class="tab">
+        <thead><tr><th style="width:21%">Garantie</th><th>Comment elle est tenue</th></tr></thead>
+        <tbody>
+          <tr><td class="cle">Frontières vérifiées</td><td>Onze règles <code>dependency-cruiser</code> dans <code>pnpm run ci</code> : domaine sans paquet externe ni module Node, application sans adaptateur, contextes étanches, aucun cycle. Un import interdit fait échouer le contrôle.</td></tr>
+          <tr><td class="cle">Contextes extractibles</td><td>Chaque contexte a son dossier <code>src/contextes/&lt;contexte&gt;/</code>, parle aux autres par <code>src/contrats/</code>, et seule <code>src/composition.ts</code> les assemble : il peut être sorti ou réécrit seul.</td></tr>
+          <tr><td class="cle">Tests réels</td><td>1&nbsp;624 tests automatiques (146 fichiers) ; parcours navigateur sur ordinateur et iPhone 13 émulé : 313 exécutions réussies, 0 échec. Garde-fous vus en échec par injection volontaire d'une erreur.</td></tr>
+          <tr><td class="cle">Sans fournisseur imposé</td><td>Gmail, OVHcloud, Brevo, SQLite et Fastify ne sont que des adaptateurs ; changer de messagerie tient à une variable (Gmail et dix autres préréglages).</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ============ ARTICLES 2 ET 3 ============ -->
+    <div style="break-before:page" data-screen-label="Accès, sécurité et connecteurs">
+      <h2 class="article">Article 2. Accès et sécurité</h2>
+      <p>Le visiteur navigue sans cookie ni traceur ; le garagiste entre par un lien de connexion, sans mot de passe ; trois modes décident de ce qui s'affiche (figure 2).</p>
+
+      <figure class="fig">
+        <div class="cadre">
+          <div class="voie">
+            <div class="libelle"><span>Visiteur public</span><small>Aucun compte</small></div>
+            <div class="contenu">
+              <div class="boite haut"><div class="t">Pages publiques</div><div class="d">Aucun cookie, aucun traceur, rien chargé d'un autre site : pas de bandeau de consentement</div></div>
+              <div class="fleche"><svg width="13" height="8" viewBox="0 0 13 8" aria-hidden="true"><line x1="0" y1="4" x2="10" y2="4" stroke="#3a3935" stroke-width="1.2"/><path d="M8 1 L12 4 L8 7" stroke="#3a3935" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="boite haut"><div class="t">Formulaire de demande</div><div class="d">Champ piège, délai minimal de 3 secondes, origine contrôlée, 5 envois par heure ; en cas de doute, « Confirmez l'envoi », jamais de rejet silencieux</div></div>
+            </div>
+          </div>
+          <div class="voie">
+            <div class="libelle"><span>Garagiste</span><small>Un compte, sans mot de passe</small></div>
+            <div class="contenu">
+              <div class="boite haut"><div class="t">« Recevoir un lien »</div><div class="d">Aucune adresse saisie ; 5 demandes par heure et par adresse</div></div>
+              <div class="fleche"><svg width="13" height="8" viewBox="0 0 13 8" aria-hidden="true"><line x1="0" y1="4" x2="10" y2="4" stroke="#3a3935" stroke-width="1.2"/><path d="M8 1 L12 4 L8 7" stroke="#3a3935" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="boite haut"><div class="t">Courriel au garagiste</div><div class="d">Lien de 15 minutes, à usage unique, vers la seule adresse configurée</div></div>
+              <div class="fleche"><svg width="13" height="8" viewBox="0 0 13 8" aria-hidden="true"><line x1="0" y1="4" x2="10" y2="4" stroke="#3a3935" stroke-width="1.2"/><path d="M8 1 L12 4 L8 7" stroke="#3a3935" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="boite haut"><div class="t">« Ouvrir mon espace »</div><div class="d">Un bouton : l'aperçu d'une messagerie ne consomme pas le lien</div></div>
+              <div class="fleche"><svg width="13" height="8" viewBox="0 0 13 8" aria-hidden="true"><line x1="0" y1="4" x2="10" y2="4" stroke="#3a3935" stroke-width="1.2"/><path d="M8 1 L12 4 L8 7" stroke="#3a3935" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="boite haut"><div class="t">Session de 90 jours</div><div class="d">Cookie protégé, limité à l'espace ; chaque envoi contrôlé</div></div>
+            </div>
+          </div>
+          <div class="voie">
+            <div class="libelle"><span>Trois modes</span><small>Variable <code>MODE_SITE</code></small></div>
+            <div class="contenu espace">
+              <div class="boite"><div class="t">Production, par défaut</div><div class="d">Seul le validé s'affiche ; démarrage refusé s'il manque une donnée obligatoire</div></div>
+              <div class="boite"><div class="t">Relecture</div><div class="d">Poste d'Anthony seulement (127.0.0.1) ; valeurs à confirmer surlignées</div></div>
+              <div class="boite"><div class="t">Démonstration</div><div class="d">Propositions affichées sous le bandeau « contenus à confirmer par le garage »</div></div>
+            </div>
+          </div>
+        </div>
+        <figcaption><b>Figure 2.</b> Accès et sécurité. Hors production, toutes les réponses portent <code>noindex</code> : relecture et démonstration restent hors des moteurs de recherche.</figcaption>
+      </figure>
+
+      <table class="tab">
+        <thead><tr><th style="width:19%">Sujet</th><th>Ce que fait le site</th></tr></thead>
+        <tbody>
+          <tr><td class="cle">Connexion</td><td>Même réponse pour tous, aucun compte révélé ; alerte à Anthony au-delà de 20 demandes de lien par heure, sans verrouiller le compte. <code>pnpm garagiste:reinitialiser</code> révoque toutes les sessions, <code>pnpm garagiste:lien</code> donne un lien de secours.</td></tr>
+          <tr><td class="cle">Session, formulaires</td><td>Jetons de 256 bits gardés par leur seule empreinte SHA-256 ; cookie <code>HttpOnly</code>, <code>SameSite=Lax</code>, <code>Secure</code> en https ; tout envoi de l'espace contrôle la provenance et un jeton lié à la session, sinon refus (403).</td></tr>
+          <tr><td class="cle">En-têtes de sécurité</td><td>Politique de contenu stricte (<code>default-src 'self'</code>), affichage en cadre interdit, <code>nosniff</code>, caméra, micro, position et paiement coupés, HSTS en https ; espace garagiste en <code>noindex</code> et <code>no-store</code>.</td></tr>
+          <tr><td class="cle">Journaux</td><td>Méthode et chemin seulement : ni chaîne de requête, ni adresse IP (Internet Protocol) du visiteur, ni lien de connexion.</td></tr>
+          <tr><td class="cle">Données personnelles</td><td>Prénom, téléphone, moment de rappel, véhicule ou motif : le strict nécessaire ; information RGPD (règlement général sur la protection des données) sous chaque formulaire ; effacement 12 mois après la réception ou le dernier changement de statut ; texte des courriels reçus jamais conservé.</td></tr>
+          <tr><td class="cle">Porte de démarrage</td><td>En production, refus de démarrer, avec la liste complète, tant qu'une donnée obligatoire manque (article 4) : c'est le cas aujourd'hui, et c'est voulu.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="article suite">Article 3. Connecteurs ouverts : Gmail et SMS</h2>
+      <p>La boîte Gmail du garage (<strong>bfauto94@gmail.com</strong>) sert dans les deux sens : envoi par SMTP (Simple Mail Transfer Protocol) et lecture par IMAP (Internet Message Access Protocol), toujours chiffrés. Il suffit de l'adresse et d'un mot de passe d'application de 16 lettres, créé par le garagiste après activation de la validation en deux étapes, et révocable seul. La figure 3 suit une demande.</p>
+
+      <figure class="fig">
+        <div class="cadre">
+          <div class="voie">
+            <div class="contenu">
+              <div class="boite haut"><div class="t">1. Le client écrit</div><div class="d">Rendez-vous, devis ou rappel, depuis le formulaire du site</div></div>
+              <div class="fleche"><svg width="13" height="8" viewBox="0 0 13 8" aria-hidden="true"><line x1="0" y1="4" x2="10" y2="4" stroke="#3a3935" stroke-width="1.2"/><path d="M8 1 L12 4 L8 7" stroke="#3a3935" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="boite haut"><div class="t">2. Le site enregistre</div><div class="d">En base avant tout envoi, avec une référence tirée au hasard, par exemple <span style="white-space:nowrap">BF-7K3Q9D</span></div></div>
+              <div class="fleche"><svg width="13" height="8" viewBox="0 0 13 8" aria-hidden="true"><line x1="0" y1="4" x2="10" y2="4" stroke="#3a3935" stroke-width="1.2"/><path d="M8 1 L12 4 L8 7" stroke="#3a3935" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="boite haut"><div class="t">3. Courriel au garage</div><div class="d">Texte brut, objet terminé par [BF-7K3Q9D] ; en cas d'échec, nouvel essai à 1 min, 10 min, 1 h</div></div>
+              <div class="fleche"><svg width="13" height="8" viewBox="0 0 13 8" aria-hidden="true"><line x1="0" y1="4" x2="10" y2="4" stroke="#3a3935" stroke-width="1.2"/><path d="M8 1 L12 4 L8 7" stroke="#3a3935" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="boite haut"><div class="t">4. Le garagiste répond « fait »</div><div class="d">Après avoir rappelé : « fait », « rappelé » ou « traité », d'un seul mot</div></div>
+              <div class="fleche"><svg width="13" height="8" viewBox="0 0 13 8" aria-hidden="true"><line x1="0" y1="4" x2="10" y2="4" stroke="#3a3935" stroke-width="1.2"/><path d="M8 1 L12 4 L8 7" stroke="#3a3935" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div class="boite haut"><div class="t">5. Demande classée</div><div class="d">Boîte relevée toutes les 2 minutes, en lecture seule : la demande passe « Traitée »</div></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 13px 1fr 13px 1fr 13px 1fr 13px 1fr">
+            <div style="grid-column:5;height:9px;border-left:1.2px dashed #3a3935;margin-left:50%"></div>
+            <div class="boite condition" style="grid-column:3 / 8;grid-row:2"><div class="t">Si « Ne roulez pas » : un SMS en plus</div><div class="d">Vers le portable du garage (06 05 92 28 38 par défaut), par OVHcloud ou Brevo ; un seul par demande, sans lien, pour tenir en un message</div></div>
+          </div>
+        </div>
+        <figcaption><b>Figure 3.</b> Le trajet d'une demande. La référence relie la réponse à sa demande sans rien lire d'autre dans la boîte ; sans réponse, la demande reste « À rappeler » dans l'espace garagiste, où un bouton la classe aussi.</figcaption>
+      </figure>
+    </div>
+
+    <!-- ============ SUITE DE L'ARTICLE 3 ET ARTICLE 4 ============ -->
+    <div class="derniere" data-screen-label="Connecteurs et exploitation">
+      <table class="tab">
+        <thead><tr><th style="width:50%">La lecture de la boîte fait</th><th>Elle ne fait jamais</th></tr></thead>
+        <tbody>
+          <tr><td>Classe « Traitée » sur « fait », « rappelé » ou « traité » venu de l'adresse du garage, sans échec d'authentification</td><td>Écrire : lecture seule, rien de marqué lu, déplacé, archivé ni supprimé, aucune réponse</td></tr>
+          <tr><td>Note « Réponse reçue, non reconnue » si la réponse est une phrase : rien n'est classé à tort</td><td>Télécharger un message sans référence du site : clients et fournisseurs restent invisibles</td></tr>
+          <tr><td>Marque « non remise », avec le motif, une notification revenue en erreur (adresse fausse, boîte pleine)</td><td>Relire l'historique, ni garder le texte d'un courriel reçu</td></tr>
+        </tbody>
+      </table>
+
+      <table class="tab">
+        <thead><tr><th style="width:18%">Situation</th><th>Ce que fait le site, et quoi faire</th></tr></thead>
+        <tbody>
+          <tr><td class="cle">Mise en service</td><td><code>pnpm courriel:tester --envoyer &lt;adresse&gt;</code> vérifie envoi et lecture puis envoie un essai (y répondre « fait ») ; <code>pnpm sms:tester --envoyer</code> envoie un SMS d'essai et affiche les crédits.</td></tr>
+          <tr><td class="cle">Gmail en panne</td><td>Demande enregistrée quand même ; nouvel essai à 1 min, 10 min, 1 h puis chaque heure ; <code>/sante</code> répond 503 pour la sonde ; le démarrage n'est jamais bloqué.</td></tr>
+          <tr><td class="cle">Lecture en panne</td><td>Les réponses « fait » attendent, rien n'est perdu ; <code>/sante</code> répond 503 au-delà d'une heure.</td></tr>
+          <tr><td class="cle">SMS en échec</td><td>Le courriel part quand même ; l'échec est écrit au journal.</td></tr>
+        </tbody>
+      </table>
+
+      <table class="tab">
+        <thead><tr><th style="width:44%">Variable (aucune valeur secrète ici)</th><th style="width:40%">Contenu</th><th>Fournie par</th></tr></thead>
+        <tbody>
+          <tr><td><code>SMTP_UTILISATEUR</code>, <code>SMTP_MOT_DE_PASSE</code></td><td><code>bfauto94@gmail.com</code> (déjà renseignée), mot de passe d'application (secret, à créer)</td><td>Garage</td></tr>
+          <tr><td><code>COURRIEL_GARAGE</code>, <code>COURRIEL_GARAGISTE</code></td><td>Destinataires des demandes et des liens (défaut : la boîte)</td><td>Facultatif</td></tr>
+          <tr><td><code>COURRIEL_RESPONSABLE_SITE</code></td><td>Anthony : signalements de changement, alertes</td><td>Anthony</td></tr>
+          <tr><td><code>SMS_OVH_*</code> (quatre variables) ou <code>SMS_BREVO_CLE_API</code> ; <code>SMS_DESTINATAIRE</code></td><td>Compte SMS (secrets) ; autre mobile, facultatif</td><td>Souscription</td></tr>
+          <tr><td><code>URL_PUBLIQUE</code>, <code>HOTE</code>, <code>TRUST_PROXY</code>, <code>BASE_SQLITE</code></td><td>Adresse https, <code>0.0.0.0</code>, <code>1</code> sur Render, disque persistant</td><td>Anthony</td></tr>
+          <tr><td colspan="3">Secrets : onglet Environment de l'hébergeur ou <code>.env</code> local ignoré par git, jamais dans le dépôt. Pas à pas : <code>docs/exploitation/courriel-et-sms.md</code>.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 class="article suite">Article 4. Exploitation et suite</h2>
+      <p>Code sur GitHub (dépôt privé <strong>LetztStyle-ui/bf-auto-site</strong>), déployable en un clic par <code>render.yaml</code> ; pour le reprendre : Node 20, pnpm 9, <code>pnpm install</code> puis <code>pnpm dev</code> (voir <code>README.md</code>). Hébergement cible : Render, région Francfort (Union européenne), instance payante sans mise en veille, disque persistant pour la base. À mettre en place avec lui : sauvegarde quotidienne (7 jours, copie hebdomadaire hors de Render) et sonde sur <code>/sante</code>. Coût mensuel à présenter au garage ; mise en ligne sur accord d'Anthony.</p>
+      <table class="tab">
+        <thead><tr><th style="width:17%">À fournir</th><th style="width:62%">Détail</th><th>Si elle manque</th></tr></thead>
+        <tbody>
+          <tr><td class="cle">Horaires</td><td>Jour par jour, pause de midi et samedi compris</td><td>Bloquant</td></tr>
+          <tr><td class="cle">Prix</td><td>Taux horaire TTC, premier contrôle, forfaits : des propositions calées sur le marché local s'affichent en démonstration, à confirmer ou corriger</td><td>Bloquant, sauf forfaits</td></tr>
+          <tr><td class="cle">Prénom, photos</td><td>Prénom du garagiste et son accord écrit ; façade montrant l'entrée ; atelier si accord</td><td>Bloquant, sauf atelier</td></tr>
+          <tr><td class="cle">Paiement</td><td>Moyens acceptés : carte, espèces, chèque, virement</td><td>Mention absente</td></tr>
+          <tr><td class="cle">Garantie</td><td>Engagements : devis écrit avant travaux, appel avant tout supplément, accueil sans rendez-vous ; pièces remplacées rendues sur demande</td><td>Trois premiers bloquants</td></tr>
+          <tr><td class="cle">Familles</td><td>Confirmer les 18 familles proposées, de la vidange à la carrosserie</td><td>Bloquant</td></tr>
+          <tr><td class="cle">Identifiants</td><td>Mot de passe d'application de bfauto94@gmail.com, compte SMS</td><td>Gmail bloquant ; sans SMS, courriel seul</td></tr>
+          <tr><td class="cle">Domaine</td><td>Un nom avec « Choisy » ; recherche d'antériorité de la marque</td><td>Bloquant</td></tr>
+          <tr><td class="cle">Mentions légales</td><td>Dénomination, forme, capital, siège, SIRET, TVA, directeur de la publication, hébergeur, médiateur de la consommation</td><td>Bloquant</td></tr>
+          <tr><td class="cle">Pré-diagnostic</td><td>Relecture des questions avec le garagiste (30 minutes)</td><td>Non publié</td></tr>
+        </tbody>
+      </table>
+      
+    </div>
+
+  </div>
+</doc-page>
+
+<script src="./ressources/doc-page.js"></script>
+</body>
+</html>

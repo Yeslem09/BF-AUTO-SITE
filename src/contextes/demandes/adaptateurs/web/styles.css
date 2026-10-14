@@ -1,0 +1,576 @@
+/*
+ * Styles propres au contexte demandes : formulaire unique, confirmation,
+ * bloc « Être rappelé » de l'accueil, espace garagiste. Tout le reste vient de
+ * la bibliothèque (docs/design/composants.md) : .entete-page, .panneau,
+ * .champ, .choix-tuile, .bouton-choix, .alerte, .message, .tableau-tarifs.
+ * Classes préfixées « demandes- », couleurs par les seuls rôles, aucune ombre.
+ */
+
+/* Un numéro de téléphone ne se coupe jamais en fin de ligne : il se lit et se compose d'un bloc */
+
+.demandes-numero,
+.demandes-telephone,
+.demandes-a-valider {
+  white-space: nowrap;
+}
+
+/* Page : une colonne de lecture ; l'aparté passe à droite sur grand écran */
+
+.demandes-colonne {
+  max-width: 44rem;
+}
+
+/* Un écart unique entre les panneaux d'une colonne, quel que soit leur élément. */
+.demandes-colonne > * + .panneau {
+  margin-top: var(--espace-5);
+}
+
+.demandes-page--avec-aparte {
+  display: grid;
+  gap: var(--espace-5);
+}
+
+@media (min-width: 64rem) {
+  .demandes-page--avec-aparte {
+    grid-template-columns: minmax(0, 44rem) minmax(0, 22rem);
+    column-gap: var(--espace-7);
+    align-items: start;
+  }
+}
+
+.demandes-aparte > * + * {
+  margin-top: var(--espace-3);
+}
+
+/* Dans l'aparté étroit, chaque définition passe sous son terme. */
+.demandes-aparte .liste-definitions {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.demandes-aparte .liste-definitions dd + dt {
+  margin-top: var(--espace-3);
+}
+
+.demandes-etapes {
+  display: grid;
+  gap: var(--espace-2);
+  padding-left: var(--espace-5);
+  list-style: decimal;
+}
+
+/* Type de demande : trois boutons de choix côte à côte, qui envoient le
+   formulaire sans script ; le courant (aria-pressed) a l'aspect d'une tuile
+   cochée, par le socle. */
+
+.demandes-types__liste {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 36rem;
+}
+
+.demandes-types__lien {
+  align-items: center;
+  padding-inline: var(--espace-2);
+  font: inherit;
+  font-weight: var(--graisse-demi);
+  text-align: center;
+}
+
+/* Formulaire : un panneau, des blocs titrés séparés d'un filet */
+
+.demandes-formulaire > * + * {
+  margin-top: var(--espace-5);
+}
+
+/* Un lien du récapitulatif d'erreurs amène le champ sous son libellé, pas
+   au ras du haut de l'écran (J1). */
+.demandes-formulaire :is(input, select, textarea) {
+  scroll-margin-top: 7rem;
+}
+
+/* Conduite à tenir du pré-diagnostic, en une ligne au-dessus du formulaire. */
+.demandes-conduite .alerte {
+  padding-block: var(--espace-3);
+}
+
+/* Volet replié du formulaire : résumé du pré-diagnostic, saisie à vérifier. */
+.demandes-volet {
+  border-top: var(--bordure-fine) solid var(--filet);
+  border-bottom: var(--bordure-fine) solid var(--filet);
+}
+
+.demandes-volet .demandes-resume {
+  padding: 0 0 var(--espace-4);
+  border: 0;
+  background: none;
+}
+
+.demandes-securite {
+  max-width: var(--mesure);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.demandes-bloc {
+  display: grid;
+  gap: var(--espace-5);
+  padding-top: var(--espace-5);
+  border-top: var(--bordure-fine) solid var(--filet);
+}
+
+/* Une légende flottante devient un enfant ordinaire de la grille : l'écart
+   s'applique sous elle comme sous tout autre élément (celle d'un
+   `fieldset.champ` l'est déjà par le socle). */
+.demandes-bloc__titre {
+  float: left;
+  width: 100%;
+}
+
+.demandes-bloc__titre {
+  color: var(--texte-titre);
+  font-size: var(--taille-h3);
+  font-weight: var(--graisse-demi);
+}
+
+.demandes-groupe:has([aria-invalid='true']) .choix-tuile {
+  border-color: var(--erreur);
+}
+
+.demandes-grille {
+  display: grid;
+  gap: var(--espace-5);
+}
+
+@media (min-width: 40rem) {
+  .demandes-grille {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--espace-4);
+  }
+}
+
+.demandes-ou {
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+  font-weight: var(--graisse-demi);
+}
+
+.demandes-famille {
+  padding: var(--espace-3) var(--espace-4);
+  border-left: var(--epaisseur-repere) solid var(--accent);
+  background: var(--fond-sourd);
+}
+
+.demandes-famille__libelle {
+  display: block;
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.demandes-envoi {
+  padding-top: var(--espace-5);
+  border-top: var(--bordure-fine) solid var(--filet);
+}
+
+.demandes-envoi__bouton,
+.demandes-rappel__bouton,
+.demandes-statut__bouton {
+  width: 100%;
+}
+
+@media (min-width: 40rem) {
+  .demandes-envoi__bouton {
+    width: auto;
+    min-width: 18rem;
+  }
+}
+
+/* Champ piège : hors du flux visuel, jamais affiché */
+
+.demandes-piege {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Créneaux d'un rendez-vous (J3) : une ligne par jour, le matin toujours dans
+   la première colonne, l'après-midi dans la seconde ; le jour en toutes
+   lettres au-dessus sur téléphone, à gauche au bureau. */
+
+.demandes-jours {
+  display: grid;
+  gap: var(--espace-4);
+}
+
+.demandes-jour {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espace-2);
+}
+
+.demandes-jour__nom {
+  grid-column: 1 / -1;
+  color: var(--texte-titre);
+  font-size: var(--taille-plus);
+  font-weight: var(--graisse-demi);
+}
+
+.demandes-jour__case--matin {
+  grid-column: 1;
+}
+
+.demandes-jour__case--apres-midi {
+  grid-column: 2;
+}
+
+.demandes-jour__case > span {
+  white-space: nowrap;
+}
+
+@media (min-width: 40rem) {
+  .demandes-jours {
+    gap: var(--espace-2);
+  }
+
+  .demandes-jour {
+    grid-template-columns: minmax(12rem, 1.3fr) repeat(2, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  .demandes-jour__nom {
+    grid-column: 1;
+  }
+
+  .demandes-jour__case--matin {
+    grid-column: 2;
+  }
+
+  .demandes-jour__case--apres-midi {
+    grid-column: 3;
+  }
+}
+
+.demandes-creneaux > .liste-choix {
+  margin-top: var(--espace-4);
+}
+
+/* Récapitulatif d'erreurs et écran « Confirmez l'envoi » */
+
+.demandes-erreurs__titre {
+  font-size: var(--taille-plus);
+}
+
+.demandes-erreurs__liste {
+  display: grid;
+  gap: var(--espace-2);
+  margin-top: var(--espace-3);
+}
+
+.demandes-erreurs__liste a {
+  color: var(--erreur);
+  font-weight: var(--graisse-demi);
+}
+
+.demandes-a-confirmer {
+  max-width: var(--mesure);
+  border-color: var(--accent);
+}
+
+.demandes-a-confirmer > * + * {
+  margin-top: var(--espace-2);
+}
+
+/* Écran « Confirmez l'envoi » : le bouton dans le premier écran du téléphone,
+   au-dessus de la barre fixe basse tant qu'elle est là. */
+.demandes-page--confirmer {
+  padding-top: var(--espace-4);
+}
+
+.demandes-confirmer > * + * {
+  margin-top: var(--espace-4);
+}
+
+.demandes-confirmer .demandes-a-confirmer {
+  padding-block: var(--espace-3);
+}
+
+.demandes-confirmer__detail > * + * {
+  margin-top: var(--espace-5);
+}
+
+/* Pré-diagnostic transmis : en lecture seule, sur un aplat sourd, sans champ */
+
+.demandes-resume {
+  padding: var(--espace-4);
+  border: var(--bordure-fine) solid var(--filet);
+  border-radius: var(--rayon-1);
+  background: var(--fond-sourd);
+}
+
+.panneau > .demandes-resume {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.demandes-resume > * + * {
+  margin-top: var(--espace-3);
+}
+
+/* Confirmation */
+
+.demandes-suite > * + * {
+  margin-top: var(--espace-3);
+}
+
+/* Le numéro depuis lequel le garage rappelle : à enregistrer, donc à repérer. */
+.demandes-suite .demandes-numero {
+  font-weight: var(--graisse-demi);
+}
+
+.titre-carte + .liste-definitions {
+  margin-top: var(--espace-4);
+}
+
+.demandes-liste-simple {
+  display: grid;
+  gap: var(--espace-1);
+}
+
+.demandes-texte-libre {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.demandes-a-valider {
+  padding: 0 var(--espace-1);
+  background: var(--surlignage);
+  color: var(--texte);
+}
+
+/* Information sur les données, sous chaque formulaire */
+
+.demandes-donnees {
+  max-width: var(--mesure);
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.demandes-donnees > * + * {
+  margin-top: var(--espace-2);
+}
+
+.demandes-donnees__titre {
+  color: var(--texte-titre);
+  font-size: var(--taille-base);
+  font-weight: var(--graisse-demi);
+}
+
+/* Bloc « Être rappelé » de l'accueil : colonne étroite au bureau */
+
+.demandes-rappel > * + * {
+  margin-top: var(--espace-4);
+}
+
+.demandes-rappel__formulaire {
+  display: grid;
+  gap: var(--espace-4);
+}
+
+.demandes-rappel > .demandes-donnees {
+  padding-top: var(--espace-4);
+  border-top: var(--bordure-fine) solid var(--filet);
+}
+
+/* Espace garagiste : tout se fait d'une main sur téléphone, boutons pleine largeur */
+
+.demandes-envois-suspects {
+  max-width: var(--mesure);
+}
+
+.demandes-section > * + * {
+  margin-top: var(--espace-4);
+}
+
+.demandes-liste {
+  display: grid;
+  gap: var(--espace-4);
+}
+
+@media (min-width: 64rem) {
+  .demandes-liste {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.demandes-carte > * + * {
+  margin-top: var(--espace-3);
+}
+
+.demandes-carte--urgente {
+  border-color: var(--alerte-danger);
+  border-left-width: var(--epaisseur-repere);
+}
+
+.demandes-carte__pastilles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espace-2);
+}
+
+.demandes-pastille--urgente {
+  border-color: var(--alerte-danger);
+  background: var(--alerte-danger);
+  color: var(--alerte-danger-texte);
+}
+
+.demandes-pastille--alerte {
+  border-color: var(--erreur);
+  background: var(--erreur-fond);
+  color: var(--erreur);
+}
+
+/* Gestes d'une demande : appeler sur toute la largeur, puis deux boutons
+   côte à côte (« Pas de réponse », fiche ou « Traitée »), au pouce. */
+.demandes-boutons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espace-2);
+}
+
+.demandes-boutons__appel {
+  grid-column: 1 / -1;
+}
+
+.demandes-boutons .bouton,
+.demandes-action .bouton {
+  width: 100%;
+  padding-inline: var(--espace-3);
+}
+
+.demandes-action {
+  display: grid;
+}
+
+@media (min-width: 64rem) {
+  .demandes-actions .demandes-boutons {
+    grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr));
+  }
+
+  .demandes-actions .demandes-boutons__appel {
+    grid-column: auto;
+  }
+}
+
+.demandes-actions > * + * {
+  margin-top: var(--espace-3);
+}
+
+.demandes-promesse {
+  color: var(--texte-titre);
+}
+
+.demandes-tentatives,
+.demandes-doublon {
+  font-size: var(--taille-petite);
+}
+
+.demandes-pastille--doublon {
+  border-color: var(--alerte-attention);
+  background: var(--alerte-attention-fond);
+}
+
+.demandes-carte__detail {
+  display: block;
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+.demandes-compte-rendu {
+  display: grid;
+  gap: var(--espace-3);
+  max-width: var(--mesure);
+}
+
+.demandes-compte-rendu .demandes-action {
+  justify-self: start;
+}
+
+.demandes-compte-rendu .bouton {
+  min-width: 10rem;
+}
+
+/* Retour à la liste ou à l'espace : un vrai bouton de 48 px, au pouce. */
+.demandes-page-fin {
+  padding-bottom: var(--espace-7);
+}
+
+.demandes-fiche dd {
+  overflow-wrap: anywhere;
+}
+
+/* « Ce que nous ne faisons pas », au-dessus du formulaire (US-44). */
+.demandes-exclusions__liste {
+  margin: var(--espace-2) 0 0;
+  padding-left: var(--espace-5);
+  list-style: disc;
+}
+
+/* Engagement de vérification des pièces, sur le devis (US-28). */
+.demandes-engagement {
+  margin: 0;
+  color: var(--texte-doux);
+}
+
+/* Passe 2 du jury : prix indicatif de la famille, photo par SMS (prestation),
+   facultatif replié, véhicule sans plaque replié, résumé complet à confirmer. */
+.demandes-famille__prix {
+  display: block;
+  margin-top: var(--espace-1);
+  font-weight: var(--graisse-demi);
+}
+
+.demandes-photo {
+  max-width: var(--mesure);
+}
+
+.demandes-facultatif .volet__contenu,
+.demandes-sans-plaque .volet__contenu {
+  padding-bottom: var(--espace-4);
+}
+
+/* Résumé à confirmer compact : intitulé et valeur sur la même ligne, le
+   bouton « Confirmer l'envoi » reste près du premier écran du téléphone. */
+.demandes-a-confirmer__resume {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--espace-1) var(--espace-3);
+  margin: 0;
+}
+
+.demandes-a-confirmer__resume dt {
+  font-weight: var(--graisse-demi);
+}
+
+.demandes-a-confirmer__resume dd {
+  margin: 0;
+}
+
+/* Espace garagiste : « Pas de réponse » à distance d'« Appeler » (J4, passe 2). */
+.demandes-boutons__appel + .demandes-action {
+  margin-top: var(--espace-3);
+}
+
+.demandes-boutons + .demandes-boutons {
+  margin-top: var(--espace-2);
+}
+
+.demandes-ferme-aujourdhui {
+  max-width: var(--mesure);
+}
+
+.demandes-carte__fiche a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+}

@@ -1,0 +1,115 @@
+/*
+ * Styles propres au contexte accès (espace garagiste). Classes préfixées « acces- ».
+ * Tout le reste vient de la bibliothèque (docs/design/composants.md) :
+ * .entete-page, .panneau, .carte, .encart, .volet, .champ, .bouton, .message.
+ * Pages pensées d'abord pour le téléphone du garagiste : une colonne, des
+ * boutons pleine largeur à portée de pouce, aucune barre fixe (rubrique
+ * garagiste).
+ */
+
+/* Une colonne de lecture, alignée sur le bord gauche du conteneur ; seule la
+   grille des raccourcis prend toute la largeur. */
+.acces > :not(.acces-raccourcis) {
+  max-width: 46rem;
+}
+
+/* Le bouton principal d'un écran de l'espace occupe toute la largeur sur téléphone. */
+.acces-action {
+  width: 100%;
+}
+
+@media (min-width: 30rem) {
+  .acces-action {
+    width: auto;
+    min-width: 18rem;
+  }
+}
+
+.acces-note {
+  color: var(--texte-doux);
+  font-size: var(--taille-petite);
+}
+
+/* Lien de démonstration : encadré neutre, distinct d'un message de réussite. */
+.acces-demonstration {
+  border-style: dashed;
+  border-color: var(--bordure-champ);
+  background: var(--fond-sourd);
+}
+
+.acces-demonstration > * + * {
+  margin-top: var(--espace-3);
+}
+
+/* Accueil de l'espace : trois raccourcis, un par geste. */
+.acces-raccourci > * + * {
+  margin-top: var(--espace-2);
+}
+
+.acces-raccourci p {
+  color: var(--texte-doux);
+}
+
+.acces-telephone > * + * {
+  margin-top: var(--espace-4);
+}
+
+.acces-astuce__liste {
+  padding-left: var(--espace-5);
+  list-style: disc;
+}
+
+.acces-astuce__liste > li + li {
+  margin-top: var(--espace-2);
+}
+
+.acces-envoi {
+  padding-top: var(--espace-4);
+  border-top: var(--bordure-fine) solid var(--filet);
+}
+
+/* Résumé des erreurs d'un formulaire : chaque ligne mène au champ à corriger. */
+.acces-resume-erreurs > * + * {
+  margin-top: var(--espace-2);
+}
+
+.acces-resume-erreurs__titre {
+  color: var(--erreur);
+  font-size: var(--taille-base);
+}
+
+.acces-resume-erreurs ul {
+  padding-left: var(--espace-5);
+  list-style: disc;
+}
+
+.acces-resume-erreurs a {
+  color: var(--erreur);
+}
+
+/* Le texte du garagiste garde ses retours à la ligne. */
+.acces-texte-libre {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* Compteur des demandes à rappeler, sur l'accueil de l'espace (J4). */
+.acces-raccourci .acces-compteur {
+  color: var(--texte-titre);
+}
+
+.acces-compteur__urgent {
+  display: inline-block;
+  padding: 0 var(--espace-2);
+  border-radius: var(--rayon-pastille);
+  background: var(--alerte-danger);
+  color: var(--alerte-danger-texte);
+  font-weight: var(--graisse-demi);
+}
+
+/* Lien de retour : 44 px de haut au moins, au pouce (J4). */
+.acces-lien-retour {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cible-tactile);
+}

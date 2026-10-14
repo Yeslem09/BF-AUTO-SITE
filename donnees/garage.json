@@ -1,0 +1,307 @@
+{
+  "commentaire": "Données du garage, seule source de vérité du site. Chaque valeur porte un statut : « valide » (confirmée, avec sa source) ou « a_valider » (avec une note qui dit ce qu’il reste à obtenir). Une valeur à valider peut porter une proposition : elle ne s’affiche qu’en mode démonstration ou relecture, jamais en production. En production, le site refuse de démarrer tant qu’une donnée bloquante reste à valider (liste dans src/contextes/garage/domaine/porte-publication.ts). Pour valider une valeur : la renseigner, passer son statut à « valide », indiquer sa source (qui l’a confirmée, quand) et retirer la note. Les fermetures exceptionnelles ne vivent pas ici : le garagiste les déclare dans son espace (/garagiste/fermetures).",
+  "identite": {
+    "nom": {
+      "statut": "valide",
+      "valeur": "BF Auto",
+      "source": "Anthony, 2026-09-23 (brief §3)"
+    },
+    "ancien_nom": {
+      "statut": "valide",
+      "valeur": "Garage auto Choisy 94",
+      "source": "Anthony, 2026-09-23 (brief §3 : nom actuel de la fiche Google)"
+    },
+    "accroche": {
+      "statut": "a_valider",
+      "valeur": "Votre garage à Choisy-le-Roi : on explique, on chiffre, vous décidez.",
+      "source": "proposition",
+      "note": "Accroche proposée par le Kano (D7), à valider par Anthony."
+    },
+    "activites": {
+      "statut": "valide",
+      "valeur": "Mécanique, entretien, carrosserie et peinture, toutes marques",
+      "source": "Anthony, 2026-09-24 (le garage fait aussi la carrosserie, « vraiment tout »)"
+    },
+    "adresse": {
+      "statut": "valide",
+      "valeur": {
+        "voie": "7 rue Demanieux",
+        "code_postal": "94600",
+        "ville": "Choisy-le-Roi"
+      },
+      "source": "Anthony, 2026-09-23 (brief §3)"
+    },
+    "telephone": {
+      "statut": "valide",
+      "valeur": "06 05 92 28 38",
+      "source": "Anthony, 2026-09-23 (brief §3)"
+    },
+    "courriel": {
+      "statut": "valide",
+      "valeur": "bfauto94@gmail.com",
+      "source": "Anthony, conversation du 2026-09-24",
+      "note": "Courriel public de contact du garage (mentions légales, LCEN art. 19), confirmé par Anthony le 2026-09-24 ; c'est aussi la boîte Gmail qui envoie et reçoit les notifications."
+    },
+    "coordonnees": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Latitude et longitude du 7 rue Demanieux, à relever pour les données structurées."
+    }
+  },
+  "horaires": {
+    "statut": "a_valider",
+    "valeur": {
+      "lundi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "mardi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "mercredi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "jeudi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "vendredi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        },
+        {
+          "ouverture": "14:00",
+          "fermeture": "19:00"
+        }
+      ],
+      "samedi": [
+        {
+          "ouverture": "08:30",
+          "fermeture": "12:00"
+        }
+      ],
+      "dimanche": []
+    },
+    "source": "proposition",
+    "note": "Seule la fermeture à 19 h a été constatée. Semaine type proposée pour la démonstration : jours d’ouverture, heure d’ouverture, pause de midi et samedi à obtenir du garagiste en séance 1."
+  },
+  "socle_de_confiance": {
+    "prenom_garagiste": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Prénom du garagiste et son accord écrit pour le publier, à obtenir en séance 1."
+    },
+    "photo_facade": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Photo réelle de la façade montrant l’entrée de l’atelier, à prendre par Anthony en séance 1."
+    },
+    "devis_ecrit_avant_travaux": {
+      "statut": "a_valider",
+      "valeur": true,
+      "source": "proposition",
+      "note": "Engagement « Devis écrit avant travaux » proposé par le Kano (D6), à faire confirmer par écrit par le garagiste."
+    },
+    "appel_avant_travaux_supplementaires": {
+      "statut": "a_valider",
+      "valeur": true,
+      "source": "proposition",
+      "note": "Engagement « Nous vous appelons avant tout travail supplémentaire » proposé par le Kano (D6), à faire confirmer par écrit par le garagiste."
+    },
+    "accueil_sans_rendez_vous": {
+      "statut": "a_valider",
+      "valeur": true,
+      "source": "proposition",
+      "note": "Le garage reçoit-il sans rendez-vous, pour un premier contrôle, aux heures d’ouverture ? À demander en séance 1."
+    }
+  },
+  "pratique": {
+    "pieces_remplacees_restituees": {
+      "statut": "a_valider",
+      "valeur": true,
+      "source": "proposition",
+      "note": "Engagement « Pièces remplacées restituées sur demande » proposé par le Kano (D6), à faire confirmer par le garagiste."
+    },
+    "moyens_paiement": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Moyens de paiement acceptés au garage (carte, espèces, chèque, virement), à obtenir en séance 1."
+    },
+    "documents_a_apporter": {
+      "statut": "a_valider",
+      "valeur": [
+        "le certificat d’immatriculation (carte grise)",
+        "le carnet d’entretien, si vous l’avez"
+      ],
+      "source": "proposition",
+      "note": "Documents à apporter au garage, à confirmer avec le garagiste."
+    },
+    "stationnement": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Où se garer devant ou près du garage, à relever sur place."
+    },
+    "attente_sur_place": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Peut-on attendre sur place pendant une intervention courte ? À demander au garagiste."
+    },
+    "enseigne_actuelle": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Ce qu’indique aujourd’hui l’enseigne de la façade, tant qu’elle ne porte pas « BF Auto », à relever sur place."
+    },
+    "reperes": {
+      "statut": "valide",
+      "valeur": [
+        "À environ 200 m du boulevard de Stalingrad.",
+        "À environ 600 m de Vitry-sur-Seine."
+      ],
+      "source": "Étude de la concurrence locale du 2026-09-23 (docs/recherche/06), distances à vol d’oiseau depuis la Base Adresse Nationale"
+    },
+    "transports": {
+      "statut": "valide",
+      "valeur": [
+        "Tramway T9 : arrêts Trois Communes (environ 300 m) et Verdun - Hoche (environ 350 m).",
+        "Bus 382 : arrêt Trois Communes (environ 400 m) ; bus 182 et 282 : arrêt Docteur Roux (environ 450 m).",
+        "La nuit, Noctilien N31 : arrêts Trois Communes et Verdun - Hoche."
+      ],
+      "source": "Île-de-France Mobilités, données ouvertes « Arrêts et lignes associées » (data.iledefrance-mobilites.fr, jeu arrets-lignes), consultées le 2026-09-24 ; distances à vol d’oiseau depuis le 7 rue Demanieux géocodé par la Base Adresse Nationale."
+    }
+  },
+  "suivi_client": {
+    "delai_rappel": {
+      "statut": "a_valider",
+      "valeur": "prochaine-demi-journee",
+      "source": "proposition",
+      "note": "Le garage peut-il rappeler dans la demi-journée d’ouverture qui suit une demande ? À confirmer avec le garagiste (Kano AT-3)."
+    },
+    "lien_avis_google": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Lien du formulaire d’avis de la fiche Google renommée, à relever après le renommage."
+    },
+    "lien_gestion_fiche_google": {
+      "statut": "a_valider",
+      "valeur": "https://business.google.com/",
+      "source": "proposition",
+      "note": "Lien direct vers les horaires exceptionnels de la fiche Google du garage, à relever dans le compte du garagiste."
+    },
+    "meme_exploitant": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "« Garage auto Choisy 94 » et BF Auto ont-ils le même exploitant ? À confirmer (encart « Nouveau nom »)."
+    }
+  },
+  "editeur": {
+    "raison_sociale": {
+      "statut": "a_valider",
+      "valeur": "GARAGE AUTO CHOISY 94",
+      "source": "Étude de la concurrence locale du 2026-09-23 (annuaire-entreprises.data.gouv.fr)",
+      "note": "Rattachement du nom commercial BF Auto à la société GARAGE AUTO CHOISY 94 à confirmer."
+    },
+    "forme_juridique": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Forme juridique de l’entreprise exploitante, à relever sur le Kbis ou l’avis de situation Insee."
+    },
+    "capital": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Capital social (ou « sans objet » pour une entreprise individuelle), à relever sur le Kbis."
+    },
+    "siege": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Adresse du siège social, à relever sur le Kbis."
+    },
+    "registre": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Registre d’immatriculation (RCS de Créteil ou registre national des entreprises), à relever sur le Kbis."
+    },
+    "siret": {
+      "statut": "a_valider",
+      "valeur": "953 343 738 00019",
+      "source": "Étude de la concurrence locale du 2026-09-23 (annuaire-entreprises.data.gouv.fr, établissement du 7 rue Demanieux)",
+      "note": "SIRET de l’établissement du 7 rue Demanieux, à confirmer comme celui de BF Auto."
+    },
+    "tva": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Numéro de TVA intracommunautaire (ou mention de non-assujettissement), à relever sur une facture ou le Kbis."
+    },
+    "directeur_publication": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Nom du directeur de la publication (en général le représentant légal), à obtenir."
+    }
+  },
+  "hebergement": {
+    "hebergeur": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Nom, adresse et téléphone de l’hébergeur retenu (Render selon le Kano D11), à relever au contrat."
+    },
+    "region": {
+      "statut": "a_valider",
+      "valeur": "Francfort (Allemagne), dans l’Union européenne",
+      "source": "proposition",
+      "note": "Région d’hébergement retenue au Kano (D11), à confirmer avec l’offre souscrite."
+    },
+    "prestataires_envoi": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Prestataires d’envoi des courriels et SMS et leur lieu de traitement, à arrêter avec le canal de notification."
+    },
+    "encadrement_transferts": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Garantie qui encadre tout transfert hors de l’Union européenne (hébergeur et prestataires établis hors de l’Union), à relever dans leurs conditions."
+    }
+  },
+  "mediateur": {
+    "statut": "a_valider",
+    "valeur": null,
+    "note": "Médiateur de la consommation retenu (nom, adresse, site) et adhésion du garage, à obtenir ; le Médiateur de Mobilians n’est ouvert qu’aux adhérents."
+  },
+  "marque": {
+    "nom_de_domaine": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Nom de domaine portant Choisy, pour se distinguer des homonymes (par exemple sur le modèle bfauto-choisy.fr), à choisir après vérification de disponibilité (Kano D13)."
+    },
+    "anteriorite_marque": {
+      "statut": "a_valider",
+      "valeur": null,
+      "note": "Recherche d’antériorité sur « BF Auto » dans les bases INPI et TMview, classes 12, 35 et 37, à faire et consigner dans docs/collecte/ avant toute impression (Kano D13)."
+    }
+  }
+}

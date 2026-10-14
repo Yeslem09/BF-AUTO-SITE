@@ -1,0 +1,14 @@
+node_modules
+pnpm-lock.yaml
+dist
+coverage
+test-results
+playwright-report
+
+# Documentation et livrables de conception : produits par d'autres agents
+# (recherche, Kano, logo), relus a la main, jamais reformates en masse.
+docs
+
+# Ressources generees par scripts/construire-client.mjs.
+public/js
+public/css/bf-auto.css

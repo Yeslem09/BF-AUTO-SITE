@@ -1,0 +1,809 @@
+{
+  "commentaire": "Catalogue du garage : familles d'intervention (la pièce et sa pose réunies), leurs forfaits, tarifs transverses, ce que le garage ne fait pas, engagement de la pièce vérifiée, gamme au choix, vente au comptoir et exemples de prix de l'accueil. Seule source des pages Pièces détachées, des pages de famille, de la page Tarifs et des prix de l'accueil : un prix ne s'écrit qu'ici. Chaque texte porte un statut (valide ou a_valider) et une source (garage, anthony ou proposition) ; une décision d'Anthony porte sa date (date_decision, AAAA-MM-JJ). La vente au comptoir (pièce seule, à retirer au garage) est validée par la décision d'Anthony du 2026-09-23 (« vente + pose ») ; son texte ne répète plus la vérification, dite une seule fois par l'engagement. En production, seul le validé s'affiche ; en démonstration, les propositions s'affichent sous le bandeau de démonstration ; en relecture, elles sont marquées. Hors la vente au comptoir, toutes les familles, tous les textes et tous les prix ci-dessous sont des PROPOSITIONS à confirmer avec le garagiste en séance. Forfaits : chaque famille en a un à quatre (identifiant unique, intitulé, prix) ; le premier est son prix mis en avant. Un prix prend trois formes : inconnu (statut a_valider et note, sans montant, affiché « Prix sur devis ») ; chiffré (montant_ttc_centimes, entier, 8900 pour 89,00 euros, comprend, date_effet AAAA-MM-JJ, vehicule_reference pour un forfait, a_partir_de facultatif qui exige un véhicule de référence ; le taux horaire et le premier contrôle sont des prix fixes ; pour le premier contrôle, duree et deduit_de_la_reparation) ; sur devis (sur_devis, par exemple « après examen »). Les prix chiffrés à valider sont des PRIX DE DÉMONSTRATION calés sur le marché local (étude 06) : ils portent leur source et une note, ne s'affichent qu'en démonstration et en relecture, et la porte de démarrage refuse la production tant qu'il en reste. Pour valider un prix : statut valide, retirer source et note. vente_piece_seule : false pour une prestation (peinture, carrosserie, diagnostic électronique, climatisation), sans pièce seule, sans vérification ni gamme. organe_exclu_du_reemploi (trains-roulants, direction, freinage, liaison-au-sol, référentiel unique des contrats, repris par la page Vos droits) : pièces neuves uniquement, jamais la gamme d'occasion ou reconditionnée. exemples_accueil : trois forfaits au plus, montrés dans le bloc atelier de l'accueil. pieces (familles qui vendent des pièces) : les pièces que le client coche dans sa demande de prix, au pluriel et avec leur côté (Plaquettes avant, Disques arrière), distinctes des repères de la figure ; piece d'un forfait : la pièce que son lien « Demander un prix » pré-coche, avec la pose ; prestation d'un forfait (révision, vidange, géométrie) : demande sans pièce, sans gamme ni retrait. Dates d'effet de démonstration au 2026-09-24, jamais futures. Synonymes (facultatifs) : autres mots d'une recherche, jamais affichés ; un mot courant ou un synonyme ne mène qu'à une famille. Ce que nous ne faisons pas : liste vide depuis la consigne d'Anthony du 2026-09-24 (« le garage fait aussi la carrosserie, vraiment tout ») ; le bloc reste masqué tant que rien n'est exclu.",
+  "familles": [
+    {
+      "identifiant": "freinage",
+      "libelle": "Freinage",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["plaquettes", "disques", "liquide de frein", "étriers"],
+      "synonymes": [
+        "frein",
+        "tambours",
+        "mâchoires",
+        "frein à main",
+        "flexible de frein",
+        "maître-cylindre"
+      ],
+      "role": "Le freinage ralentit et arrête la voiture : plaquettes et disques s’usent à chaque freinage et se remplacent régulièrement.",
+      "signes_usure": [
+        "Grincement ou sifflement quand vous freinez",
+        "Pédale de frein molle ou qui s’enfonce",
+        "Volant ou pédale qui vibre au freinage",
+        "Voiture qui tire d’un côté quand vous freinez",
+        "Voyant de frein allumé au tableau de bord"
+      ],
+      "ce_que_fait_le_garage": "Nous mesurons l’usure des plaquettes et des disques, remplaçons les pièces usées et contrôlons le liquide de frein, puis vérifions le freinage avant de vous rendre la voiture.",
+      "forfaits": [
+        {
+          "identifiant": "plaquettes-avant",
+          "intitule": "Plaquettes avant posées",
+          "prix": {
+            "statut": "a_valider",
+            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+            "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+            "montant_ttc_centimes": 8900,
+            "a_partir_de": true,
+            "vehicule_reference": "citadine essence",
+            "comprend": "plaquettes avant neuves, pose, contrôle des disques et du liquide de frein, essai",
+            "date_effet": "2026-09-24"
+          },
+          "piece": "Plaquettes avant"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": [
+        "Plaquettes avant",
+        "Plaquettes arrière",
+        "Disques avant",
+        "Disques arrière",
+        "Étriers"
+      ],
+      "organe_exclu_du_reemploi": "freinage"
+    },
+    {
+      "identifiant": "batterie",
+      "libelle": "Batterie",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["batterie à plat", "démarrage difficile", "cosses", "voyant de batterie"],
+      "synonymes": ["batterie morte", "batterie déchargée", "borne de batterie"],
+      "role": "La batterie fournit le courant qui fait démarrer le moteur et alimente l’électronique quand le moteur est arrêté.",
+      "signes_usure": [
+        "Moteur qui tourne lentement au démarrage, surtout par temps froid",
+        "Voiture qui ne démarre plus après quelques jours à l’arrêt",
+        "Voyant de batterie allumé",
+        "Cosses couvertes d’un dépôt blanchâtre"
+      ],
+      "ce_que_fait_le_garage": "Nous testons la batterie et le circuit de charge, et ne remplaçons la batterie que si elle ne tient plus la charge.",
+      "forfaits": [
+        {
+          "identifiant": "batterie-posee",
+          "intitule": "Batterie posée",
+          "prix": {
+            "statut": "a_valider",
+            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+            "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+            "montant_ttc_centimes": 9900,
+            "a_partir_de": true,
+            "vehicule_reference": "citadine essence",
+            "comprend": "batterie neuve, test du circuit de charge, pose et reprise de l’ancienne batterie",
+            "date_effet": "2026-09-24"
+          },
+          "piece": "Batterie"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": ["Batterie", "Cosses"]
+    },
+    {
+      "identifiant": "pneus",
+      "libelle": "Pneus",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["crevaison", "équilibrage", "parallélisme", "pression", "usure des pneus"],
+      "synonymes": [
+        "pneumatiques",
+        "pneus neige",
+        "pneus hiver",
+        "géométrie",
+        "jantes",
+        "valves",
+        "roue de secours"
+      ],
+      "role": "Les pneus sont le seul contact entre la voiture et la route : usés, ils allongent les distances de freinage, surtout sur sol mouillé.",
+      "signes_usure": [
+        "Pneu usé jusqu’aux témoins d’usure de la bande de roulement",
+        "Usure plus marquée d’un côté du pneu",
+        "Volant qui vibre à vitesse stable",
+        "Crevaison, bosse ou coupure sur le flanc",
+        "Voyant de pression des pneus allumé"
+      ],
+      "ce_que_fait_le_garage": "Nous contrôlons l’usure et la pression, remplaçons les pneus usés ou abîmés, puis équilibrons les roues.",
+      "forfaits": [
+        {
+          "identifiant": "pneu-monte",
+          "intitule": "Pneu monté et équilibré",
+          "prix": {
+            "statut": "a_valider",
+            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+            "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+            "montant_ttc_centimes": 7500,
+            "a_partir_de": true,
+            "vehicule_reference": "citadine essence",
+            "comprend": "un pneu neuf de gamme économique, valve neuve, montage et équilibrage",
+            "date_effet": "2026-09-24"
+          }
+        },
+        {
+          "identifiant": "geometrie",
+          "intitule": "Géométrie (parallélisme)",
+          "prix": {
+            "statut": "a_valider",
+            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+            "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+            "montant_ttc_centimes": 4900,
+            "a_partir_de": true,
+            "vehicule_reference": "citadine essence",
+            "comprend": "contrôle des angles du train avant et réglage du parallélisme",
+            "date_effet": "2026-09-24"
+          },
+          "prestation": true
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": ["Pneus avant", "Pneus arrière", "Valves", "Jantes"],
+      "organe_exclu_du_reemploi": "liaison-au-sol"
+    },
+    {
+      "identifiant": "vidange-et-filtres",
+      "libelle": "Vidange et filtres",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": [
+        "huile moteur",
+        "filtre à huile",
+        "filtre à air",
+        "filtre d’habitacle",
+        "filtre à carburant",
+        "révision"
+      ],
+      "synonymes": [
+        "vidange",
+        "huile",
+        "filtre à pollen",
+        "filtre à gazole",
+        "entretien",
+        "bouchon de vidange",
+        "entretien constructeur",
+        "carnet d’entretien",
+        "niveaux",
+        "liquide de direction assistée"
+      ],
+      "role": "La vidange remplace l’huile usée du moteur, et les filtres retiennent les impuretés de l’huile, de l’air et du carburant.",
+      "signes_usure": [
+        "Kilométrage ou date de vidange du carnet d’entretien dépassés",
+        "Voyant d’huile ou message d’entretien au tableau de bord",
+        "Huile noire ou niveau bas à la jauge",
+        "Mauvaise odeur ou buée tenace dans l’habitacle"
+      ],
+      "ce_que_fait_le_garage": "Nous vidangeons le moteur avec l’huile préconisée par le constructeur, remplaçons les filtres prévus au carnet d’entretien et remettons à zéro l’indicateur d’entretien.",
+      "forfaits": [
+        {
+          "identifiant": "vidange",
+          "intitule": "Vidange",
+          "prix": {
+            "statut": "a_valider",
+            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+            "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+            "montant_ttc_centimes": 6900,
+            "a_partir_de": true,
+            "vehicule_reference": "citadine essence",
+            "comprend": "huile moteur préconisée par le constructeur, filtre à huile neuf et main-d’œuvre",
+            "date_effet": "2026-09-24"
+          },
+          "prestation": true
+        },
+        {
+          "identifiant": "revision",
+          "intitule": "Révision",
+          "prix": {
+            "statut": "a_valider",
+            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+            "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+            "montant_ttc_centimes": 12900,
+            "a_partir_de": true,
+            "vehicule_reference": "citadine essence",
+            "comprend": "vidange, filtres à huile, à air et d’habitacle, contrôle des niveaux et des organes de sécurité, remise à zéro de l’indicateur d’entretien",
+            "date_effet": "2026-09-24"
+          },
+          "prestation": true
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": [
+        "Huile moteur",
+        "Filtre à huile",
+        "Filtre à air",
+        "Filtre d’habitacle",
+        "Filtre à carburant"
+      ]
+    },
+    {
+      "identifiant": "distribution",
+      "libelle": "Distribution",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": [
+        "courroie de distribution",
+        "chaîne de distribution",
+        "galets",
+        "pompe à eau"
+      ],
+      "synonymes": ["kit de distribution", "galet tendeur", "galet enrouleur"],
+      "role": "La courroie ou la chaîne de distribution synchronise les pièces mobiles du moteur : si elle casse, le moteur peut être gravement endommagé.",
+      "signes_usure": [
+        "Kilométrage ou âge de remplacement du carnet d’entretien atteint",
+        "Sifflement ou cliquetis à l’avant du moteur",
+        "Souvent aucun signe avant la casse : seule l’échéance du carnet prévient"
+      ],
+      "ce_que_fait_le_garage": "Nous remplaçons la courroie ou la chaîne avec ses galets, et la pompe à eau quand le constructeur le prévoit, à l’échéance du carnet d’entretien.",
+      "forfaits": [
+        {
+          "identifiant": "kit-distribution",
+          "intitule": "Kit de distribution",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Forfait kit de distribution à fixer avec le garagiste : montant TTC, pompe à eau comprise ou non, véhicule de référence et date d’effet."
+          },
+          "piece": "Kit de distribution"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": ["Kit de distribution", "Pompe à eau"]
+    },
+    {
+      "identifiant": "embrayage",
+      "libelle": "Embrayage",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["pédale d’embrayage", "kit d’embrayage", "volant moteur", "butée"],
+      "synonymes": [
+        "disque d’embrayage",
+        "mécanisme d’embrayage",
+        "butée d’embrayage",
+        "câble d’embrayage",
+        "embrayage qui patine"
+      ],
+      "role": "L’embrayage relie le moteur à la boîte de vitesses et permet de démarrer et de changer de vitesse sans à-coup.",
+      "signes_usure": [
+        "Moteur qui monte dans les tours sans que la voiture accélère",
+        "Pédale d’embrayage dure, molle ou qui accroche tout en haut",
+        "Vitesses qui passent mal ou qui craquent",
+        "Odeur de brûlé après une côte ou un démarrage difficile"
+      ],
+      "ce_que_fait_le_garage": "Nous contrôlons l’embrayage et, s’il est usé, remplaçons le kit (disque, mécanisme et butée), ainsi que le volant moteur s’il est abîmé.",
+      "forfaits": [
+        {
+          "identifiant": "kit-embrayage",
+          "intitule": "Kit d’embrayage",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Forfait kit d’embrayage à fixer avec le garagiste : montant TTC, volant moteur exclu, véhicule de référence et date d’effet."
+          },
+          "piece": "Kit d’embrayage"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": ["Kit d’embrayage", "Volant moteur", "Câble d’embrayage"]
+    },
+    {
+      "identifiant": "amortisseurs-et-suspension",
+      "libelle": "Amortisseurs et suspension",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["amortisseurs", "ressorts", "rotules", "silentblocs", "triangles"],
+      "synonymes": [
+        "suspension",
+        "coupelles",
+        "silent-bloc",
+        "biellettes",
+        "barre stabilisatrice",
+        "bras de suspension"
+      ],
+      "role": "Les amortisseurs et la suspension gardent les roues au contact de la route et la voiture stable dans les virages et au freinage.",
+      "signes_usure": [
+        "Voiture qui rebondit ou tangue après une bosse",
+        "Claquements sur les ralentisseurs ou les pavés",
+        "Voiture qui penche fortement dans les virages",
+        "Usure irrégulière des pneus"
+      ],
+      "ce_que_fait_le_garage": "Nous contrôlons amortisseurs, ressorts et articulations, puis remplaçons les pièces usées, les amortisseurs toujours par paire sur un même essieu.",
+      "forfaits": [
+        {
+          "identifiant": "amortisseurs-avant",
+          "intitule": "Paire d’amortisseurs avant",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Forfait paire d’amortisseurs avant à fixer avec le garagiste : montant TTC, véhicule de référence et date d’effet."
+          },
+          "piece": "Amortisseurs avant"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": [
+        "Amortisseurs avant",
+        "Amortisseurs arrière",
+        "Ressorts",
+        "Rotules",
+        "Silentblocs",
+        "Biellettes"
+      ],
+      "organe_exclu_du_reemploi": "trains-roulants"
+    },
+    {
+      "identifiant": "echappement",
+      "libelle": "Échappement",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["pot d’échappement", "silencieux", "catalyseur", "filtre à particules"],
+      "synonymes": ["pot", "FAP", "ligne d’échappement", "tuyau d’échappement", "sonde lambda"],
+      "role": "L’échappement évacue les gaz du moteur, atténue le bruit et, avec le catalyseur et le filtre à particules, traite une partie des gaz polluants.",
+      "signes_usure": [
+        "Bruit d’échappement plus fort ou qui résonne",
+        "Odeur de gaz d’échappement dans l’habitacle",
+        "Voyant moteur ou message du filtre à particules allumé",
+        "Pot ou silencieux qui pend ou frotte sous la voiture"
+      ],
+      "ce_que_fait_le_garage": "Nous contrôlons toute la ligne d’échappement, remplaçons les éléments percés ou abîmés et vérifions le bon fonctionnement du catalyseur et du filtre à particules.",
+      "forfaits": [
+        {
+          "identifiant": "silencieux-arriere",
+          "intitule": "Silencieux arrière",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Forfait silencieux arrière à fixer avec le garagiste : montant TTC, véhicule de référence et date d’effet."
+          },
+          "piece": "Silencieux arrière"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": [
+        "Silencieux arrière",
+        "Silencieux intermédiaire",
+        "Catalyseur",
+        "Filtre à particules",
+        "Sonde lambda"
+      ]
+    },
+    {
+      "identifiant": "demarrage-et-charge",
+      "libelle": "Démarrage et charge",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": [
+        "démarreur",
+        "alternateur",
+        "courroie d’accessoires",
+        "batterie qui se décharge"
+      ],
+      "synonymes": [
+        "démarrage",
+        "courroie d’alternateur",
+        "poulie d’alternateur",
+        "régulateur de tension",
+        "voyant de charge"
+      ],
+      "role": "Le démarreur lance le moteur, et l’alternateur recharge la batterie pendant que vous roulez.",
+      "signes_usure": [
+        "Clic ou grincement quand vous tournez la clé",
+        "Voyant de batterie qui reste allumé en roulant",
+        "Batterie récente qui se décharge quand même",
+        "Sifflement de courroie au démarrage"
+      ],
+      "ce_que_fait_le_garage": "Nous mesurons la charge et le démarrage pour trouver la pièce en cause (démarreur, alternateur ou courroie) avant de proposer un remplacement.",
+      "forfaits": [
+        {
+          "identifiant": "alternateur",
+          "intitule": "Remplacement d’alternateur",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Forfait remplacement d’alternateur à fixer avec le garagiste : montant TTC, véhicule de référence et date d’effet."
+          },
+          "piece": "Alternateur"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": ["Démarreur", "Alternateur", "Courroie d’accessoires"]
+    },
+    {
+      "identifiant": "climatisation",
+      "libelle": "Climatisation",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": [
+        "recharge de climatisation",
+        "gaz",
+        "air qui ne refroidit plus",
+        "mauvaises odeurs"
+      ],
+      "synonymes": [
+        "clim",
+        "recharge de clim",
+        "compresseur de climatisation",
+        "condenseur",
+        "désinfection de la climatisation"
+      ],
+      "role": "La climatisation refroidit et assèche l’air de l’habitacle, ce qui aide aussi à désembuer les vitres.",
+      "signes_usure": [
+        "Air qui ne refroidit plus ou très peu",
+        "Mauvaise odeur à la mise en route de la ventilation",
+        "Buée difficile à chasser",
+        "Bruit quand la climatisation se met en marche"
+      ],
+      "ce_que_fait_le_garage": "Nous contrôlons le circuit et son étanchéité, rechargeons le gaz à la quantité prévue par le constructeur et remplaçons le filtre d’habitacle si besoin.",
+      "forfaits": [
+        {
+          "identifiant": "recharge-climatisation",
+          "intitule": "Recharge de climatisation",
+          "prix": {
+            "statut": "a_valider",
+            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+            "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+            "montant_ttc_centimes": 6900,
+            "a_partir_de": true,
+            "vehicule_reference": "citadine essence",
+            "comprend": "contrôle d’étanchéité, tirage au vide et recharge en gaz R134a à la quantité prévue par le constructeur",
+            "date_effet": "2026-09-24"
+          }
+        }
+      ],
+      "vente_piece_seule": false,
+      "consigne_demande": "Décrivez ce que fait la climatisation : air tiède, mauvaise odeur ou bruit."
+    },
+    {
+      "identifiant": "eclairage",
+      "libelle": "Éclairage",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["ampoules", "phares", "feux arrière", "réglage des phares"],
+      "synonymes": [
+        "feux",
+        "feu stop",
+        "clignotants",
+        "antibrouillards",
+        "optiques",
+        "feux de croisement"
+      ],
+      "role": "L’éclairage vous permet de voir la route et d’être vu des autres usagers, de jour comme de nuit.",
+      "signes_usure": [
+        "Ampoule grillée, signalée au tableau de bord ou constatée",
+        "Clignotant qui clignote plus vite que d’habitude",
+        "Phares jaunis ou ternes qui éclairent moins",
+        "Appels de phares des autres conducteurs : faisceau trop haut"
+      ],
+      "ce_que_fait_le_garage": "Nous remplaçons les ampoules et les feux défectueux, puis réglons la hauteur des phares.",
+      "forfaits": [
+        {
+          "identifiant": "ampoule-phare",
+          "intitule": "Ampoule de phare",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Prix de remplacement d’une ampoule de phare à fixer avec le garagiste : montant TTC, véhicule de référence et date d’effet."
+          },
+          "piece": "Ampoules de phare"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": [
+        "Ampoules de phare",
+        "Ampoules de feux arrière",
+        "Clignotants",
+        "Optiques de phare"
+      ]
+    },
+    {
+      "identifiant": "essuie-glaces",
+      "libelle": "Essuie-glaces",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["balais d’essuie-glace", "lave-glace", "moteur d’essuie-glace"],
+      "synonymes": ["balais", "raclettes", "gicleurs", "liquide de lave-glace"],
+      "role": "Les essuie-glaces dégagent le pare-brise pour garder une bonne visibilité sous la pluie.",
+      "signes_usure": [
+        "Traces ou zones non essuyées sur le pare-brise",
+        "Balais qui grincent ou qui sautent",
+        "Caoutchouc fendu ou durci",
+        "Lave-glace qui ne projette plus"
+      ],
+      "ce_que_fait_le_garage": "Nous remplaçons les balais usés et contrôlons le lave-glace et le moteur d’essuie-glace.",
+      "forfaits": [
+        {
+          "identifiant": "balais-avant",
+          "intitule": "Paire de balais avant",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Prix d’une paire de balais avant posée à fixer avec le garagiste : montant TTC, véhicule de référence et date d’effet."
+          },
+          "piece": "Balais avant"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": ["Balais avant", "Balai arrière", "Moteur d’essuie-glace"]
+    },
+    {
+      "identifiant": "moteur-et-injection",
+      "libelle": "Moteur et injection",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": [
+        "injecteurs",
+        "bougies d’allumage",
+        "turbo",
+        "vanne EGR",
+        "surchauffe",
+        "joint de culasse"
+      ],
+      "synonymes": [
+        "moteur",
+        "injection",
+        "allumage",
+        "bougies de préchauffage",
+        "préchauffage",
+        "bobines",
+        "radiateur",
+        "liquide de refroidissement",
+        "antigel",
+        "durites",
+        "thermostat",
+        "vase d’expansion",
+        "moteur qui chauffe",
+        "moteur qui tousse",
+        "perte de puissance",
+        "fumée noire",
+        "fuite d’huile"
+      ],
+      "role": "Le moteur transforme le carburant en mouvement : l’injection le dose, l’allumage l’enflamme et le circuit de refroidissement l’empêche de chauffer.",
+      "signes_usure": [
+        "Voiture qui tousse, cale ou manque de puissance",
+        "Fumée noire, bleue ou blanche à l’échappement",
+        "Aiguille de température qui monte",
+        "Consommation de carburant ou d’huile en hausse",
+        "Démarrage difficile moteur froid"
+      ],
+      "ce_que_fait_le_garage": "Nous cherchons l’origine du défaut par mesures et essais, remplaçons les pièces en cause (injecteurs, bougies, bobines, pièces du refroidissement), puis vérifions le fonctionnement du moteur sur route.",
+      "forfaits": [
+        {
+          "identifiant": "intervention-moteur",
+          "intitule": "Intervention sur le moteur",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Intervention au cas par cas : forfaits éventuels (bougies, liquide de refroidissement) à fixer avec le garagiste, montant TTC, ce qu’ils comprennent et date d’effet."
+          }
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": [
+        "Bougies d’allumage",
+        "Bougies de préchauffage",
+        "Injecteurs",
+        "Bobines d’allumage",
+        "Vanne EGR",
+        "Turbo"
+      ]
+    },
+    {
+      "identifiant": "boite-de-vitesses",
+      "libelle": "Boîte de vitesses",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": [
+        "vitesses qui craquent",
+        "huile de boîte",
+        "boîte automatique",
+        "levier de vitesses",
+        "cardans"
+      ],
+      "synonymes": [
+        "boîte manuelle",
+        "vidange de boîte",
+        "transmission",
+        "soufflets de cardan",
+        "vitesse qui saute"
+      ],
+      "role": "La boîte de vitesses adapte la force du moteur à la vitesse de la voiture, puis les cardans transmettent le mouvement aux roues.",
+      "signes_usure": [
+        "Vitesses qui craquent ou passent mal",
+        "Vitesse qui saute en roulant",
+        "Sifflement ou grondement qui change avec la vitesse",
+        "Tache d’huile sous la boîte",
+        "À-coups sur une boîte automatique"
+      ],
+      "ce_que_fait_le_garage": "Nous essayons la voiture, contrôlons le niveau et l’état de l’huile de boîte, puis réparons ou remplaçons la pièce en cause : commande, cardan, soufflet ou boîte complète.",
+      "forfaits": [
+        {
+          "identifiant": "vidange-boite",
+          "intitule": "Vidange de boîte",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Intervention au cas par cas : forfait vidange de boîte à fixer avec le garagiste, montant TTC, ce qu’il comprend, véhicule de référence et date d’effet."
+          },
+          "prestation": true
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": ["Huile de boîte", "Cardans", "Soufflets de cardan"]
+    },
+    {
+      "identifiant": "diagnostic-electronique",
+      "libelle": "Diagnostic électronique",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["valise de diagnostic", "voyant moteur", "codes défaut", "mode dégradé"],
+      "synonymes": [
+        "valise",
+        "lecture des défauts",
+        "calculateur",
+        "prise OBD",
+        "OBD",
+        "voyant allumé"
+      ],
+      "role": "Le diagnostic électronique lit à la valise les codes défaut enregistrés par les calculateurs de la voiture, pour trouver l’origine d’un voyant ou d’une panne.",
+      "signes_usure": [
+        "Voyant moteur allumé ou clignotant",
+        "Voiture passée en mode dégradé, qui manque de puissance",
+        "Message d’alerte au tableau de bord",
+        "Panne qui revient sans cause visible"
+      ],
+      "ce_que_fait_le_garage": "Nous branchons la valise sur la prise de diagnostic, lisons les codes défaut, vérifions sur la voiture ce qu’ils désignent, puis vous expliquons ce qu’il faut réparer avant tout travail.",
+      "forfaits": [
+        {
+          "identifiant": "diagnostic-electronique",
+          "intitule": "Diagnostic électronique",
+          "prix": {
+            "statut": "a_valider",
+            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+            "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+            "montant_ttc_centimes": 4900,
+            "a_partir_de": true,
+            "vehicule_reference": "citadine essence",
+            "comprend": "lecture des codes défaut à la valise, vérification sur la voiture et explication avant tout travail",
+            "date_effet": "2026-09-24"
+          }
+        }
+      ],
+      "vente_piece_seule": false,
+      "consigne_demande": "Décrivez le voyant ou le message affiché, et quand il est apparu."
+    },
+    {
+      "identifiant": "pare-brise-et-vitrage",
+      "libelle": "Pare-brise et vitrage",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["impact sur le pare-brise", "fissure", "vitre latérale", "lunette arrière"],
+      "synonymes": [
+        "parebrise",
+        "vitres",
+        "lève-vitre",
+        "joint de pare-brise",
+        "capteur de pluie",
+        "éclat"
+      ],
+      "role": "Le pare-brise et les vitres protègent du vent et des projections, et le pare-brise participe à la solidité de la caisse.",
+      "signes_usure": [
+        "Impact ou éclat sur le pare-brise",
+        "Fissure qui s’allonge",
+        "Vitre qui ne monte plus ou descend mal",
+        "Infiltration d’eau autour d’un joint"
+      ],
+      "ce_que_fait_le_garage": "Nous examinons l’impact ou la fissure, réparons ce qui peut l’être, remplaçons sinon le vitrage et son joint, puis contrôlons l’étanchéité et les capteurs fixés au pare-brise.",
+      "forfaits": [
+        {
+          "identifiant": "pare-brise",
+          "intitule": "Remplacement de pare-brise",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Prix du remplacement de pare-brise à fixer avec le garagiste selon le véhicule : montant TTC, ce qu’il comprend et date d’effet."
+          },
+          "piece": "Pare-brise"
+        }
+      ],
+      "vente_piece_seule": true,
+      "pieces": ["Pare-brise", "Vitre latérale", "Lunette arrière", "Lève-vitre"]
+    },
+    {
+      "identifiant": "carrosserie",
+      "libelle": "Carrosserie",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": ["chocs", "bosses", "rayures", "pare-chocs", "rétroviseurs"],
+      "synonymes": ["débosselage", "tôlerie", "portière", "aile", "capot", "accrochage"],
+      "role": "La carrosserie protège l’habitacle et donne sa forme à la voiture : un choc, une bosse ou une rayure se répare, ou la pièce se remplace.",
+      "signes_usure": [
+        "Bosse ou enfoncement après un choc",
+        "Rayure qui laisse voir la tôle",
+        "Pare-chocs fendu ou décroché",
+        "Portière ou capot qui ferme mal",
+        "Rétroviseur cassé"
+      ],
+      "ce_que_fait_le_garage": "Nous examinons les dégâts, redressons ou remplaçons les éléments abîmés, puis vérifions l’alignement et la fermeture des ouvrants avant de vous rendre la voiture.",
+      "forfaits": [
+        {
+          "identifiant": "carrosserie",
+          "intitule": "Réparation de carrosserie",
+          "prix": {
+            "statut": "a_valider",
+            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+            "note": "Mention proposée pour la démonstration : le garagiste confirme qu’il chiffre chaque dégât sur la voiture, ou donne des forfaits (rayure légère, rétroviseur).",
+            "sur_devis": "après examen"
+          }
+        }
+      ],
+      "vente_piece_seule": false,
+      "consigne_demande": "Décrivez le dégât : où (portière, aile, pare-chocs) et quoi (rayure, bosse, choc).",
+      "photo_par_sms": true
+    },
+    {
+      "identifiant": "peinture",
+      "libelle": "Peinture",
+      "statut": "a_valider",
+      "source": "proposition",
+      "mots_courants": [
+        "retouche de peinture",
+        "peinture d’un élément",
+        "vernis",
+        "teinte d’origine"
+      ],
+      "synonymes": ["repeindre", "raccord de peinture", "lustrage", "polissage", "code couleur"],
+      "role": "La peinture colore la carrosserie et la protège de la rouille : sous le vernis, une base teintée et un apprêt recouvrent la tôle.",
+      "signes_usure": [
+        "Vernis qui s’écaille ou blanchit",
+        "Éclats de peinture sur le capot ou les portières",
+        "Rouille qui apparaît sous la peinture",
+        "Teinte ternie ou différente d’un élément à l’autre"
+      ],
+      "ce_que_fait_le_garage": "Nous préparons la surface, retrouvons la teinte de votre voiture, appliquons apprêt, base et vernis, puis contrôlons le raccord avec les éléments voisins.",
+      "forfaits": [
+        {
+          "identifiant": "peinture-element",
+          "intitule": "Peinture d’un élément",
+          "prix": {
+            "statut": "a_valider",
+            "note": "Prix par élément peint à fixer avec le garagiste : montant TTC, ce qu’il comprend et date d’effet."
+          }
+        }
+      ],
+      "vente_piece_seule": false,
+      "consigne_demande": "Décrivez le dégât : l’élément concerné (portière, capot, pare-chocs) et ce que vous voyez (rayure, éclat, vernis abîmé).",
+      "photo_par_sms": true
+    }
+  ],
+  "tarifs_transverses": {
+    "taux_horaire": {
+      "statut": "a_valider",
+      "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+      "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+      "montant_ttc_centimes": 6000,
+      "comprend": "une heure de main-d’œuvre, pièces en sus",
+      "date_effet": "2026-09-24"
+    },
+    "premier_controle": {
+      "statut": "a_valider",
+      "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
+      "note": "Montant proposé pour la démonstration : à confirmer par le garagiste en séance, ou à retirer.",
+      "montant_ttc_centimes": 2900,
+      "comprend": "écoute du bruit ou du symptôme, contrôle visuel de la voiture et essai sur place, puis nos conclusions de vive voix",
+      "date_effet": "2026-09-24",
+      "duree": "30 minutes environ",
+      "deduit_de_la_reparation": true
+    }
+  },
+  "ce_que_nous_ne_faisons_pas": [],
+  "engagement_piece_posee": {
+    "texte": "Avant de commander une pièce, nous vérifions qu’elle convient à votre véhicule, que nous la posions à l’atelier ou que vous la retiriez au garage.",
+    "statut": "a_valider",
+    "source": "proposition"
+  },
+  "gamme_au_choix": {
+    "texte": "Au devis, vous choisissez la gamme : neuve, d’occasion ou reconditionnée (pièce issue de l’économie circulaire), ou sans préférence.",
+    "statut": "a_valider",
+    "source": "proposition"
+  },
+  "vente_au_comptoir": {
+    "texte": "Vous pouvez aussi acheter la pièce seule et la retirer au garage.",
+    "statut": "valide",
+    "source": "anthony",
+    "date_decision": "2026-09-23"
+  },
+  "exemples_accueil": ["vidange", "revision", "plaquettes-avant"]
+}

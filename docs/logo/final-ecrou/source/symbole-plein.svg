@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="t d">
+<title id="t">BF Auto</title>
+<desc id="d">Symbole BF Auto : B, écrou orange, F sur carré graphite, pour icône d'application et avatar.</desc>
+<rect width="512" height="512" rx="0" fill="#3A3935"/>
+<path fill="#F5F4F2" fill-rule="evenodd" d="M48 96 208 96 240 151.4 240 183 197.8 256 240 329 240 360.6 208 416 48 416ZM176 152.6 176 165.8 133.2 240 112 240 112 144 171 144ZM171 368 112 368 112 272 133.2 272 176 346.2 176 359.4ZM304 96 464 96 464 144 368 144 368 240 438.4 240 438.4 272 368 272 368 416 304 416 304 329 346.2 256 304 183Z"/>
+<path fill="#E4682B" fill-rule="evenodd" d="M330 256 301 306.2 243 306.2 214 256 243 205.8 301 205.8ZM253 256a19 19 0 1 0 38 0a19 19 0 1 0 -38 0Z"/>
+</svg>

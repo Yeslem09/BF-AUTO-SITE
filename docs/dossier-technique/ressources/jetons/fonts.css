@@ -1,0 +1,14 @@
+/* Police du document : Hanken Grotesk, la police du site (public/fonts), auto-hébergée.
+   Surcharge du jeton du kit « Réponse AO » (Calibri, Carlito) : aucune ressource distante. */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('../polices/hanken-grotesk-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Hanken Grotesk';
+  src: url('../polices/hanken-grotesk-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}

@@ -1,0 +1,56 @@
+{
+  "name": "bf-auto-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Site internet du garage BF Auto, Choisy-le-Roi",
+  "type": "module",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "demarrer": "node dist/demarrer.js",
+    "garagiste:lien": "node dist/contextes/acces/adaptateurs/cli/garagiste.js lien",
+    "garagiste:reinitialiser": "node dist/contextes/acces/adaptateurs/cli/garagiste.js reinitialiser",
+    "construire": "node scripts/construire-client.mjs && tsc -p tsconfig.build.json",
+    "construire:client": "node scripts/construire-client.mjs",
+    "lint": "prettier --check . && depcruise src --config .dependency-cruiser.cjs && node scripts/verifier-interdits.mjs",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.client.json && tsc --noEmit -p tsconfig.e2e.json",
+    "test": "vitest run",
+    "ci": "pnpm run lint && pnpm run typecheck && pnpm run construire:client && pnpm run test",
+    "e2e": "playwright test --config tests/e2e/playwright.config.ts",
+    "captures": "node scripts/capturer.mjs",
+    "courriel:tester": "tsx src/infrastructure/cli/courriel-tester.ts",
+    "sms:tester": "tsx src/infrastructure/cli/sms-tester.ts"
+  },
+  "dependencies": {
+    "@fastify/compress": "^9.2.0",
+    "@fastify/cookie": "^11.1.2",
+    "@fastify/formbody": "^9.0.0",
+    "@fastify/static": "^10.1.4",
+    "better-sqlite3": "^12.11.1",
+    "fastify": "^5.12.5",
+    "imapflow": "^2.0.6",
+    "mailparser": "^3.9.28",
+    "nodemailer": "^10.0.10"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/mailparser": "^3.4.6",
+    "@types/node": "^20.19.43",
+    "@types/nodemailer": "^8.0.2",
+    "@types/smtp-server": "^3.5.13",
+    "dependency-cruiser": "^17.4.3",
+    "esbuild": "^0.28.2",
+    "happy-dom": "^20.14.5",
+    "prettier": "^3.9.9",
+    "smtp-server": "^3.19.13",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vitest": "^4.1.11"
+  }
+}

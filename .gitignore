@@ -1,0 +1,16 @@
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+.env
+.DS_Store
+
+# Ressources client generees par scripts/construire-client.mjs
+public/js/
+public/css/bf-auto.css
+var/
