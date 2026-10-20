@@ -8,11 +8,12 @@
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { listerFeuillesDeStyle } from '../../scripts/construire-client.mjs'
 import { premieresDeclarations, sansCommentaires } from './jetons.js'
 
-const RACINE = new URL('../..', import.meta.url).pathname
+const RACINE = fileURLToPath(new URL('../..', import.meta.url))
 const lire = (chemin: string): string => readFileSync(join(RACINE, chemin), 'utf8')
 const JETONS = premieresDeclarations(lire('public/css/jetons.css'))
 

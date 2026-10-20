@@ -1,6 +1,7 @@
 import { execFile } from 'node:child_process'
 import { rm } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 import { afterEach, describe, expect, it } from 'vitest'
 import {
@@ -18,6 +19,8 @@ import {
 
 const RACINE_PROJET = resolve(import.meta.dirname, '../../../../..')
 const COMMANDE = 'src/contextes/pre-diagnostic/adaptateurs/console/porte-arbre.ts'
+// tsx lancé par Node : sous Windows, execFile('pnpm') sans shell échoue (ENOENT).
+const CLI_TSX = fileURLToPath(import.meta.resolve('tsx/cli'))
 const executer = promisify(execFile)
 const DELAI_COMMANDE_MS = 30_000
 
@@ -88,7 +91,7 @@ describe('porte de l’arbre en ligne de commande', () => {
     'lancée pour de vrai, sort avec un code non nul sur l’arbre refusé et nul sur celui du site',
     async () => {
       const fichier = await fichierAvecSixiemeQuestion()
-      const echec = await executer('pnpm', ['exec', 'tsx', COMMANDE, fichier], {
+      const echec = await executer(process.execPath, [CLI_TSX, COMMANDE, fichier], {
         cwd: RACINE_PROJET,
       }).then(
         () => null,
@@ -96,7 +99,7 @@ describe('porte de l’arbre en ligne de commande', () => {
       )
       expect(echec?.code).toBe(SORTIE_REFUSE)
       expect(echec?.stdout).toContain('questions-par-chemin')
-      const succes = await executer('pnpm', ['exec', 'tsx', COMMANDE], { cwd: RACINE_PROJET })
+      const succes = await executer(process.execPath, [CLI_TSX, COMMANDE], { cwd: RACINE_PROJET })
       expect(succes.stdout).toContain('accepté')
     },
     DELAI_COMMANDE_MS,

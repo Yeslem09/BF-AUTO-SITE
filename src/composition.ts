@@ -224,15 +224,21 @@ export async function composer(
     preDiagnosticPublie,
   })
   const resolus = resoudreConnecteurs(configuration.connecteurs, identite.telephone.affichable)
-  verifierPorteDeProduction(mode, [
-    { partie: 'Garage', manques: garage.donneesBloquantesAValider },
-    { partie: 'SMS au garagiste', manques: resolus.manques },
-    { partie: 'Catalogue', manques: catalogue.donneesBloquantesAValider },
-    {
-      partie: 'Notification des demandes',
-      manques: manquesDuCanalDeNotification(configuration),
-    },
-  ])
+  try {
+    verifierPorteDeProduction(mode, [
+      { partie: 'Garage', manques: garage.donneesBloquantesAValider },
+      { partie: 'SMS au garagiste', manques: resolus.manques },
+      { partie: 'Catalogue', manques: catalogue.donneesBloquantesAValider },
+      {
+        partie: 'Notification des demandes',
+        manques: manquesDuCanalDeNotification(configuration),
+      },
+    ])
+  } catch (erreur) {
+    // Aucun serveur ne fermera la base du garage : la libérer ici.
+    garage.fermer()
+    throw erreur
+  }
 
   const connecteurs = creerConnecteurs(resolus.reglages, {
     ecrireConsole: (texte) => console.info(texte),

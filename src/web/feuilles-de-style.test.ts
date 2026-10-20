@@ -10,13 +10,14 @@
  */
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { gzipSync } from 'node:zlib'
 import { transform } from 'esbuild'
 import { describe, expect, it } from 'vitest'
 import { FEUILLES_COMMUNES, listerFeuillesDeStyle } from '../../scripts/construire-client.mjs'
 import { sansCommentaires } from './jetons.js'
 
-const RACINE = new URL('../..', import.meta.url).pathname
+const RACINE = fileURLToPath(new URL('../..', import.meta.url))
 const FEUILLE_JETONS = 'public/css/jetons.css'
 const lire = (chemin: string): string => readFileSync(join(RACINE, chemin), 'utf8')
 

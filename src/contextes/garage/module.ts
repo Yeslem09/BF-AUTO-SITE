@@ -72,6 +72,11 @@ export interface ContexteGarage {
    * Vide quand le garage peut être mis en ligne.
    */
   readonly donneesBloquantesAValider: readonly string[]
+  /**
+   * Ferme la base du garage quand la composition échoue avant que le serveur
+   * ne la prenne en charge (sinon fermée à l'arrêt du serveur).
+   */
+  readonly fermer: () => void
 }
 
 /** Message du journal quand une fermeture illisible est écartée de la liste. */
@@ -154,5 +159,6 @@ export async function assemblerGarage(dependances: DependancesGarage): Promise<C
     fermeAujourdhui: async () =>
       (await creerListerFermetures(depot, horloge)()).fermetureDuJour !== null,
     donneesBloquantesAValider,
+    fermer: () => depot.fermer(),
   }
 }

@@ -1,4 +1,4 @@
-import { mkdtemp, rm } from 'node:fs/promises'
+import { mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
@@ -80,9 +80,13 @@ describe('commande d’exploitation garagiste', () => {
     depot.fermer()
   })
 
-  it('échoue proprement, avec un code non nul, si la base est inaccessible', () => {
+  it('échoue proprement, avec un code non nul, si la base est inaccessible', async () => {
+    // Un fichier ordinaire pris pour dossier : inaccessible sur tout système
+    // (sous Windows, « /dev/null/... » serait créé sous C:\dev).
+    const fichier = join(dossier, 'pas-un-dossier')
+    await writeFile(fichier, '')
     const code = executerCommande(['reinitialiser'], {
-      env: { BASE_SQLITE: '/dev/null/impossible/base.sqlite' },
+      env: { BASE_SQLITE: join(fichier, 'base.sqlite') },
       repertoireCourant: dossier,
       sorties: {
         ecrire: (texte) => sortie.push(texte),

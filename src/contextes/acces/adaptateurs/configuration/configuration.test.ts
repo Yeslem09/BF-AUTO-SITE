@@ -1,4 +1,5 @@
 import { creerExpediteurConsole } from '../../../../infrastructure/courriel/envoi/expediteur-console.js'
+import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { creerMessagerieRetenue } from '../essai/doublures.js'
 import { ADRESSES_DEMONSTRATION, avertissementsDeDemarrage, choisirCanaux } from './canaux.js'
@@ -22,9 +23,9 @@ describe('variables des commandes d’exploitation', () => {
   })
 
   it('résout la base partagée comme la configuration du site', () => {
-    expect(lireCheminBase({}, '/srv/site')).toBe('/srv/site/var/demandes.sqlite')
+    expect(lireCheminBase({}, '/srv/site')).toBe(resolve('/srv/site/var/demandes.sqlite'))
     expect(lireCheminBase({ BASE_SQLITE: '/var/data/bf.sqlite' }, '/srv/site')).toBe(
-      '/var/data/bf.sqlite',
+      resolve('/var/data/bf.sqlite'),
     )
   })
 })

@@ -1,3 +1,4 @@
+import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { ErreurConfiguration, lireConfiguration } from './configuration.js'
 
@@ -19,9 +20,9 @@ describe('configuration', () => {
       port: 3000,
       hote: '127.0.0.1',
       urlPublique: 'http://localhost:3000',
-      cheminDonnees: '/srv/bf-auto/donnees',
-      cheminPublic: '/srv/bf-auto/public',
-      baseSqlite: '/srv/bf-auto/var/demandes.sqlite',
+      cheminDonnees: resolve('/srv/bf-auto/donnees'),
+      cheminPublic: resolve('/srv/bf-auto/public'),
+      baseSqlite: resolve('/srv/bf-auto/var/demandes.sqlite'),
       courrielGarage: null,
       courrielGaragiste: null,
       courrielResponsable: null,
@@ -96,8 +97,8 @@ describe('configuration', () => {
     expect(configuration.port).toBe(10000)
     expect(configuration.hote).toBe('0.0.0.0')
     expect(configuration.urlPublique).toBe('https://www.bf-auto.fr')
-    expect(configuration.cheminDonnees).toBe('/etc/bf-auto')
-    expect(configuration.baseSqlite).toBe('/var/data/demandes.sqlite')
+    expect(configuration.cheminDonnees).toBe(resolve('/etc/bf-auto'))
+    expect(configuration.baseSqlite).toBe(resolve('/var/data/demandes.sqlite'))
     expect(configuration.courrielGarage).toBe('garage@exemple.fr')
     expect(configuration.niveauJournal).toBe('warn')
   })

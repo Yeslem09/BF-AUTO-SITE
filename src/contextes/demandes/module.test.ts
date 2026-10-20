@@ -997,13 +997,16 @@ describe('démarrage, persistance et purge (US-34, US-46)', () => {
     const fiche =
       /href="(\/garagiste\/demandes\/[0-9a-f-]{36})"/.exec(await listeGaragiste(banc))?.[1] ?? ''
     const id = fiche.split('/').at(-1) ?? ''
-    const depot = creerDepotDemandesSqlite(ouvrirBaseDemandes(banc.cheminBase))
+    const base = ouvrirBaseDemandes(banc.cheminBase)
+    const depot = creerDepotDemandesSqlite(base)
     await depot.noterSuiviCourriel(id, { nature: 'reponse-non-reconnue', le: INSTANT_ESSAI })
     await depot.noterSuiviCourriel(id, {
       nature: 'non-remise',
       le: INSTANT_ESSAI,
       motif: '5.2.2, 552 Mailbox full',
     })
+    // Fermée avant le nettoyage : Windows refuse d'effacer une base ouverte.
+    base.close()
     const page = (await banc.app.inject(fiche)).body
     expect(page).toContain(insecables('Notification non remise : 5.2.2, 552 Mailbox full'))
     expect(page).toContain(

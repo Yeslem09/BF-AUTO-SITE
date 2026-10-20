@@ -1,4 +1,5 @@
 import { existsSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import {
   departTraitDeRappel,
@@ -9,7 +10,7 @@ import {
   type FigureTechnique,
 } from './figure-technique.js'
 
-const PUBLIC = new URL('../../public', import.meta.url).pathname
+const PUBLIC = fileURLToPath(new URL('../../public', import.meta.url))
 
 /**
  * Les dix-huit familles du catalogue, identifiées comme leurs dessins : les
