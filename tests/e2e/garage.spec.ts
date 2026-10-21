@@ -190,9 +190,7 @@ test.describe('garage : accueil public', () => {
     await expect(atelier.getByRole('heading', { level: 2 })).toHaveText(
       'Entretien et réparation, au 7 rue Demanieux',
     )
-    await expect(atelier).toContainText(
-      'Mécanique, entretien, carrosserie et peinture, toutes marques.',
-    )
+    await expect(atelier).toContainText('Mécanique, entretien et peinture, toutes marques.')
     await expect(atelier.locator('.garage-methode__verbe')).toHaveText([
       'On explique',
       'On chiffre',

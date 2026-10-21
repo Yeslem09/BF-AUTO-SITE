@@ -317,20 +317,6 @@ test.describe('pré-diagnostic : du premier geste au relais', () => {
     await expect(principal.getByText('Un sifflement ou un grincement aigu').first()).toBeVisible()
   })
 
-  test('carrosserie : une pièce qui pend mène à « Ne roulez pas », avec les consignes', async ({
-    page,
-  }) => {
-    await page.goto('/pre-diagnostic')
-    await page.getByRole('link', { name: 'Autre chose ou je ne sais pas' }).click()
-    await aucunSigne(page)
-    await choisir(page, 'Un choc, une bosse ou une rayure sur la carrosserie')
-    await expect(page.getByText('Question 4 sur 5 au plus')).toBeVisible()
-    await choisir(page, 'Une pièce pend, frotte ou traîne, ou un feu est cassé')
-    await expect(page.locator('.alerte--danger h1')).toHaveText('Ne roulez pas : appelez-nous')
-    await expect(page.locator('.pre-diagnostic-consigne')).toHaveCount(3)
-    await expect(page.locator('.pre-diagnostic-piste')).toHaveCount(2)
-  })
-
   test('parcours au clic jusqu’au résultat : conduite, pistes, relais « Être rappelé »', async ({
     page,
   }) => {

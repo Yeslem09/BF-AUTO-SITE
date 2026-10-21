@@ -22,7 +22,7 @@ import { assemblerCatalogue } from './module.js'
 
 const DONNEES_DU_SITE = resolve(import.meta.dirname, '../../../donnees')
 /** Familles du vrai fichier qui sont des prestations : ni pièce seule, ni vérification, ni gamme. */
-const PRESTATIONS = ['climatisation', 'diagnostic-electronique', 'carrosserie', 'peinture']
+const PRESTATIONS = ['climatisation', 'diagnostic-electronique', 'peinture']
 /** Familles du vrai fichier rattachées à un organe que la loi exclut du réemploi. */
 const ORGANES_EXCLUS = ['freinage', 'pneus', 'amortisseurs-et-suspension']
 const RACINE_PUBLIC = resolve(import.meta.dirname, '../../../public')
@@ -186,18 +186,21 @@ describe('catalogue : liste des familles (US-26, US-44)', () => {
     )
     expect(html).not.toContain('carte-famille')
     expect(html).not.toContain('role="search"')
-    expect(html).not.toContain('Ce que nous ne faisons pas')
+    // La carrosserie, exclusion validée, se lit même avant la confirmation des familles.
+    expect(html).toContain('<li>Carrosserie</li>')
   })
 
-  it('sur les vraies données en démonstration, montre les 18 familles, carrosserie comprise, et n’exclut rien', async () => {
+  it('sur les vraies données en démonstration, montre les 17 familles et dit que la carrosserie n’est pas faite', async () => {
     const { html } = await page(
       await servir('demonstration', 'donnees-du-site'),
       '/pieces-et-reparations',
     )
-    expect(html.match(/<a class="carte-famille"/g)).toHaveLength(18)
-    expect(html).toContain('<span class="carte-famille__nom">Carrosserie</span>')
-    expect(html).toContain('<span class="carte-famille__aide">Chocs, bosses, rayures</span>')
-    expect(html).not.toContain('Ce que nous ne faisons pas')
+    expect(html.match(/<a class="carte-famille"/g)).toHaveLength(17)
+    expect(html).not.toContain('<span class="carte-famille__nom">Carrosserie</span>')
+    expect(html).toContain(
+      '<h2 id="catalogue-titre-exclusions" class="titre-carte">Ce que nous ne faisons pas</h2>',
+    )
+    expect(html).toContain('<li>Carrosserie</li>')
   })
 })
 
@@ -449,7 +452,7 @@ describe('catalogue : page d’une famille (US-26, P-10)', () => {
         /<a class="carte-famille" href="\/pieces-et-reparations\/([a-z0-9-]+)"/g,
       ),
     ].map((correspondance) => correspondance[1] ?? '')
-    expect(identifiants).toHaveLength(18)
+    expect(identifiants).toHaveLength(17)
     for (const identifiant of identifiants) {
       const { statut, html } = await page(app, `/pieces-et-reparations/${identifiant}`)
       expect(statut, identifiant).toBe(200)
@@ -487,17 +490,16 @@ describe('catalogue : page d’une famille (US-26, P-10)', () => {
       expect(occurrences(html, 'Avant de commander une pièce'), identifiant).toBeLessThanOrEqual(1)
       expect(occurrences(html, 'convient à votre véhicule'), identifiant).toBeLessThanOrEqual(1)
     }
-    const carrosserie = await page(app, '/pieces-et-reparations/carrosserie')
-    expect(carrosserie.html).toContain(
-      '<title>Carrosserie à Choisy-le-Roi : chocs, bosses | BF Auto</title>',
-    )
+    // La carrosserie n'est plus proposée (2026-10-21) : sa page n'existe plus.
+    expect((await page(app, '/pieces-et-reparations/carrosserie')).statut).toBe(404)
+    const peinture = await page(app, '/pieces-et-reparations/peinture')
     // J3 : une prestation se demande en décrivant le dégât, photo par SMS, jamais en commandant une pièce.
-    expect(carrosserie.html).toContain('Décrivez le dégât')
-    expect(carrosserie.html).toContain(
+    expect(peinture.html).toContain('Décrivez le dégât')
+    expect(peinture.html).toContain(
       `Envoyez une photo du dégât par SMS au <a class="catalogue-consigne__sms" href="${GARAGE.telephone.lien.replace('tel:', 'sms:')}">${GARAGE.telephone.affichable}</a> pour un devis plus rapide.`,
     )
-    expect(carrosserie.html).not.toContain('Retrait au garage')
-    expect(carrosserie.html).not.toContain('Avant de commander une pièce')
+    expect(peinture.html).not.toContain('Retrait au garage')
+    expect(peinture.html).not.toContain('Avant de commander une pièce')
     // Une pièce vendue ne reçoit ni consigne de dégât ni photo par SMS.
     const freinage = await page(app, '/pieces-et-reparations/freinage')
     expect(freinage.html).not.toContain('catalogue-consigne')
@@ -511,7 +513,7 @@ describe('catalogue : page d’une famille (US-26, P-10)', () => {
         (c) => c[1] ?? '',
       ),
     )
-    expect(dessins.size).toBe(18)
+    expect(dessins.size).toBe(17)
     for (const dessin of dessins) {
       const contenu = await readFile(resolve(RACINE_PUBLIC, `.${dessin}`), 'utf8')
       expect(contenu, dessin).toContain('<g id="dessin"')
@@ -662,7 +664,7 @@ describe('catalogue : tarifs agrégés (D7, P-08)', () => {
     expect(montantTarif(html, '>Géométrie (parallélisme)</a>')).toBe(aPartirDe('49,00'))
     expect(montantTarif(html, '>Recharge de climatisation</a>')).toBe(aPartirDe('69,00'))
     expect(montantTarif(html, '>Diagnostic électronique</a>')).toBe(aPartirDe('49,00'))
-    expect(montantTarif(html, '>Réparation de carrosserie</a>')).toBe('Sur devis après examen')
+    expect(html).not.toContain('Réparation de carrosserie')
     expect(occurrences(texteDe(html), 'Révision')).toBeGreaterThan(0)
     expect(html).toContain(
       '<p class="texte-note catalogue-prix__proposition">Prix de démonstration calés sur le marché local, à confirmer par le garage.</p>',
@@ -761,7 +763,7 @@ describe('catalogue : blocs de l’accueil', () => {
       'essuie-glaces (bureau)',
     ])
     expect(bande).toContain(
-      '<p class="catalogue-bande__toutes"><a href="/pieces-et-reparations">Toutes les familles (18)</a></p>',
+      '<p class="catalogue-bande__toutes"><a href="/pieces-et-reparations">Toutes les familles (17)</a></p>',
     )
   })
 
@@ -787,18 +789,18 @@ describe('catalogue : blocs de l’accueil', () => {
     )
   })
 
-  it('en pleine largeur : « Toutes les familles », les 18 cartes et leur figure', async () => {
+  it('en pleine largeur : « Toutes les familles », les 17 cartes et leur figure', async () => {
     const { html } = await page(await servir('demonstration', 'donnees-du-site'), '/')
     const grille = html.slice(html.indexOf('accueil__zone--catalogue'))
     expect(grille).toContain('<p class="surtitre">Pièces détachées et réparations</p>')
     expect(grille).toContain('<h2 id="titre-catalogue-bloc">Toutes les familles</h2>')
     expect(
       grille.match(/<span class="carte-famille__planche"><svg class="carte-famille__dessin"/g),
-    ).toHaveLength(18)
+    ).toHaveLength(17)
     const aides = [...grille.matchAll(/<span class="carte-famille__aide">([^<]+)<\/span>/g)].map(
       (c) => c[1] ?? '',
     )
-    expect(aides).toHaveLength(18)
+    expect(aides).toHaveLength(17)
     for (const aide of aides) expect(aide.length, aide).toBeLessThanOrEqual(LONGUEUR_MAX_AIDE)
   })
 
@@ -1089,9 +1091,7 @@ describe('catalogue : capacités offertes aux autres contextes', () => {
       Vidange: `dès 69,00${INSECABLE}€${INSECABLE}TTC`,
       Révision: `dès 129,00${INSECABLE}€${INSECABLE}TTC`,
     })
-    expect(await demonstration.trouverFamille('carrosserie')).toMatchObject({
-      prixIndicatif: 'sur devis après examen',
-    })
+    expect(await demonstration.trouverFamille('carrosserie')).toBeNull()
     expect(await demonstration.trouverFamille('batterie')).toMatchObject({
       piecesDOccasion: true,
       pieces: ['Batterie', 'Cosses'],
@@ -1215,7 +1215,7 @@ describe('catalogue : capacités offertes aux autres contextes', () => {
       expect.stringMatching(
         /^Familles d’intervention à confirmer par le garage : Freinage, Batterie, Pneus, /,
       ),
-      'Prix de démonstration à confirmer par le garage ou à retirer avant la mise en ligne : Taux horaire de main-d’œuvre, Premier contrôle à l’atelier, Plaquettes avant posées, Batterie posée, Pneu monté et équilibré, Géométrie (parallélisme), Vidange, Révision, Recharge de climatisation, Diagnostic électronique, Réparation de carrosserie',
+      'Prix de démonstration à confirmer par le garage ou à retirer avant la mise en ligne : Taux horaire de main-d’œuvre, Premier contrôle à l’atelier, Plaquettes avant posées, Batterie posée, Pneu monté et équilibré, Géométrie (parallélisme), Vidange, Révision, Recharge de climatisation, Diagnostic électronique',
     ])
   })
 
@@ -1339,7 +1339,7 @@ describe('catalogue : aucune image cassée', () => {
         images.add(cible ?? '')
       for (const [, cible] of html.matchAll(/<img[^>]+src="(\/[^"?]+)/g)) images.add(cible ?? '')
     }
-    expect(images.size).toBeGreaterThanOrEqual(18)
+    expect(images.size).toBeGreaterThanOrEqual(17)
     for (const image of images) {
       await expect(readFile(resolve(RACINE_PUBLIC, `.${image}`)), image).resolves.toBeDefined()
     }

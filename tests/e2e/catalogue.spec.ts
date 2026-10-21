@@ -21,9 +21,9 @@ import { expect, test, type Page } from '@playwright/test'
 const RACINE = fileURLToPath(new URL('../..', import.meta.url))
 const DELAI_DEMARRAGE_MS = 30_000
 const INTERVALLE_SONDE_MS = 200
-const FAMILLES_PROPOSEES = 18
+const FAMILLES_PROPOSEES = 17
 /** Familles qui sont des prestations : ni pièce seule, ni vérification, ni gamme. */
-const PRESTATIONS = ['climatisation', 'diagnostic-electronique', 'carrosserie', 'peinture']
+const PRESTATIONS = ['climatisation', 'diagnostic-electronique', 'peinture']
 /** « À partir de 89,00 € TTC » : espaces insécables compris. */
 const PRIX_A_PARTIR_DE = /^À partir de \d+,\d{2}\s€\sTTC$/
 /** Puces de familles dans la bande de l'accueil : douze au bureau, six sur téléphone. */
@@ -179,9 +179,7 @@ test.describe('catalogue sur le serveur commun, issues honnêtes', () => {
         .getByRole('link', { name: 'Demander un prix' })
         .first(),
     ).toHaveAttribute('href', /\/demande\?type=devis&famille=/)
-    await expect(
-      page.getByRole('row', { name: /Réparation de carrosserie/ }).getByRole('cell'),
-    ).toHaveText('Sur devis après examen')
+    await expect(page.getByRole('row', { name: /Réparation de carrosserie/ })).toHaveCount(0)
     const premierControle = page.locator('tr.catalogue-tarif:has-text("Premier contrôle") + tr')
     await expect(premierControle).toContainText('Durée : 30 minutes environ')
     await expect(premierControle).toContainText('Déduit du prix de la réparation')
@@ -266,7 +264,7 @@ testDemonstration.describe('catalogue en démonstration, avec JavaScript', () =>
       await expect(bande.locator('.puce-famille').filter({ visible: true })).toHaveCount(
         infos.project.name === 'bureau' ? PUCES_BUREAU : PUCES_TELEPHONE,
       )
-      await expect(bande.getByRole('link', { name: 'Toutes les familles (18)' })).toHaveAttribute(
+      await expect(bande.getByRole('link', { name: 'Toutes les familles (17)' })).toHaveAttribute(
         'href',
         '/pieces-et-reparations',
       )
@@ -328,7 +326,7 @@ testDemonstration.describe('catalogue en démonstration, avec JavaScript', () =>
         ['pot', 'Échappement'],
         ['FAP', 'Échappement'],
         ['plaquete', 'Freinage'],
-        ['Les bosses', 'Carrosserie'],
+        ['Les lustrages', 'Peinture'],
         ['clim', 'Climatisation'],
         ['valise', 'Diagnostic électronique'],
       ] as const) {
@@ -413,10 +411,9 @@ testDemonstration.describe('catalogue en démonstration, avec JavaScript', () =>
         ).toHaveAttribute('href', `/demande?type=rendez-vous&famille=${identifiant}`)
         expect(await tientEnLargeur(page), adresse).toBe(true)
       }
-      await page.goto(`${demonstration}/pieces-et-reparations/carrosserie`)
-      await expect(page).toHaveTitle('Carrosserie à Choisy-le-Roi : chocs, bosses | BF Auto')
+      await page.goto(`${demonstration}/pieces-et-reparations/peinture`)
       await page.getByRole('link', { name: 'Demander un rendez-vous' }).click()
-      await expect(page).toHaveURL(`${demonstration}/demande?type=rendez-vous&famille=carrosserie`)
+      await expect(page).toHaveURL(`${demonstration}/demande?type=rendez-vous&famille=peinture`)
       await expect(page.getByRole('heading', { level: 1 })).toHaveText('Faire une demande')
       expect(erreurs).toEqual([])
     },

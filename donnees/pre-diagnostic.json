@@ -458,35 +458,7 @@
           "libelle": "Elle roule normalement, mais quelque chose m’inquiète",
           "resultat": "autre-inquietude"
         },
-        {
-          "code": "carrosserie",
-          "libelle": "Un choc, une bosse ou une rayure sur la carrosserie",
-          "question": "carrosserie-degat"
-        },
         { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "autre-a-voir" }
-      ]
-    },
-    {
-      "code": "carrosserie-degat",
-      "intitule": "Que voyez-vous sur la carrosserie ?",
-      "aide": "Regardez la voiture à l’arrêt, moteur coupé, sans toucher une pièce qui pend.",
-      "choix": [
-        {
-          "code": "piece-pend",
-          "libelle": "Une pièce pend, frotte ou traîne, ou un feu est cassé",
-          "resultat": "carrosserie-securite"
-        },
-        {
-          "code": "bosse",
-          "libelle": "Une bosse ou un élément enfoncé, mais rien ne pend",
-          "resultat": "carrosserie-choc"
-        },
-        {
-          "code": "rayure",
-          "libelle": "Une rayure ou un éclat de peinture, sans plus",
-          "resultat": "carrosserie-rayure"
-        },
-        { "code": "ne-sais-pas", "libelle": "Je ne sais pas", "resultat": "carrosserie-a-voir" }
       ]
     }
   ],
@@ -1315,60 +1287,6 @@
         {
           "texte": "Un souci que l’atelier doit voir sur la voiture pour le situer.",
           "verification": "un essai sur route avec vous et la lecture des codes défaut."
-        }
-      ]
-    },
-    {
-      "code": "carrosserie-securite",
-      "niveau": "ne-pas-rouler",
-      "pistes": [
-        {
-          "texte": "Une pièce de carrosserie détachée, comme un pare-chocs ou un écran de protection, qui peut tomber sur la route ou toucher une roue.",
-          "verification": "la fixation de chaque élément touché et les pièces situées derrière, avant de chiffrer la réparation.",
-          "famille": "carrosserie"
-        },
-        {
-          "texte": "Un feu cassé, qui empêche de bien voir ou d’être vu, de nuit comme par mauvais temps.",
-          "verification": "l’état du bloc optique, de son ampoule et le réglage du faisceau.",
-          "famille": "eclairage"
-        }
-      ]
-    },
-    {
-      "code": "carrosserie-choc",
-      "niveau": "a-controler",
-      "pistes": [
-        {
-          "texte": "Un élément de carrosserie enfoncé, qui peut cacher une fixation, un radiateur ou un capteur abîmé derrière lui.",
-          "verification": "l’élément touché et les pièces situées derrière, avant de chiffrer la réparation.",
-          "famille": "carrosserie"
-        },
-        {
-          "texte": "Un choc près d’une roue, qui peut dérégler le parallélisme ou abîmer la suspension.",
-          "verification": "la géométrie du train roulant et l’état de la suspension du côté touché.",
-          "famille": "amortisseurs-et-suspension"
-        }
-      ]
-    },
-    {
-      "code": "carrosserie-rayure",
-      "niveau": "sans-urgence",
-      "pistes": [
-        {
-          "texte": "Un dégât de peinture, à traiter avant que la rouille ne gagne la tôle mise à nu.",
-          "verification": "la profondeur de la rayure et la réparation qui convient, lors d’un prochain passage.",
-          "famille": "carrosserie"
-        }
-      ]
-    },
-    {
-      "code": "carrosserie-a-voir",
-      "niveau": "a-controler",
-      "pistes": [
-        {
-          "texte": "Un dégât que l’atelier doit voir sur la voiture pour l’évaluer.",
-          "verification": "l’élément touché, ses fixations et les pièces situées derrière.",
-          "famille": "carrosserie"
         }
       ]
     }

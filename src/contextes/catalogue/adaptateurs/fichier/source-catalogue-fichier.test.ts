@@ -54,12 +54,12 @@ describe('source du catalogue en fichier', () => {
 })
 
 describe('fichier réel du catalogue (donnees/catalogue.json)', () => {
-  it('est valide et couvre toute l’offre en 18 familles complètes, trois rangées de six (P-10)', async () => {
+  it('est valide et couvre toute l’offre en 17 familles complètes, sans la carrosserie (2026-10-21)', async () => {
     const catalogue = await creerSourceCatalogueFichier(FICHIER_DU_SITE).charger()
-    expect(catalogue.familles).toHaveLength(18)
-    expect(catalogue.familles.map((famille) => famille.libelle)).toEqual(
-      expect.arrayContaining(['Carrosserie', 'Peinture', 'Diagnostic électronique']),
-    )
+    expect(catalogue.familles).toHaveLength(17)
+    const libelles = catalogue.familles.map((famille) => famille.libelle)
+    expect(libelles).toEqual(expect.arrayContaining(['Peinture', 'Diagnostic électronique']))
+    expect(libelles).not.toContain('Carrosserie')
     for (const famille of catalogue.familles) {
       expect(famille.role, famille.identifiant).not.toBe('')
       expect(famille.signesUsure.length, famille.identifiant).toBeGreaterThan(0)
@@ -178,11 +178,7 @@ describe('fichier réel du catalogue (donnees/catalogue.json)', () => {
       duree: '30 minutes environ',
       deduitDeLaReparation: true,
     })
-    expect(forfaits.get('Réparation de carrosserie')).toMatchObject({
-      nature: 'sur-devis',
-      precision: 'après examen',
-      source: SOURCE_ETUDE_06,
-    })
+    expect(forfaits.has('Réparation de carrosserie')).toBe(false)
     expect(catalogue.exemplesAccueil).toEqual(['vidange', 'revision', 'plaquettes-avant'])
   })
 
@@ -191,12 +187,7 @@ describe('fichier réel du catalogue (donnees/catalogue.json)', () => {
     const prestations = catalogue.familles
       .filter((famille) => !famille.ventePieceSeule)
       .map((famille) => famille.identifiant)
-    expect(prestations).toEqual([
-      'climatisation',
-      'diagnostic-electronique',
-      'carrosserie',
-      'peinture',
-    ])
+    expect(prestations).toEqual(['climatisation', 'diagnostic-electronique', 'peinture'])
     const exclues = catalogue.familles
       .filter((famille) => famille.organeExcluDuReemploi !== null)
       .map((famille) => [famille.identifiant, famille.organeExcluDuReemploi])
@@ -207,9 +198,11 @@ describe('fichier réel du catalogue (donnees/catalogue.json)', () => {
     ])
   })
 
-  it('n’exclut rien : le garage fait aussi la carrosserie (consigne d’Anthony du 2026-09-24)', async () => {
+  it('exclut la carrosserie, validée par le garage (2026-10-21)', async () => {
     const catalogue = await creerSourceCatalogueFichier(FICHIER_DU_SITE).charger()
-    expect(catalogue.ceQueNousNeFaisonsPas).toEqual([])
+    expect(catalogue.ceQueNousNeFaisonsPas).toEqual([
+      { texte: 'Carrosserie', provenance: { statut: 'valide', source: 'garage' } },
+    ])
   })
 
   it('ne contient aucune expression interdite, commentaire compris', async () => {

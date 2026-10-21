@@ -600,7 +600,7 @@ describe('modes du site avec le vrai fichier', () => {
     )
     expect(body).toContain('Ouvert, ferme à 12\u00a0h')
     expect(body).toContain('<span class="garage-methode__texte">Devis écrit avant travaux.</span>')
-    expect(body).toContain('Mécanique, entretien, carrosserie et peinture, toutes marques.')
+    expect(body).toContain('Mécanique, entretien et peinture, toutes marques.')
     expect(body).not.toContain('a-valider')
     expect(body).not.toContain('votre garagiste, vous accueille')
     expect(body).not.toContain('Comment puis-je payer\u00a0?')
@@ -1200,8 +1200,8 @@ describe('pages du garage au style des composants', () => {
   })
 })
 
-describe('ce que fait l’atelier : mécanique et carrosserie (Anthony, 2026-09-24)', () => {
-  const ACTIVITES = 'Mécanique, entretien, carrosserie et peinture, toutes marques'
+describe('ce que fait l’atelier : mécanique, entretien et peinture (carrosserie retirée le 2026-10-21)', () => {
+  const ACTIVITES = 'Mécanique, entretien et peinture, toutes marques'
 
   it('le vrai fichier le publie, validé : l’atelier, Accès, Vos droits et les mentions le disent', async () => {
     const { app: serveur } = await monter({ donnees: await donneesDuSite(), mode: 'production' })
@@ -1213,7 +1213,7 @@ describe('ce que fait l’atelier : mécanique et carrosserie (Anthony, 2026-09-
     expect(mentions).toContain(`<dt>Activité</dt><dd>${ACTIVITES}</dd>`)
   })
 
-  it('aucune page du garage ne dit que la carrosserie est exclue, ni ne réduit l’atelier à la mécanique', async () => {
+  it('aucune page du garage ne mentionne d’exclusion ni ne réduit l’atelier à la mécanique', async () => {
     const { app: serveur } = await monter({ donnees: await donneesDuSite(), mode: 'demonstration' })
     for (const url of PAGES_PUBLIQUES) {
       const texte = texteVisible((await serveur.inject(url)).body)

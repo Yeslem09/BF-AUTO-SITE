@@ -523,21 +523,10 @@ describe('pré-diagnostic : le résultat', () => {
     expect(neutre).toContain('>Pas d’urgence\u00a0: à vérifier lors d’un prochain passage</h1>')
   })
 
-  it('carrosserie : une pièce qui pend arrête, une rayure attend le prochain passage', async () => {
-    const carrosserie = `${ENTREE}?q1=ne-sais-pas&q2=aucun&r=carrosserie`
-    const question = await page(carrosserie)
-    expect(question).toContain('Que voyez-vous sur la carrosserie\u00a0?')
-    expect(question).toContain('Question 4 sur 5 au plus')
-    const pend = contenuPrincipal(await page(`${carrosserie}&r=piece-pend`))
-    expect(pend).toContain('<div class="alerte alerte--danger pre-diagnostic-conduite')
-    expect(pend).toContain('Mettez-vous en sécurité')
-    expect(pend).toContain(
-      '<span class="figure-technique__numero">Fig. 1</span> Voiture, vue de côté',
-    )
-    expect(pend).toContain('<span class="figure-technique__numero">Fig. 2</span> Ampoule de phare')
-    const rayure = contenuPrincipal(await page(`${carrosserie}&r=rayure`))
-    expect(rayure).toContain('pre-diagnostic-conduite--sans-urgence')
-    expect(rayure).toContain('Un dégât de peinture')
+  it('carrosserie retirée (2026-10-21) : la situation ne propose plus de choc sur la carrosserie', async () => {
+    const situation = await page(`${ENTREE}?q1=ne-sais-pas&q2=aucun`)
+    expect(situation).toContain('Qu’est-ce qui décrit le mieux la situation\u00a0?')
+    expect(situation).not.toContain('carrosserie')
   })
 
   it('« Être rappelé » ouvre la demande préremplie avec le code du parcours', async () => {

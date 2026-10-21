@@ -1,5 +1,5 @@
 {
-  "commentaire": "Catalogue du garage : familles d'intervention (la pièce et sa pose réunies), leurs forfaits, tarifs transverses, ce que le garage ne fait pas, engagement de la pièce vérifiée, gamme au choix, vente au comptoir et exemples de prix de l'accueil. Seule source des pages Pièces détachées, des pages de famille, de la page Tarifs et des prix de l'accueil : un prix ne s'écrit qu'ici. Chaque texte porte un statut (valide ou a_valider) et une source (garage, anthony ou proposition) ; une décision d'Anthony porte sa date (date_decision, AAAA-MM-JJ). La vente au comptoir (pièce seule, à retirer au garage) est validée par la décision d'Anthony du 2026-09-23 (« vente + pose ») ; son texte ne répète plus la vérification, dite une seule fois par l'engagement. En production, seul le validé s'affiche ; en démonstration, les propositions s'affichent sous le bandeau de démonstration ; en relecture, elles sont marquées. Hors la vente au comptoir, toutes les familles, tous les textes et tous les prix ci-dessous sont des PROPOSITIONS à confirmer avec le garagiste en séance. Forfaits : chaque famille en a un à quatre (identifiant unique, intitulé, prix) ; le premier est son prix mis en avant. Un prix prend trois formes : inconnu (statut a_valider et note, sans montant, affiché « Prix sur devis ») ; chiffré (montant_ttc_centimes, entier, 8900 pour 89,00 euros, comprend, date_effet AAAA-MM-JJ, vehicule_reference pour un forfait, a_partir_de facultatif qui exige un véhicule de référence ; le taux horaire et le premier contrôle sont des prix fixes ; pour le premier contrôle, duree et deduit_de_la_reparation) ; sur devis (sur_devis, par exemple « après examen »). Les prix chiffrés à valider sont des PRIX DE DÉMONSTRATION calés sur le marché local (étude 06) : ils portent leur source et une note, ne s'affichent qu'en démonstration et en relecture, et la porte de démarrage refuse la production tant qu'il en reste. Pour valider un prix : statut valide, retirer source et note. vente_piece_seule : false pour une prestation (peinture, carrosserie, diagnostic électronique, climatisation), sans pièce seule, sans vérification ni gamme. organe_exclu_du_reemploi (trains-roulants, direction, freinage, liaison-au-sol, référentiel unique des contrats, repris par la page Vos droits) : pièces neuves uniquement, jamais la gamme d'occasion ou reconditionnée. exemples_accueil : trois forfaits au plus, montrés dans le bloc atelier de l'accueil. pieces (familles qui vendent des pièces) : les pièces que le client coche dans sa demande de prix, au pluriel et avec leur côté (Plaquettes avant, Disques arrière), distinctes des repères de la figure ; piece d'un forfait : la pièce que son lien « Demander un prix » pré-coche, avec la pose ; prestation d'un forfait (révision, vidange, géométrie) : demande sans pièce, sans gamme ni retrait. Dates d'effet de démonstration au 2026-09-24, jamais futures. Synonymes (facultatifs) : autres mots d'une recherche, jamais affichés ; un mot courant ou un synonyme ne mène qu'à une famille. Ce que nous ne faisons pas : liste vide depuis la consigne d'Anthony du 2026-09-24 (« le garage fait aussi la carrosserie, vraiment tout ») ; le bloc reste masqué tant que rien n'est exclu.",
+  "commentaire": "Catalogue du garage : familles d'intervention (la pièce et sa pose réunies), leurs forfaits, tarifs transverses, ce que le garage ne fait pas, engagement de la pièce vérifiée, gamme au choix, vente au comptoir et exemples de prix de l'accueil. Seule source des pages Pièces détachées, des pages de famille, de la page Tarifs et des prix de l'accueil : un prix ne s'écrit qu'ici. Chaque texte porte un statut (valide ou a_valider) et une source (garage, anthony ou proposition) ; une décision d'Anthony porte sa date (date_decision, AAAA-MM-JJ). La vente au comptoir (pièce seule, à retirer au garage) est validée par la décision d'Anthony du 2026-09-23 (« vente + pose ») ; son texte ne répète plus la vérification, dite une seule fois par l'engagement. En production, seul le validé s'affiche ; en démonstration, les propositions s'affichent sous le bandeau de démonstration ; en relecture, elles sont marquées. Hors la vente au comptoir, toutes les familles, tous les textes et tous les prix ci-dessous sont des PROPOSITIONS à confirmer avec le garagiste en séance. Forfaits : chaque famille en a un à quatre (identifiant unique, intitulé, prix) ; le premier est son prix mis en avant. Un prix prend trois formes : inconnu (statut a_valider et note, sans montant, affiché « Prix sur devis ») ; chiffré (montant_ttc_centimes, entier, 8900 pour 89,00 euros, comprend, date_effet AAAA-MM-JJ, vehicule_reference pour un forfait, a_partir_de facultatif qui exige un véhicule de référence ; le taux horaire et le premier contrôle sont des prix fixes ; pour le premier contrôle, duree et deduit_de_la_reparation) ; sur devis (sur_devis, par exemple « après examen »). Les prix chiffrés à valider sont des PRIX DE DÉMONSTRATION calés sur le marché local (étude 06) : ils portent leur source et une note, ne s'affichent qu'en démonstration et en relecture, et la porte de démarrage refuse la production tant qu'il en reste. Pour valider un prix : statut valide, retirer source et note. vente_piece_seule : false pour une prestation (peinture, diagnostic électronique, climatisation), sans pièce seule, sans vérification ni gamme. organe_exclu_du_reemploi (trains-roulants, direction, freinage, liaison-au-sol, référentiel unique des contrats, repris par la page Vos droits) : pièces neuves uniquement, jamais la gamme d'occasion ou reconditionnée. exemples_accueil : trois forfaits au plus, montrés dans le bloc atelier de l'accueil. pieces (familles qui vendent des pièces) : les pièces que le client coche dans sa demande de prix, au pluriel et avec leur côté (Plaquettes avant, Disques arrière), distinctes des repères de la figure ; piece d'un forfait : la pièce que son lien « Demander un prix » pré-coche, avec la pose ; prestation d'un forfait (révision, vidange, géométrie) : demande sans pièce, sans gamme ni retrait. Dates d'effet de démonstration au 2026-09-24, jamais futures. Synonymes (facultatifs) : autres mots d'une recherche, jamais affichés ; un mot courant ou un synonyme ne mène qu'à une famille. Carrosserie : famille retirée le 2026-10-21, le garage ne la propose plus, et elle figure dans Ce que nous ne faisons pas. Ce que nous ne faisons pas : le bloc reste masqué tant que rien n'est exclu.",
   "familles": [
     {
       "identifiant": "freinage",
@@ -702,38 +702,6 @@
       "pieces": ["Pare-brise", "Vitre latérale", "Lunette arrière", "Lève-vitre"]
     },
     {
-      "identifiant": "carrosserie",
-      "libelle": "Carrosserie",
-      "statut": "a_valider",
-      "source": "proposition",
-      "mots_courants": ["chocs", "bosses", "rayures", "pare-chocs", "rétroviseurs"],
-      "synonymes": ["débosselage", "tôlerie", "portière", "aile", "capot", "accrochage"],
-      "role": "La carrosserie protège l’habitacle et donne sa forme à la voiture : un choc, une bosse ou une rayure se répare, ou la pièce se remplace.",
-      "signes_usure": [
-        "Bosse ou enfoncement après un choc",
-        "Rayure qui laisse voir la tôle",
-        "Pare-chocs fendu ou décroché",
-        "Portière ou capot qui ferme mal",
-        "Rétroviseur cassé"
-      ],
-      "ce_que_fait_le_garage": "Nous examinons les dégâts, redressons ou remplaçons les éléments abîmés, puis vérifions l’alignement et la fermeture des ouvrants avant de vous rendre la voiture.",
-      "forfaits": [
-        {
-          "identifiant": "carrosserie",
-          "intitule": "Réparation de carrosserie",
-          "prix": {
-            "statut": "a_valider",
-            "source": "proposition calée sur le marché local (étude 06 : idGarages, Vroomly, Norauto Belle Épine, Speedy Thiais)",
-            "note": "Mention proposée pour la démonstration : le garagiste confirme qu’il chiffre chaque dégât sur la voiture, ou donne des forfaits (rayure légère, rétroviseur).",
-            "sur_devis": "après examen"
-          }
-        }
-      ],
-      "vente_piece_seule": false,
-      "consigne_demande": "Décrivez le dégât : où (portière, aile, pare-chocs) et quoi (rayure, bosse, choc).",
-      "photo_par_sms": true
-    },
-    {
       "identifiant": "peinture",
       "libelle": "Peinture",
       "statut": "a_valider",
@@ -788,7 +756,9 @@
       "deduit_de_la_reparation": true
     }
   },
-  "ce_que_nous_ne_faisons_pas": [],
+  "ce_que_nous_ne_faisons_pas": [
+    { "libelle": "Carrosserie", "statut": "valide", "source": "garage" }
+  ],
   "engagement_piece_posee": {
     "texte": "Avant de commander une pièce, nous vérifions qu’elle convient à votre véhicule, que nous la posions à l’atelier ou que vous la retiriez au garage.",
     "statut": "a_valider",
